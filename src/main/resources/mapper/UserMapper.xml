@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.UserDao">
+	<!-- 通过手机号查找用户 -->
+	<select id="findByPhone" parameterType="String" resultType="cn.jyb.entity.User">
+		select * from user where phone=#{phone}
+	</select>
+	
+	<!-- 用户注册 -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="user_id"
+		parameterType="cn.jyb.entity.User">
+		INSERT INTO user(
+		nickname,
+		sex,
+		birthday,
+		phone,
+		password,
+		address,
+		imgpath,
+		signature,
+		role,
+		xingzuo,
+		height,
+		weight,
+		job,
+		salary,
+		interest,
+		region)
+		VALUES(
+		#{phone},
+		'需要完善',
+		'需要完善',
+		#{phone},
+		#{password},
+		'需要完善',
+		#{imgpath},
+		'需要完善',
+		#{role},
+		'需要完善',
+		'需要完善',
+		'需要完善',
+		'需要完善',
+		'需要完善',
+		'需要完善',
+		'需要完善')
+	</insert>
+
+	<!-- 修改密码 -->
+	<update id="modifyPassword">
+		UPDATE user SET password=#{1} WHERE phone=#{0}
+	</update>
+
+	<!-- 修改用户个人资料 -->
+	<update id="modifyUserinfo" parameterType="cn.jyb.entity.User">
+		UPDATE user SET
+		nickname=#{nickname},
+		sex=#{sex},
+		address=#{address},
+		birthday=#{birthday},
+		signature=#{signature},
+		xingzuo=#{xingzuo},
+		height=#{height},
+		weight=#{weight},
+		job=#{job},
+		salary=#{salary},
+		interest=#{interest},
+		region=#{region}
+		WHERE phone=#{phone}
+	</update>
+
+	<!-- 通过教练名查找教练(role=0) -->
+	<select id="findCoachByName" parameterType="String" resultType="cn.jyb.entity.User">
+		SELECT * FROM user WHERE username=#{username} AND role='0'
+	</select>
+
+	<!-- 通过用户id查找用户 -->
+	<select id="findById" resultType="cn.jyb.entity.User">
+		SELECT * FROM user
+		WHERE user_id=#{user_id}
+	</select>
+	
+	<!-- 上传头像成功后更新头像路径 -->
+	<update id="updateHeadImg">
+		UPDATE user SET imgpath=#{0} WHERE phone=#{1}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+

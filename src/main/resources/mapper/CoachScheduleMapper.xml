@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.CoachScheduleDao">
+	
+	<!-- 保存教练信息 -->
+	<insert id="saveCoachSchedule" useGeneratedKeys="true" keyProperty="id"
+		parameterType="cn.jyb.entity.CoachSchedule">
+		INSERT INTO coach_schedule(
+			coach_id, 
+			appoint_time, 
+			time1, 
+			time2, 
+			time3, 
+			time4, 
+			time5, 
+			time6, 
+			time7, 
+			time8, 
+			time9, 
+			time10)
+		VALUES(
+			#{coach_id}, 
+			#{appoint_time}, 
+			#{time1}, 
+			#{time2}, 
+			#{time3}, 
+			#{time4}, 
+			#{time5}, 
+			#{time6}, 
+			#{time7}, 
+			#{time8}, 
+			#{time9}, 
+			#{time10})
+	</insert>
+
+	<update id="updateCoachSchedule" parameterType="cn.jyb.entity.CoachSchedule">
+		UPDATE coach_schedule SET
+			time1=#{time1},
+			time2=#{time2},
+			time3=#{time3},
+			time4=#{time4},
+			time5=#{time5},
+			time6=#{time6},
+			time7=#{time7},
+			time8=#{time8},
+			time9=#{time9},
+			time10=#{time10}
+		WHERE coach_id=#{coach_id} AND appoint_time=#{appoint_time}
+	</update>
+
+	<select id="findSchedule" resultType="cn.jyb.entity.CoachSchedule">
+		SELECT * FROM coach_schedule WHERE appoint_time=#{0} AND coach_id=#{1}
+	</select>
+
+	<select id="listAllCoachSchedule" resultType="map">
+		SELECT cs.*,c.coach_name,c.coach_license
+		FROM coach_schedule cs,coach c
+		WHERE cs.coach_id=c.coach_id
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="getCoachScheduleNum" resultType="int">
+		SELECT count(*) FROM coach_schedule
+	</select>
+	
+	<select id="findCoachScheduleByName" resultType="map">
+		SELECT cs.*,c.coach_name,c.coach_license
+		FROM coach_schedule cs,coach c
+		WHERE cs.coach_id=c.coach_id AND c.coach_name LIKE #{coach_name}
+	</select>
+	
+	<select id="findCoachScheduleByDate" resultType="map">
+		SELECT cs.*,c.coach_name,c.coach_license
+		FROM coach_schedule cs,coach c
+		WHERE cs.coach_id=c.coach_id AND cs.appoint_time LIKE #{appoint_time}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

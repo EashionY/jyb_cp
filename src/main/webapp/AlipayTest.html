@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>支付宝测试页面</title>
+</head>
+<body>
+
+	<form action="http://192.168.0.108:8080/jyb_cp/alipay/sign" method="post">
+		subject:<input type="text" name="subject"><br/>
+		body:<input type="text" name="body"><br/>
+		total_amount:<input type="text" name="total_amount"><br/>
+		payer_id:<input type="text" name="payer_id"><br/>
+		receiver_id:<input type="text" name="receiver_id"><br/>
+		<input type="submit" value="提交">
+	</form>
+</body>
+</html>

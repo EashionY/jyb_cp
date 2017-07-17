@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.SchoolDao">
+	
+	<!-- 保存驾校信息 -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="school_id"
+		parameterType="cn.jyb.entity.School">
+		INSERT INTO school(
+			school_logo,
+			school_name,
+			school_address,
+			school_slogan,
+			school_jingdu,
+			school_weidu,
+			school_price,
+			school_tel,
+			school_area)
+		VALUES(
+			#{school_logo},
+			#{school_name},
+			#{school_address},
+			#{school_slogan},
+			#{school_jingdu},
+			#{school_weidu},
+			#{school_price},
+			#{school_tel},
+			#{school_area})
+	</insert>
+	
+	<!-- 更新驾校被浏览数 -->
+	<update id="updateSchoolBrowse">
+		UPDATE school SET school_browse=school_browse+1 WHERE school_id=#{school_id}
+	</update>
+	
+	<!-- 更新驾校与用户之间的距离 -->
+	<update id="updateSchoolDistance">
+		UPDATE school SET school_distance=#{1} WHERE school_id=#{0}
+	</update>
+	
+	<select id="findJWdu" resultType="cn.jyb.entity.School">
+		SELECT school_id,school_jingdu,school_weidu FROM school
+	</select>
+	
+	<select id="findSchoolByDistance" resultType="cn.jyb.entity.School">
+		SELECT * FROM school WHERE school_area=#{2} ORDER BY school_distance LIMIT #{0},#{1}
+	</select>
+	
+	<select id="findSchool" resultType="cn.jyb.entity.School">
+		SELECT * FROM school WHERE school_area=#{2} LIMIT #{0},#{1}
+	</select>
+	
+	<select id="findSchoolByBrowse" resultType="cn.jyb.entity.School">
+		SELECT * FROM school WHERE school_area=#{2} ORDER BY school_browse DESC LIMIT #{0},#{1}
+	</select>
+	
+	<select id="findSchoolByName" parameterType="String" resultType="cn.jyb.entity.School">
+		SELECT * FROM school WHERE school_name=#{school_name}
+	</select>
+	
+	<update id="modifySchoolInfo" parameterType="cn.jyb.entity.School">
+		UPDATE school SET 
+			school_name=#{school_name},
+			school_address=#{school_address},
+			school_slogan=#{school_slogan},
+			school_jingdu=#{school_jingdu},
+			school_weidu=#{school_weidu},
+			school_price=#{school_price},
+			school_tel=#{school_tel},
+			school_area=#{school_area}
+		WHERE school_id=#{school_id}
+	</update>
+	
+	<select id="searchSchoolByName" resultType="cn.jyb.entity.School">
+		SELECT * FROM school WHERE school_name LIKE #{school_name}
+	</select>
+	
+	<delete id="deleteSchool">
+		DELETE FROM school WHERE school_id=#{school_id}
+	</delete>
+	
+	<select id="getSchoolNum" resultType="int">
+		SELECT count(*) FROM school WHERE school_area=#{school_area}
+	</select>
+
+	<update id="modifySchoolLogo" parameterType="string">
+		UPDATE school SET school_logo=#{school_logo} WHERE school_name=#{school_name}
+	</update>	
+</mapper>
+
+
+
+
+
+
+
+
+

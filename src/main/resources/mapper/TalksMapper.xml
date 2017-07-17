@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.TalksDao">
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="cn.jyb.entity.Talks">
+		INSERT INTO talks(
+			user_id,
+			talk,
+			imgpath1,
+			imgpath2,
+			imgpath3,
+			imgpath4,
+			imgpath5,
+			imgpath6,
+			imgpath7,
+			imgpath8,
+			imgpath9)
+		VALUES(
+			#{user_id},
+			#{talk},
+			#{imgpath1},
+			#{imgpath2},
+			#{imgpath3},
+			#{imgpath4},
+			#{imgpath5},
+			#{imgpath6},
+			#{imgpath7},
+			#{imgpath8},
+			#{imgpath9})
+	</insert>
+	
+	<select id="listTalks" resultType="cn.jyb.entity.Talks">
+		SELECT * FROM talks WHERE user_id=#{0} ORDER BY creatime desc LIMIT #{1},#{2}
+	</select>
+	
+	<select id="listAllTalks" resultType="cn.jyb.entity.Talks">
+		SELECT * FROM talks ORDER BY creatime desc LIMIT #{0},#{1}
+	</select>
+	
+	<select id="findTalks" resultType="cn.jyb.entity.Talks">
+		SELECT * FROM talks WHERE id=#{talk_id}
+	</select>
+	
+	<delete id="deleteTalks">
+		DELETE FROM talks WHERE id=#{talk_id}
+	</delete>
+	
+	
+</mapper>
+
+
+
+
+
+
+
+
+

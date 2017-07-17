@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form action="http://39.108.73.207/jyb_cp/drivingTest/saveTeachRecord" method="post">
+		学员id：<input type="text" name="student_id"><br>
+		教练id：<input type="text" name="coach_id"><br>
+		约教科目：<select name="teach_subject">
+			<option>科目二</option>
+			<option>科目三</option>
+		</select><br>
+		约教时间：<input type="text" name="teach_time"><br>
+		教学场地：<input type="text" name="teach_field"><br>
+		是否接送：<input type="radio" name="shuttle" value="1">是
+			   <input type="radio" name="shuttle" value="0">否<br>
+    	接送时间：<input type="text" name="shuttle_time"><br>
+    	接送地点：<input type="text" name="shuttle_place"><br>
+    	留言：<input type="text" name="tips"><br>
+		<input type="submit" value="提交"><br/>
+	</form>
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.VerCodeDao">
+	
+	<insert id="saveRegcode" parameterType="String">
+		INSERT INTO vercode(phone,regcode,regcodeTime) VALUES(#{phone},#{regcode},CURRENT_TIMESTAMP())
+	</insert>
+	
+	<update id="updateRegcode" parameterType="String">
+		UPDATE vercode SET regcode=#{regcode},regcodeTime=CURRENT_TIMESTAMP() WHERE phone=#{phone}
+	</update>
+	
+	<select id="findByPhone" parameterType="String" resultType="cn.jyb.entity.VerCode">
+		SELECT * FROM vercode WHERE phone=#{phone}
+	</select>
+	
+	<update id="updatePwdcode" parameterType="String">
+		UPDATE vercode SET pwdcode=#{pwdcode},pwdcodeTime=CURRENT_TIMESTAMP() WHERE phone=#{phone}
+	</update>
+	
+	<update id="updatePaycode" parameterType="String">
+		UPDATE vercode SET paycode=#{paycode},paycodeTime=CURRENT_TIMESTAMP() WHERE phone=#{phone}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+

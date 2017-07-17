@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.GoodsDao">
+	
+	<insert id="save" parameterType="cn.jyb.entity.Goods">
+		INSERT INTO goods(name,cover,price,total_needs,goods_info,period,rest_needs)
+		VALUES (#{name},#{cover},#{price},#{total_needs},#{goods_info},#{period},#{total_needs})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM goods WHERE id=#{id}
+	</delete>
+	
+	<select id="findById" resultType="cn.jyb.entity.Goods">
+		SELECT * FROM goods WHERE id=#{id}
+	</select>
+	
+	<update id="updateNeeds">
+		UPDATE goods SET rest_needs=#{rest_needs} WHERE id=#{id}
+	</update>
+	
+	<select id="findAll" resultType="cn.jyb.entity.Goods">
+		SELECT * FROM goods LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="findGoodsByStatus" resultType="cn.jyb.entity.Goods">
+		SELECT * FROM goods WHERE goods_status=#{goods_status} LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<update id="modifyGoodsInfo" parameterType="cn.jyb.entity.Goods">
+		UPDATE goods SET 
+			name=#{name},price=#{price},total_needs=#{total_needs},
+			goods_info=#{goods_info},period=#{period},rest_needs=#{total_needs}
+		WHERE id=#{id}
+	</update>
+	
+	<update id="modifyGoodsCover">
+		UPDATE goods SET cover=#{cover} WHERE id=#{id}
+	</update>
+	
+	<update id="onShelves" parameterType="int">
+		UPDATE goods SET goods_status='1',sell_time=CURRENT_TIMESTAMP() WHERE id=#{id}
+	</update>
+	
+	<update id="offShelves" parameterType="int">
+		UPDATE goods SET goods_status='0',off_time=CURRENT_TIMESTAMP() WHERE id=#{id}
+	</update>
+	
+	<update id="finishCloudBuy" parameterType="int">
+		UPDATE goods SET goods_status='2',finish_time=CURRENT_TIMESTAMP() WHERE id=#{id}
+	</update>
+	
+	<select id="getGoodsNum" resultType="int">
+		SELECT count(*) FROM goods	
+	</select>
+	
+	<select id="getStatusGoodsNum" resultType="int">
+		SELECT count(*) FROM goods WHERE goods_status=#{goods_status}
+	</select>
+	
+	<insert id="autoSave" parameterType="cn.jyb.entity.Goods">
+		INSERT INTO goods(name,cover,price,total_needs,goods_info,period,rest_needs,sell_time,goods_status)
+		VALUES (#{name},#{cover},#{price},#{total_needs},#{goods_info},#{period},#{total_needs},current_timestamp(),'1')
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

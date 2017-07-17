@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.CloudBuyDao">
+	
+	<insert id="save" parameterType="cn.jyb.entity.CloudBuy">
+		INSERT INTO cloud_buy(user_id,goods_id,buyer_code,period,buy_amount)
+		VALUES(#{user_id},#{goods_id},#{buyer_code},#{period},#{buy_amount})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM cloud_buy WHERE id=#{id}
+	</delete>
+	
+	<select id="findById" resultType="cn.jyb.entity.CloudBuy">
+		SELECT * FROM cloud_buy WHERE id=#{id}
+	</select>
+	
+	<select id="listCodes" resultType="Integer">
+		SELECT buyer_code FROM cloud_buy WHERE goods_id=#{goods_id} AND period=#{period}
+	</select>
+	
+	<select id="listUserCodes" resultType="Integer">
+		SELECT buyer_code FROM cloud_buy WHERE goods_id=#{goods_id} AND period=#{period} AND user_id=#{user_id}
+	</select>
+	
+	<select id="listTime" resultType="Date">
+		SELECT buy_time FROM cloud_buy WHERE goods_id=#{goods_id} AND period=#{period}
+		ORDER BY buy_time DESC LIMIT 100
+	</select>
+	
+	<select id="findWinner" resultType="cn.jyb.entity.CloudBuy">
+		SELECT * FROM cloud_buy WHERE buyer_code=#{lotteryCode} AND goods_id=#{goods_id} AND period=#{period}
+	</select>
+	
+	<select id="getCounts" resultType="Int">
+		SELECT count(*) FROM cloud_buy WHERE goods_id=#{goods_id} AND period=#{period} AND user_id=#{user_id};
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+

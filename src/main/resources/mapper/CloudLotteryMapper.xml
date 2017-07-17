@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.CloudLotteryDao">
+	
+	<insert id="save" parameterType="cn.jyb.entity.CloudLottery">
+		INSERT INTO cloud_lottery(user_id,goods_id,lottery_code,period)
+		VALUES(#{user_id},#{goods_id},#{lottery_code},#{period})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM cloud_lottery WHERE id=#{id}
+	</delete>
+	
+	<select id="findById" resultType="cn.jyb.entity.CloudLottery">
+		SELECT * FROM cloud_lottery WHERE goods_id=#{goods_id}
+	</select>
+	
+	<select id="listLotteryInfo" resultType="map">
+		SELECT cl.*,g.name,g.price,g.sell_time,g.finish_time,u.nickname,u.phone,cb.buy_time
+		FROM cloud_lottery cl,goods g,user u,cloud_buy cb
+		WHERE cl.goods_id=g.id AND cl.user_id=u.user_id AND cl.goods_id=cb.goods_id AND cl.period=cb.period
+			AND cl.lottery_code=cb.buyer_code
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="getLotteryNum" resultType="int">
+		SELECT count(*) FROM cloud_lottery
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

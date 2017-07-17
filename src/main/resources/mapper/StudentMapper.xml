@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.StudentDao">
+	
+	<!-- 保存学员信息 -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="student_id"
+		parameterType="cn.jyb.entity.Student">
+		INSERT INTO student(
+			user_id,
+			school_id,
+			student_name,
+			student_license,
+			student_idcard,
+			student_recommend,
+			student_tel)
+		VALUES(
+			#{user_id},
+			#{school_id},
+			#{student_name},
+			#{student_license},
+			#{student_idcard},
+			#{student_recommend},
+			#{student_tel})
+	</insert>
+	
+	<!-- 通过user_id查找学员 -->
+	<select id="findStudent" resultType="cn.jyb.entity.Student">
+		SELECT * FROM student WHERE user_id=#{0} AND school_id=#{1}
+	</select>
+	
+	<select id="findById" resultType="cn.jyb.entity.Student">
+		SELECT * FROM student WHERE student_id=#{student_id}
+	</select>
+	
+	<select id="listAllStudent" resultType="map">
+		SELECT st.*,sc.school_name,sc.school_tel,sc.school_price,sc.school_area,
+			(select count(*) from student st left join school sc on st.school_id=sc.school_id) as count
+		FROM student st LEFT JOIN school sc
+		ON st.school_id=sc.school_id
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="listStudentByArea" resultType="map">
+		SELECT st.*,sc.school_name,sc.school_tel,sc.school_price,sc.school_area,
+			(select count(*) from student st left join school sc on st.school_id=sc.school_id where sc.school_area=#{school_area}) as count
+		FROM student st LEFT JOIN school sc
+		ON st.school_id=sc.school_id
+		WHERE sc.school_area=#{school_area}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="findStudentByName" resultType="map">
+		SELECT st.*,sc.school_name,sc.school_tel,sc.school_price,sc.school_area
+		FROM student st LEFT JOIN school sc
+		ON st.school_id=sc.school_id
+		WHERE st.student_name LIKE #{student_name}
+	</select>
+	
+	<select id="findStudentBySchoolName" resultType="map">
+		SELECT st.*,sc.school_name,sc.school_tel,sc.school_price,sc.school_area
+		FROM student st LEFT JOIN school sc
+		ON st.school_id=sc.school_id
+		WHERE sc.school_name LIKE #{school_name}
+	</select>
+	
+	<select id="findStudentBySignupTime" resultType="map">
+		SELECT st.*,sc.school_name,sc.school_tel,sc.school_price,sc.school_area
+		FROM student st LEFT JOIN school sc
+		ON st.school_id=sc.school_id
+		WHERE st.signup_time LIKE #{signup_time}
+	</select>
+	
+	<select id="findByUserId" resultType="cn.jyb.entity.Student">
+		SELECT * FROM student WHERE user_id=#{user_id} GROUP BY user_id
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.CoachDao">
+
+	<!-- 修改教练资料 -->
+	<update id="modifyCoachinfo" parameterType="cn.jyb.entity.Coach">
+		UPDATE coach SET
+			coach_name=#{coach_name}, 
+			school_name=#{school_name},
+			coach_idcardfront=#{coach_idcardfront}, 
+			coach_idcardback=#{coach_idcardback}, 
+			coach_qualification=#{coach_qualification}, 
+			coach_license=#{coach_license}, 
+			coach_car=#{coach_car}, 
+			school_address=#{school_address}, 
+			train_field=#{train_field}, 
+			field_jingdu=#{field_jingdu},
+			field_weidu=#{field_weidu}, 
+			school_imgpath=#{school_imgpath},
+			coach_sex=#{coach_sex},
+			coach_birthday=#{coach_birthday},
+			coach_area=#{coach_area}
+		WHERE coach_id=#{coach_id}
+	</update>
+
+	<!-- 通过教练名检索教练(模糊查询,后台) -->
+	<select id="findCoachByName" parameterType="String" resultType="map">
+		SELECT c.*,u.phone FROM coach c,user u WHERE c.user_id=u.user_id AND coach_name LIKE #{coach_name}
+	</select>
+	
+	<!-- 热门教练(根据被浏览数排序) -->
+	<select id="hotCoach" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach
+		WHERE coach_status='1' AND coach_area=#{coach_area}
+		ORDER BY coach_browse DESC
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 保存教练信息(教练资格申请) -->
+	<insert id="insertCoach"  useGeneratedKeys="true" keyProperty="coach_id"
+			parameterType="cn.jyb.entity.Coach">
+		INSERT INTO coach(
+			user_id,
+			coach_name, 
+			school_name,
+			coach_idcardfront, 
+			coach_idcardback, 
+			coach_qualification, 
+			coach_license, 
+			coach_car, 
+			school_address, 
+			train_field, 
+			field_jingdu,
+			field_weidu, 
+			school_imgpath,
+			coach_sex,
+			coach_birthday,
+			coach_area)
+		VALUES(
+			#{user_id},
+			#{coach_name}, 
+			#{school_name},  
+			#{coach_idcardfront}, 
+			#{coach_idcardback}, 
+			#{coach_qualification}, 
+			#{coach_license}, 
+			#{coach_car}, 
+			#{school_address}, 
+			#{train_field}, 
+			#{field_jingdu}, 
+			#{field_weidu}, 
+			#{school_imgpath},
+			#{coach_sex},
+			#{coach_birthday},
+			#{coach_area})
+	</insert>
+	
+	<!-- 教学设置 -->
+	<update id="teachSet">
+		UPDATE coach SET coach_paying_two=#{1},coach_paying_three=#{2},coach_freeshuttle=#{3}
+		WHERE coach_id=#{0}
+	</update>
+	
+	<!-- 更新教练浏览数 -->
+	<update id="updateCoachBrowse">
+		UPDATE coach SET coach_browse = coach_browse+1 WHERE coach_id=#{coach_id}
+	</update>
+	
+	<!-- 列出所有教练 -->
+	<select id="listAllCoach" resultType="map">
+		SELECT c.*,u.phone FROM coach c,user u WHERE c.user_id=u.user_id LIMIT #{0},#{1}
+	</select>
+	
+	<!-- 查找各个状态的教练 -->
+	<select id="listCoachByStatus" resultType="map">
+		SELECT c.*,u.phone FROM coach c,user u WHERE c.user_id=u.user_id AND coach_status=#{0} LIMIT #{1},#{2}
+	</select>
+	
+	<!-- 操作教练资格审核 -->
+	<update id="dealCoach">
+		UPDATE coach SET coach_status=#{1},modifytime=current_timestamp() WHERE coach_id=#{0}
+	</update>
+	
+	<select id="coachTotalNum" resultType="int">
+		SELECT count(*) FROM coach
+	</select>
+	
+	<select id="coachNum" resultType="int">
+		SELECT count(*) FROM coach WHERE coach_status=#{coach_status}
+	</select>
+	
+	<update id="updateDistance">
+		UPDATE coach SET distance=#{distance} WHERE coach_id=#{coach_id}
+	</update>
+	<!-- 附近教练(距离) -->
+	<select id="coachNearby" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} 
+		ORDER BY distance LIMIT #{offset},#{pageSize}
+	</select>
+	<!-- 附近教练(距离，性别) -->
+	<select id="coachNearbySex" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex}
+		ORDER BY distance LIMIT #{offset},#{pageSize}
+	</select>
+	<!-- 附近教练(距离，范围) -->
+	<select id="coachNearbyRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND distance &lt;=#{range}
+		ORDER BY distance LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 附近教练(距离，性别，范围) -->
+	<select id="coachNearbySexRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex} AND distance &lt;=#{range}
+		ORDER BY distance LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="listPassedCoach" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1'
+	</select>
+	
+	<update id="updateCoachScore">
+		UPDATE coach SET coach_score=#{coach_score} WHERE coach_id=#{coach_id}
+	</update>
+	
+	<select id="findById" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_id=#{coach_id}
+	</select>
+	
+	<!-- 根据评分查找教练 -->
+	<select id="listCoachByScore" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} 
+		ORDER BY coach_score DESC LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 根据评分查找教练(性别) -->
+	<select id="listCoachByScoreSex" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex}
+		ORDER BY coach_score DESC LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 根据评分查找教练(范围) -->
+	<select id="listCoachByScoreRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND distance &lt;=#{range}
+		ORDER BY coach_score DESC LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 根据评分查找教练(性别，范围) -->
+	<select id="listCoachByScoreSexRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex} AND distance &lt;=#{range}
+		ORDER BY coach_score DESC LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 默认排序查找教练 -->
+	<select id="listCoachDefault" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 默认排序查找教练(性别) -->
+	<select id="listCoachDefaultSex" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 默认排序查找教练(范围) -->
+	<select id="listCoachDefaultRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND distance &lt;=#{range}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 默认排序查找教练(性别，范围) -->
+	<select id="listCoachDefaultSexRange" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_sex=#{coach_sex} AND distance &lt;=#{range}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="findByName" resultType="cn.jyb.entity.Coach">
+		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_name LIKE #{coach_name}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.jyb.dao.TeachRecordDao">
+	<!-- 通过约教id查找记录 -->
+	<select id="findByTeachId" resultType="cn.jyb.entity.TeachRecord">
+		select * from teach_record
+		where teach_id=#{teach_id}
+	</select>
+	<!-- 保存约教记录 -->
+	<insert id="saveTeachRecord" useGeneratedKeys="true"
+		keyProperty="teach_id" parameterType="cn.jyb.entity.TeachRecord">
+		INSERT INTO teach_record(
+		student_id,
+		coach_id,
+		teach_subject,
+		teach_time,
+		teach_field,
+		shuttle,
+		shuttle_time,
+		shuttle_place,
+		tips)
+		VALUES(
+		#{student_id},
+		#{coach_id},
+		#{teach_subject},
+		#{teach_time},
+		#{teach_field},
+		#{shuttle},
+		#{shuttle_time},
+		#{shuttle_place},
+		#{tips})
+	</insert>
+
+	<!-- 查找学员约教记录数 -->
+	<select id="findStudyRecordNumber" resultType="Integer">
+		SELECT COUNT(*) FROM teach_record 
+		WHERE student_id=#{student_id}
+	</select>
+	
+	<!-- 查找教练教学记录数 -->
+	<select id="findTeachRecordNumber" resultType="Integer">
+		SELECT COUNT(*) FROM teach_record 
+		WHERE coach_id=#{coach_id}
+	</select>
+
+	<!-- 查找学员约教记录 -->
+	<select id="findStudyRecords" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM teach_record 
+		WHERE student_id=#{0}
+		ORDER BY creatime DESC
+		LIMIT #{1},#{2}
+	</select>
+
+	<!-- 查找教练教学记录 -->
+	<select id="findTeachRecords" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM teach_record 
+		WHERE coach_id=#{0}
+		ORDER BY creatime DESC
+		LIMIT #{1},#{2}
+	</select>
+
+	<!-- 添加评价,添加后,teach_state='3' -->
+	<update id="addEvaluation">
+		UPDATE teach_record SET
+		evaluation=#{1},teach_state='3',evaltime=CURRENT_TIMESTAMP,evaltype=#{2},evalstar=#{3}
+		WHERE teach_id=#{0}
+	</update>
+
+	<!-- 查找学员做出的所有评价数 -->
+	<select id="findStudyEvaluationNumber" resultType="Integer">
+		SELECT COUNT(evaluation) FROM teach_record
+		WHERE student_id=#{student_id}
+	</select>
+	
+	<!-- 查找学员做出的不同类型的评价数 -->
+	<select id="findStudyEvaluationNumByType" resultType="Integer">
+		SELECT COUNT(evaluation) FROM teach_record
+		WHERE student_id=#{student_id} AND evaltype=#{evaltype}
+	</select>
+	
+	<!-- 查找学员给出的所有评价，状态teach_state必须是3 -->
+	<select id="findStudyEvaluation" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM
+		teach_record WHERE student_id=#{0} AND teach_state='3' AND evaluation!=''
+		ORDER BY evaltime DESC
+		LIMIT #{1},#{2}
+	</select>
+	
+	<!-- 查找教练收到的所有评价数 -->
+	<select id="findTeachEvaluationNumber" resultType="Integer">
+		SELECT COUNT(evaluation) FROM teach_record
+		WHERE coach_id=#{coach_id}
+	</select>
+	
+	<!-- 查找教练收到的不同类型的评价数 -->
+	<select id="findTeachEvaluationNumByType" resultType="Integer">
+		SELECT COUNT(evaluation) FROM teach_record
+		WHERE coach_id=#{coach_id} AND evaltype=#{evaltype}
+	</select>
+
+	<!-- 查找教练收到的所有评价，评价不能为''-->
+	<select id="findTeachEvaluation" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM
+		teach_record WHERE coach_id=#{coach_id} AND evaluation!=''
+		ORDER BY evaltime DESC
+		LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 查找教练收到的所有好评/中评/差评 -->
+	<select id="findTeachEvaluations" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM
+		teach_record WHERE coach_id=#{coach_id} AND evaluation!='' AND evaltype=#{evaltype}
+		ORDER BY evaltime DESC
+		LIMIT #{offset},#{pageSize}
+	</select>
+
+	<!-- 教练接受约教请求 -->
+	<update id="acceptTeach">
+		UPDATE teach_record SET teach_state='1' WHERE
+		teach_id=#{teach_id}
+	</update>
+
+	<!-- 学员完成约教训练 -->
+	<update id="finishTeach">
+		UPDATE teach_record SET
+		teach_state='2',finishtime=CURRENT_TIMESTAMP WHERE
+		teach_id=#{teach_id}
+	</update>
+
+	<!-- 教练拒绝约教请求 -->
+	<update id="refuseTeach">
+		UPDATE teach_record SET teach_state='-1' WHERE
+		teach_id=#{teach_id}
+	</update>
+
+	<!-- 学员取消约教请求 -->
+	<update id="cancelTeach">
+		UPDATE teach_record SET teach_state='-2' WHERE
+		teach_id=#{teach_id}
+	</update>
+	
+	<select id="getCoachScore" resultType="double">
+		SELECT AVG(evalstar) FROM teach_record WHERE coach_id=#{coach_id}
+	</select>
+	
+	<select id="listAllTeachRecord" resultType="cn.jyb.entity.TeachRecord">
+		SELECT * FROM teach_record ORDER BY creatime DESC LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<select id="getTeachRecordNum" resultType="int">
+		SELECT COUNT(*) FROM teach_record
+	</select>
+	
+	<select id="findRecordByCoachName" resultType="map">
+		SELECT c.coach_name,s.student_name,t.*
+		FROM teach_record t,coach c,student s
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND c.coach_name LIKE #{coach_name}
+	</select>
+	
+	<select id="findRecordByStudentName" resultType="map">
+		SELECT c.coach_name,s.student_name,t.*
+		FROM teach_record t,coach c,student s
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND s.student_name LIKE #{student_name}
+	</select>
+	
+	<select id="findRecordByTeachTime" resultType="map">
+		SELECT c.coach_name,s.student_name,t.*
+		FROM teach_record t,coach c,student s
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND t.teach_time LIKE #{teach_time}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
