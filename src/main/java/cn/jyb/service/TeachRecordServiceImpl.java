@@ -242,11 +242,13 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 			String evaluation = record.getEvaluation();
 			int evalstar = record.getEvalstar();
 			String evaltime = df.format(record.getEvaltime());
+			int teach_id = record.getTeach_id();
 			map.put("nickname", nickname);
 			map.put("imgpath", imgpath);
 			map.put("evalstar", ""+evalstar);
 			map.put("evaluation", evaluation);
 			map.put("evaltime", evaltime);
+			map.put("teach_id", ""+teach_id);
 			result.add(map);
 		}
 		return result;

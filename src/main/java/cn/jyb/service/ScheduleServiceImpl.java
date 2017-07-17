@@ -30,8 +30,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private StudentScheduleDao studentScheduleDao;
 	
 	@SuppressWarnings("unchecked")
-	public boolean setCoachSchedule(String data ) {
-		System.out.println("½ÓÊÕÊı¾İ:"+data);
+	public boolean setCoachSchedule(String data) {
+		System.out.println("æ¥æ”¶æ•°æ®:"+data);
 		int i = 0;
 		objectMapper = new ObjectMapper();
 		List<Map<String, String>> params;
@@ -40,12 +40,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 			System.out.println(11111);
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			throw new DataErrorException("Êı¾İ½âÎöÒì³£");
+			throw new DataErrorException("æ•°æ®è§£æå¼‚å¸¸");
 		}
+		System.out.println(params);
 		for(Map<String,String> param : params){
 			int coach_id = Integer.parseInt(param.get("coach_id"));
 			String appoint_time = param.get("appoint_time");
-			//½ÌÁ·ÈÕ³Ì±íµÄ¸÷¸öÊ±¼äÓĞÁ½¸ö×´Ì¬("-1"²»¿É Ô¤Ô¼£¬"0"¿ÉÒÔÔ¤Ô¼)
+			//æ•™ç»ƒæ—¥ç¨‹è¡¨çš„å„ä¸ªæ—¶é—´æœ‰ä¸¤ä¸ªçŠ¶æ€("-1"ä¸å¯ é¢„çº¦ï¼Œ"0"å¯ä»¥é¢„çº¦)
 			String time1 = param.get("time1");
 			String time2 = param.get("time2");
 			String time3 = param.get("time3");
@@ -74,17 +75,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 				try {
 					i = coachScheduleDao.saveCoachSchedule(coachSchedule1);
 				} catch (Exception e) {
-					throw new DataBaseException("Êı¾İ¿âÒì³£");
+					throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 				}
 			}else{
 				try {
 					i = coachScheduleDao.updateCoachSchedule(coachSchedule1);
 				} catch (Exception e) {
-					throw new DataBaseException("Êı¾İ¿âÒì³£");
+					throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 				}
 			}
 			if(i != 1){
-				throw new ScheduleException("ÉèÖÃÈÕ³ÌÊ§°Ü");
+				throw new ScheduleException("è®¾ç½®æ—¥ç¨‹å¤±è´¥");
 			}
 		}
 		return true;
@@ -95,7 +96,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		List<String> dates = new ArrayList<String>();
 		objectMapper = new ObjectMapper();
-		//½«Json×Ö·û´®½âÎömap
+		//å°†Jsonå­—ç¬¦ä¸²è§£æmap
 		int coach_id;
 		int student_id;
 		String subtype;
@@ -112,7 +113,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			String date3 = params.get("date3");
 			dates.add(date3);
 		} catch (Exception e) {
-			throw new DataErrorException("´«ÈëÊı¾İÓĞÎó");
+			throw new DataErrorException("ä¼ å…¥æ•°æ®æœ‰è¯¯");
 		}
 		for(String appoint_time : dates){
 			Map<String,String> map = new HashMap<String,String>();
@@ -121,7 +122,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			CoachSchedule coachSchedule = coachScheduleDao.findSchedule(appoint_time, coach_id);
 			StudentSchedule studentSchedule = studentScheduleDao.findSchedule(appoint_time,coach_id,subtype,student_id);
 			if(coachSchedule==null){
-				//½ÌÁ·Î´ÉèÖÃµ±ÌìµÄÈÕ³Ì,ËùÓĞÊ±¶ÎÉèÖÃÎª-1(²»¿ÉÔ¼)
+				//æ•™ç»ƒæœªè®¾ç½®å½“å¤©çš„æ—¥ç¨‹,æ‰€æœ‰æ—¶æ®µè®¾ç½®ä¸º-1(ä¸å¯çº¦)
 				map.put("time1","-1");
 				map.put("time2","-1");
 				map.put("time3","-1");
@@ -133,7 +134,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 				map.put("time9","-1");
 				map.put("time10","-1");
 			}else if(studentSchedule==null){
-				//¸ÃÑ§Ô±µ±Ìì»¹Ã»ÓĞÔ¤Ô¼¸Ã½ÌÁ·
+				//è¯¥å­¦å‘˜å½“å¤©è¿˜æ²¡æœ‰é¢„çº¦è¯¥æ•™ç»ƒ
 				map.put("time1",coachSchedule.getTime1());
 				map.put("time2",coachSchedule.getTime2());
 				map.put("time3",coachSchedule.getTime3());
@@ -145,7 +146,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 				map.put("time9",coachSchedule.getTime9());
 				map.put("time10",coachSchedule.getTime10());
 			}else{
-				//¸ÃÑ§ÉúÒÑ¾­Ô¤Ô¼µÄÊ±¶Î£¬×´Ì¬ÓÃ"1"±íÊ¾;ÈôÎ´Ô¤Ô¼£¬Ôò±£´æÔ­×´Ì¬²»±ä
+				//è¯¥å­¦ç”Ÿå·²ç»é¢„çº¦çš„æ—¶æ®µï¼ŒçŠ¶æ€ç”¨"1"è¡¨ç¤º;è‹¥æœªé¢„çº¦ï¼Œåˆ™ä¿å­˜åŸçŠ¶æ€ä¸å˜
 				map.put("time1","1".equals(studentSchedule.getTime1())?"1":coachSchedule.getTime1());
 				map.put("time2","1".equals(studentSchedule.getTime2())?"1":coachSchedule.getTime2());
 				map.put("time3","1".equals(studentSchedule.getTime3())?"1":coachSchedule.getTime3());
@@ -172,7 +173,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			params = objectMapper.readValue(data, List.class);
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			throw new DataErrorException("Êı¾İ½âÎöÒì³£");
+			throw new DataErrorException("æ•°æ®è§£æå¼‚å¸¸");
 		}
 		for(Map<String,String> map : params){
 			int student_id = Integer.parseInt(map.get("student_id"));
@@ -208,17 +209,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 				try {
 					i = studentScheduleDao.saveStudentSchedule(studentSchedule2);
 				} catch (Exception e) {
-					throw new DataBaseException("Êı¾İ¿âÒì³£");
+					throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 				}
 			}else{
 				try {
 					i = studentScheduleDao.updateStudentSchedule(studentSchedule2);
 				} catch (Exception e) {
-					throw new DataBaseException("Êı¾İ¿âÒì³£");
+					throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 				}
 			}
 			if(i != 1){
-				throw new ScheduleException("±£´æÈÕ³ÌÊ§°Ü");
+				throw new ScheduleException("ä¿å­˜æ—¥ç¨‹å¤±è´¥");
 			}
 		}
 		return true;
@@ -230,7 +231,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		try {
 			result = coachScheduleDao.listAllCoachSchedule(offset, pageSize);
 		} catch (Exception e) {
-			throw new DataBaseException("Êı¾İ¿âÒì³£");
+			throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 		}
 		int num = coachScheduleDao.getCoachScheduleNum();
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -245,7 +246,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		try {
 			result = coachScheduleDao.findCoachScheduleByName(coach_name);
 		} catch (Exception e) {
-			throw new DataBaseException("Êı¾İ¿âÒì³£");
+			throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 		}
 		return result;
 	}
@@ -256,7 +257,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		try {
 			result = coachScheduleDao.findCoachScheduleByDate(appoint_time);
 		} catch (Exception e) {
-			throw new DataBaseException("Êı¾İ¿âÒì³£");
+			throw new DataBaseException("æ•°æ®åº“å¼‚å¸¸");
 		}
 		return result;
 	}
