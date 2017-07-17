@@ -17,4 +17,10 @@ public class VersionController {
 		return new JsonResult(Version.getVersion());
 	}
 	
+	@RequestMapping("/updateVersion")
+	@ResponseBody
+	public JsonResult updateVersion(){
+		return new JsonResult(Version.getUpdateurl());
+	}
+	
 }
