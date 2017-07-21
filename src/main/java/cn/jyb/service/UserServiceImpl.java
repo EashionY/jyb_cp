@@ -64,7 +64,9 @@ public class UserServiceImpl implements UserService {
 			result.put("birthday", user.getBirthday());
 			result.put("height", user.getHeight());
 			result.put("id", user.getUser_Id());
-			result.put("imgpath", user.getImgpath());
+			//如果头像路径为空，则替换为默认的logo
+			String headImg = user.getImgpath()==null?"http://39.108.73.207/img/default/logo.png":user.getImgpath();
+			result.put("imgpath", headImg);
 			result.put("interest", user.getInterest());
 			result.put("job", user.getJob());
 			result.put("nickname", user.getNickname());
@@ -121,6 +123,9 @@ public class UserServiceImpl implements UserService {
 		user.setPhone(phone);
 		user.setPassword(AccountUtil.md5(password));
 		user.setRole(role);
+		//设置默认头像为应用logo
+		String headImg = "http://39.108.73.207/img/default/logo.png";
+		user.setImgpath(headImg);
 		int i = userDao.save(user);
 		if(i!=1){
 			throw new DataBaseException("数据库连接失败");
