@@ -203,7 +203,10 @@ public class SchoolServiceImpl implements SchoolService {
 		return true;
 	}
 
-	public Map<String, Object> schoolDetail(int school_id,double lon1,double lat1) {
+	public Map<String, Object> schoolDetail(int school_id,Double lon1,Double lat1) {
+		//经纬度为空，则默认为0
+		lon1 = lon1==null?0:lon1;
+		lat1 = lat1==null?0:lat1;
 		Map<String, Object> school;
 		try {
 			school = schoolDao.schoolDetail(school_id);

@@ -145,9 +145,18 @@ public class SchoolController extends ExceptionController {
 		return new JsonResult(tf);
 	}
 	
+	/**
+	 * 驾校详情（前后端通用）
+	 * @param response
+	 * @param school_id
+	 * @param lon1
+	 * @param lat1
+	 * @return
+	 */
 	@RequestMapping("/schoolDetail")
 	@ResponseBody
-	public JsonResult schoolDetail(int school_id,double lon1,double lat1){
+	public JsonResult schoolDetail(HttpServletResponse response,int school_id,Double lon1,Double lat1){
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		Map<String,Object> result = schoolService.schoolDetail(school_id, lon1, lat1);
 		return new JsonResult(result);
 	}

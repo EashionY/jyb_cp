@@ -109,7 +109,7 @@ public interface SchoolService {
 	 * @param school_id
 	 * @return
 	 */
-	public Map<String,Object> schoolDetail(int school_id,double lon1,double lat1);
+	public Map<String,Object> schoolDetail(int school_id,Double lon1,Double lat1);
 	
 	/**
 	 * 添加驾校练车环境(后台管理系统)
