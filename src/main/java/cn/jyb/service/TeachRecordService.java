@@ -148,4 +148,14 @@ public interface TeachRecordService {
 	 * @return
 	 */
 	public List<Map<String,Object>> findRecordByTeachTime(String teach_time);
+	
+	/**
+	 * 查找该驾校所有教练收到的评价
+	 * @param school_name
+	 * @param evaltype
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public Map<String, Object> listSchoolEval(String school_name,int evaltype,int page,int pageSize);
 }

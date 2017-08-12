@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 	public boolean modifyUserinfo(String phone, String nickname, String sex, String address, String birthday,
 			String signature, String xingzuo, String height, String weight, String job, String salary,
 			String interest,String region,HttpServletRequest req) throws UnsupportedEncodingException {
-		req.setCharacterEncoding("utf-8");
+		req.setCharacterEncoding("UTF-8");
 		User user = userDao.findByPhone(phone);
 		if(user==null){
 			throw new NoUserFoundException("未找到对应用户");

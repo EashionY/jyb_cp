@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,16 @@ public class StudentServiceImpl implements StudentService {
 	@Resource
 	private StudentDao studentDao;
 	
-	public boolean addStudent(String user_id, String school_id, String student_name, String student_license,
+	public boolean addStudent(HttpServletRequest req,String user_id, String school_id, String student_name, String student_license,
 			String student_idcard, String student_recommend, String student_tel) throws UnsupportedEncodingException {
+		req.setCharacterEncoding("utf-8");
 		Student student = new Student();
 //		if(studentDao.findStudent(user_id,school_id)!=null){
 //			throw new StudentException("已报名该驾校，请勿重复操作");
 //		}
-		student_name = new String(student_name.getBytes("ISO-8859-1"),"utf-8");
+//		student_name = new String(student_name.getBytes("ISO-8859-1"),"utf-8");
+//		student_name = req.getParameter("student_name");
+		System.out.println("student_name:"+student_name);
 		student.setUser_id(Integer.parseInt(user_id));
 		student.setSchool_id(Integer.parseInt(school_id));
 		student.setStudent_name(student_name);

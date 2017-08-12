@@ -199,6 +199,12 @@
 	<select id="findByName" resultType="cn.jyb.entity.Coach">
 		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_name LIKE #{coach_name}
 	</select>
+	
+	<select id="listRecomdCoach" resultType="java.util.Map">
+		SELECT c.*,u.imgpath 
+		FROM coach c JOIN user u ON c.user_id=u.user_id
+		WHERE c.coach_status='1' AND c.school_name=#{school_name}
+	</select>
 </mapper>
 
 

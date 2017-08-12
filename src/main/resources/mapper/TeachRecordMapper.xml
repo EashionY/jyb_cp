@@ -91,7 +91,7 @@
 	<!-- 查找教练收到的所有评价数 -->
 	<select id="findTeachEvaluationNumber" resultType="Integer">
 		SELECT COUNT(evaluation) FROM teach_record
-		WHERE coach_id=#{coach_id}
+		WHERE coach_id=#{coach_id} AND teach_state='3'
 	</select>
 	
 	<!-- 查找教练收到的不同类型的评价数 -->

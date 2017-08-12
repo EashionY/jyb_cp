@@ -1,6 +1,7 @@
 package cn.jyb.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -100,4 +101,11 @@ public interface SchoolDao {
 	 * @return
 	 */
 	public int modifySchoolLogo(@Param("school_logo")String school_logo,@Param("school_name")String school_name);
+	
+	/**
+	 * Ä³¼ÝÐ£ÏêÇé
+	 * @param school_id
+	 * @return
+	 */
+	public Map<String,Object> schoolDetail(int school_id);
 }

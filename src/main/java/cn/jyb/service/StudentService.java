@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface StudentService {
 
 	/**
@@ -18,7 +20,7 @@ public interface StudentService {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public boolean addStudent(String user_id,String school_id,String student_name,String student_license,
+	public boolean addStudent(HttpServletRequest req,String user_id,String school_id,String student_name,String student_license,
 			String student_idcard,String student_recommend,String student_tel) throws UnsupportedEncodingException;
 	
 	/**

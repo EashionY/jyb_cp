@@ -248,4 +248,11 @@ public interface CoachDao {
 	 * @return
 	 */
 	public List<Coach> findByName(@Param("coach_name")String coach_name,@Param("coach_area")String coach_area);
+	
+	/**
+	 * 查看该驾校的推荐教练
+	 * @param school_name
+	 * @return
+	 */
+	public List<Map<String,Object>> listRecomdCoach(String school_name);
 }

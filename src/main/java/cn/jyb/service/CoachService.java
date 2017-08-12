@@ -126,4 +126,11 @@ public interface CoachService {
 	 * @return
 	 */
 	public List<Map<String,Object>> listCoachDefault(String lon,String lat,int page,int pageSize,String coach_area,String coach_sex,String range);
+	
+	/**
+	 * 查看该驾校的推荐教练
+	 * @param school_name
+	 * @return
+	 */
+	public List<Map<String, Object>> listRecomdCoach(String school_name);
 }

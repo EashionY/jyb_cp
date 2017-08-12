@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.EnvironmentMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.Environment">
+    <id column="environment_id" jdbcType="INTEGER" property="environmentId" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="img1" jdbcType="VARCHAR" property="img1" />
+    <result column="img2" jdbcType="VARCHAR" property="img2" />
+    <result column="img3" jdbcType="VARCHAR" property="img3" />
+    <result column="img4" jdbcType="VARCHAR" property="img4" />
+    <result column="img5" jdbcType="VARCHAR" property="img5" />
+    <result column="img6" jdbcType="VARCHAR" property="img6" />
+    <result column="img7" jdbcType="VARCHAR" property="img7" />
+    <result column="img8" jdbcType="VARCHAR" property="img8" />
+    <result column="img9" jdbcType="VARCHAR" property="img9" />
+    <result column="img10" jdbcType="VARCHAR" property="img10" />
+    <result column="img11" jdbcType="VARCHAR" property="img11" />
+    <result column="img12" jdbcType="VARCHAR" property="img12" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    environment_id, school_id, img1, img2, img3, img4, img5, img6, img7, img8, img9, 
+    img10, img11, img12
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from environment
+    where environment_id = #{environmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from environment
+    where environment_id = #{environmentId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.Environment">
+    <selectKey keyProperty="environmentId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into environment (environment_id, school_id, img1, 
+      img2, img3, img4, img5, 
+      img6, img7, img8, img9, 
+      img10, img11, img12
+      )
+    values (#{environmentId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{img1,jdbcType=VARCHAR}, 
+      #{img2,jdbcType=VARCHAR}, #{img3,jdbcType=VARCHAR}, #{img4,jdbcType=VARCHAR}, #{img5,jdbcType=VARCHAR}, 
+      #{img6,jdbcType=VARCHAR}, #{img7,jdbcType=VARCHAR}, #{img8,jdbcType=VARCHAR}, #{img9,jdbcType=VARCHAR}, 
+      #{img10,jdbcType=VARCHAR}, #{img11,jdbcType=VARCHAR}, #{img12,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.Environment">
+    <selectKey keyProperty="environmentId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into environment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      environment_id,
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="img1 != null">
+        img1,
+      </if>
+      <if test="img2 != null">
+        img2,
+      </if>
+      <if test="img3 != null">
+        img3,
+      </if>
+      <if test="img4 != null">
+        img4,
+      </if>
+      <if test="img5 != null">
+        img5,
+      </if>
+      <if test="img6 != null">
+        img6,
+      </if>
+      <if test="img7 != null">
+        img7,
+      </if>
+      <if test="img8 != null">
+        img8,
+      </if>
+      <if test="img9 != null">
+        img9,
+      </if>
+      <if test="img10 != null">
+        img10,
+      </if>
+      <if test="img11 != null">
+        img11,
+      </if>
+      <if test="img12 != null">
+        img12,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{environmentId,jdbcType=INTEGER},
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="img1 != null">
+        #{img1,jdbcType=VARCHAR},
+      </if>
+      <if test="img2 != null">
+        #{img2,jdbcType=VARCHAR},
+      </if>
+      <if test="img3 != null">
+        #{img3,jdbcType=VARCHAR},
+      </if>
+      <if test="img4 != null">
+        #{img4,jdbcType=VARCHAR},
+      </if>
+      <if test="img5 != null">
+        #{img5,jdbcType=VARCHAR},
+      </if>
+      <if test="img6 != null">
+        #{img6,jdbcType=VARCHAR},
+      </if>
+      <if test="img7 != null">
+        #{img7,jdbcType=VARCHAR},
+      </if>
+      <if test="img8 != null">
+        #{img8,jdbcType=VARCHAR},
+      </if>
+      <if test="img9 != null">
+        #{img9,jdbcType=VARCHAR},
+      </if>
+      <if test="img10 != null">
+        #{img10,jdbcType=VARCHAR},
+      </if>
+      <if test="img11 != null">
+        #{img11,jdbcType=VARCHAR},
+      </if>
+      <if test="img12 != null">
+        #{img12,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Environment">
+    update environment
+    <set>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="img1 != null">
+        img1 = #{img1,jdbcType=VARCHAR},
+      </if>
+      <if test="img2 != null">
+        img2 = #{img2,jdbcType=VARCHAR},
+      </if>
+      <if test="img3 != null">
+        img3 = #{img3,jdbcType=VARCHAR},
+      </if>
+      <if test="img4 != null">
+        img4 = #{img4,jdbcType=VARCHAR},
+      </if>
+      <if test="img5 != null">
+        img5 = #{img5,jdbcType=VARCHAR},
+      </if>
+      <if test="img6 != null">
+        img6 = #{img6,jdbcType=VARCHAR},
+      </if>
+      <if test="img7 != null">
+        img7 = #{img7,jdbcType=VARCHAR},
+      </if>
+      <if test="img8 != null">
+        img8 = #{img8,jdbcType=VARCHAR},
+      </if>
+      <if test="img9 != null">
+        img9 = #{img9,jdbcType=VARCHAR},
+      </if>
+      <if test="img10 != null">
+        img10 = #{img10,jdbcType=VARCHAR},
+      </if>
+      <if test="img11 != null">
+        img11 = #{img11,jdbcType=VARCHAR},
+      </if>
+      <if test="img12 != null">
+        img12 = #{img12,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where environment_id = #{environmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.Environment">
+    update environment
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      img1 = #{img1,jdbcType=VARCHAR},
+      img2 = #{img2,jdbcType=VARCHAR},
+      img3 = #{img3,jdbcType=VARCHAR},
+      img4 = #{img4,jdbcType=VARCHAR},
+      img5 = #{img5,jdbcType=VARCHAR},
+      img6 = #{img6,jdbcType=VARCHAR},
+      img7 = #{img7,jdbcType=VARCHAR},
+      img8 = #{img8,jdbcType=VARCHAR},
+      img9 = #{img9,jdbcType=VARCHAR},
+      img10 = #{img10,jdbcType=VARCHAR},
+      img11 = #{img11,jdbcType=VARCHAR},
+      img12 = #{img12,jdbcType=VARCHAR}
+    where environment_id = #{environmentId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findBySchoolId" resultMap="BaseResultMap">
+  	select * from environment where school_id=#{school_id}
+  </select>
+  
+</mapper>

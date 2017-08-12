@@ -407,5 +407,16 @@ public class CoachServiceImpl implements CoachService {
 			return result;
 		}
 	}
+
+	public List<Map<String,Object>> listRecomdCoach(String school_name) {
+		List<Map<String, Object>> result;
+		try {
+			result = coachDao.listRecomdCoach(school_name);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("Êý¾Ý¿âÒì³£");
+		}
+		return result;
+	}
 	
 }

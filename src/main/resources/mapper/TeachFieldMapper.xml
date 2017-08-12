@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.TeachFieldMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.TeachField">
+    <id column="field_id" jdbcType="INTEGER" property="fieldId" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="field_name" jdbcType="VARCHAR" property="fieldName" />
+    <result column="field_address" jdbcType="VARCHAR" property="fieldAddress" />
+    <result column="field_lon" jdbcType="VARCHAR" property="fieldLon" />
+    <result column="field_lat" jdbcType="VARCHAR" property="fieldLat" />
+    <result column="field_distance" jdbcType="VARCHAR" property="fieldDistance" />
+    <result column="field_img" jdbcType="VARCHAR" property="fieldImg" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    field_id, school_id, field_name, field_address, field_lon, field_lat, field_distance, 
+    field_img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teach_field
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from teach_field
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.TeachField">
+    <selectKey keyProperty="fieldId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into teach_field (field_id, school_id, field_name, 
+      field_address, field_lon, field_lat, 
+      field_distance, field_img)
+    values (#{fieldId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{fieldName,jdbcType=VARCHAR}, 
+      #{fieldAddress,jdbcType=VARCHAR}, #{fieldLon,jdbcType=VARCHAR}, #{fieldLat,jdbcType=VARCHAR}, 
+      #{fieldDistance,jdbcType=VARCHAR}, #{fieldImg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.TeachField">
+    <selectKey keyProperty="fieldId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into teach_field
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      field_id,
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="fieldName != null">
+        field_name,
+      </if>
+      <if test="fieldAddress != null">
+        field_address,
+      </if>
+      <if test="fieldLon != null">
+        field_lon,
+      </if>
+      <if test="fieldLat != null">
+        field_lat,
+      </if>
+      <if test="fieldDistance != null">
+        field_distance,
+      </if>
+      <if test="fieldImg != null">
+        field_img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{fieldId,jdbcType=INTEGER},
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="fieldName != null">
+        #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldAddress != null">
+        #{fieldAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLon != null">
+        #{fieldLon,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLat != null">
+        #{fieldLat,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDistance != null">
+        #{fieldDistance,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldImg != null">
+        #{fieldImg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.TeachField">
+    update teach_field
+    <set>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="fieldName != null">
+        field_name = #{fieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldAddress != null">
+        field_address = #{fieldAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLon != null">
+        field_lon = #{fieldLon,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLat != null">
+        field_lat = #{fieldLat,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDistance != null">
+        field_distance = #{fieldDistance,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldImg != null">
+        field_img = #{fieldImg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.TeachField">
+    update teach_field
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      field_name = #{fieldName,jdbcType=VARCHAR},
+      field_address = #{fieldAddress,jdbcType=VARCHAR},
+      field_lon = #{fieldLon,jdbcType=VARCHAR},
+      field_lat = #{fieldLat,jdbcType=VARCHAR},
+      field_distance = #{fieldDistance,jdbcType=VARCHAR},
+      field_img = #{fieldImg,jdbcType=VARCHAR}
+    where field_id = #{fieldId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findBySchoolId" resultType="java.util.Map">
+  	select *,(select count(*) from teach_field where school_id=#{school_id}) as filednum
+  	from teach_field
+  	where school_id=#{school_id}
+  </select>
+</mapper>

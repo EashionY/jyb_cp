@@ -3,6 +3,7 @@ package cn.jyb.service;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import cn.jyb.dao.EnvironmentMapper;
+import cn.jyb.dao.PackageMapper;
 import cn.jyb.dao.SchoolDao;
+import cn.jyb.dao.TeachFieldMapper;
+import cn.jyb.entity.Environment;
 import cn.jyb.entity.School;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.NoSchoolFoundException;
@@ -25,6 +30,15 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Resource
 	private SchoolDao schoolDao;
+	
+	@Resource
+	private TeachFieldMapper teachFieldMapper;
+	
+	@Resource
+	private PackageMapper packageMapper;
+	
+	@Resource
+	private EnvironmentMapper environmentMapper;
 	
 	public boolean updateSchoolBrowse(String school_id) {
 		try {
@@ -188,6 +202,120 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		return true;
 	}
+
+	public Map<String, Object> schoolDetail(int school_id,double lon1,double lat1) {
+		Map<String, Object> school;
+		try {
+			school = schoolDao.schoolDetail(school_id);
+			double lon2 = Double.parseDouble((String)school.get("school_jingdu"));
+			double lat2 = Double.parseDouble((String)school.get("school_weidu"));
+			String distance = Distance.getDistance(lon1, lat1, lon2, lat2);
+			school.put("school_distance", distance);
+			List<Map<String,Object>> fields = teachFieldMapper.findBySchoolId(school_id);
+			for(Map<String,Object> map : fields){
+				double lon3 = Double.parseDouble((String)map.get("field_lon"));
+				double lat3 = Double.parseDouble((String)map.get("field_lat"));
+				String fieldDistance = Distance.getDistance(lon1, lat1, lon3, lat3);
+				map.put("field_distance", fieldDistance);
+			}
+			List<Map<String,Object>> packages = packageMapper.findBySchoolId(school_id);
+			Environment env = environmentMapper.findBySchoolId(school_id);
+			school.put("fields", fields);
+			school.put("packages", packages);
+			school.put("environment",env);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return school;
+	}
+
+	public boolean addEnvironment(HttpServletRequest request, int school_id) throws IOException {
+		List<String> list = Upload.uploadImg(request, ""+school_id, "environment");
+		String[] paths = list.toArray(new String[list.size()]);
+		paths = Arrays.copyOf(paths,12);
+		Environment env = environmentMapper.findBySchoolId(school_id);
+		int i = 0;
+		if(env==null){
+			env = new Environment();
+			env.setSchoolId(school_id);
+			env.setImg1(paths[0]);
+			env.setImg2(paths[1]);
+			env.setImg3(paths[2]);
+			env.setImg4(paths[3]);
+			env.setImg5(paths[4]);
+			env.setImg6(paths[5]);
+			env.setImg7(paths[6]);
+			env.setImg8(paths[7]);
+			env.setImg9(paths[8]);
+			env.setImg10(paths[9]);
+			env.setImg11(paths[10]);
+			env.setImg12(paths[11]);
+			i = environmentMapper.insertSelective(env);
+		}else{
+			env.setImg1(paths[0]);
+			env.setImg2(paths[1]);
+			env.setImg3(paths[2]);
+			env.setImg4(paths[3]);
+			env.setImg5(paths[4]);
+			env.setImg6(paths[5]);
+			env.setImg7(paths[6]);
+			env.setImg8(paths[7]);
+			env.setImg9(paths[8]);
+			env.setImg10(paths[9]);
+			env.setImg11(paths[10]);
+			env.setImg12(paths[11]);
+			i = environmentMapper.updateByPrimaryKey(env);
+		}
+		if(i!=1){
+			throw new SchoolException("教学环境上传失败");
+		}
+		return i==1;
+	}
+
+	public boolean addPackage(Integer school_id, String packageName, String packageType, String packageIntro,
+			String packagePrice, String packageContent) {
+		cn.jyb.entity.Package pkg = new cn.jyb.entity.Package();
+		pkg.setSchoolId(school_id);
+		pkg.setPackageName(packageName);
+		pkg.setPackageType(packageType);
+		pkg.setPackageIntro(packageIntro);
+		pkg.setPackagePrice(packagePrice);
+		pkg.setPackageContent(packageContent);
+		int i = packageMapper.insert(pkg);
+		if(i != 1){
+			throw new SchoolException("增加报名套餐失败");
+		}
+		return i==1;
+	}
+
+	public boolean deletePackage(int packageId) {
+		int i = packageMapper.deleteByPrimaryKey(packageId);
+		if(i!=1){
+			throw new SchoolException("删除报名套餐失败");
+		}
+		return i==1;
+	}
+
+	public boolean modifyPackage(int packageId, int school_id, String packageName, String packageType,
+			String packageIntro, String packagePrice, String packageContent) {
+		cn.jyb.entity.Package pkg = new cn.jyb.entity.Package();
+		pkg.setPackageId(packageId);
+		pkg.setSchoolId(school_id);
+		//如果传过来的为""，则替换为null
+		pkg.setPackageName("".equals(packageName)?null:packageName);
+		pkg.setPackageType("".equals(packageType)?null:packageType);
+		pkg.setPackageIntro("".equals(packageIntro)?null:packageIntro);
+		pkg.setPackagePrice("".equals(packagePrice)?null:packagePrice);
+		pkg.setPackageContent("".equals(packageContent)?null:packageContent);
+		int i = packageMapper.updateByPrimaryKeySelective(pkg);
+		if(i!=1){
+			throw new SchoolException("修改报名套餐失败");
+		}
+		return i==1;
+	}
+	
+	
 
 	
 }

@@ -103,4 +103,53 @@ public interface SchoolService {
 	 * @return
 	 */
 	public boolean deleteSchool(String school_id);
+	
+	/**
+	 * 驾校详情
+	 * @param school_id
+	 * @return
+	 */
+	public Map<String,Object> schoolDetail(int school_id,double lon1,double lat1);
+	
+	/**
+	 * 添加驾校练车环境(后台管理系统)
+	 * @param request
+	 * @param school_id
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean addEnvironment(HttpServletRequest request,int school_id) throws IOException;
+	
+	/**
+	 * 添加驾校报名套餐(后台管理系统)
+	 * @param school_id
+	 * @param packageName
+	 * @param packageType
+	 * @param packageIntro
+	 * @param packagePrice
+	 * @param packageContent
+	 * @return
+	 */
+	public boolean addPackage(Integer school_id,String packageName,String packageType,String packageIntro,String packagePrice,String packageContent);
+	
+	/**
+	 * 删除报名套餐(后台管理系统)
+	 * @param packageId
+	 * @return
+	 */
+	public boolean deletePackage(int packageId);
+	
+	/**
+	 * 修改报名套餐
+	 * @param packageId
+	 * @param school_id
+	 * @param packageName
+	 * @param packageType
+	 * @param packageIntro
+	 * @param packagePrice
+	 * @param packageContent
+	 * @return
+	 */
+	public boolean modifyPackage(int packageId,int school_id,String packageName,String packageType,String packageIntro,
+			String packagePrice,String packageContent);
 }

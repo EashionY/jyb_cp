@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.PackageMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.Package">
+    <id column="package_id" jdbcType="INTEGER" property="packageId" />
+    <result column="school_id" jdbcType="INTEGER" property="schoolId" />
+    <result column="package_name" jdbcType="VARCHAR" property="packageName" />
+    <result column="package_type" jdbcType="VARCHAR" property="packageType" />
+    <result column="package_intro" jdbcType="VARCHAR" property="packageIntro" />
+    <result column="package_price" jdbcType="VARCHAR" property="packagePrice" />
+    <result column="package_content" jdbcType="VARCHAR" property="packageContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    package_id, school_id, package_name, package_type, package_intro, package_price, 
+    package_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from package
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from package
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.Package">
+    <selectKey keyProperty="packageId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into package (package_id, school_id, package_name, 
+      package_type, package_intro, package_price, 
+      package_content)
+    values (#{packageId,jdbcType=INTEGER}, #{schoolId,jdbcType=INTEGER}, #{packageName,jdbcType=VARCHAR}, 
+      #{packageType,jdbcType=VARCHAR}, #{packageIntro,jdbcType=VARCHAR}, #{packagePrice,jdbcType=VARCHAR}, 
+      #{packageContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.Package">
+    <selectKey keyProperty="packageId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into package
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      package_id,
+      <if test="schoolId != null">
+        school_id,
+      </if>
+      <if test="packageName != null">
+        package_name,
+      </if>
+      <if test="packageType != null">
+        package_type,
+      </if>
+      <if test="packageIntro != null">
+        package_intro,
+      </if>
+      <if test="packagePrice != null">
+        package_price,
+      </if>
+      <if test="packageContent != null">
+        package_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{packageId,jdbcType=INTEGER},
+      <if test="schoolId != null">
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="packageName != null">
+        #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="packageType != null">
+        #{packageType,jdbcType=VARCHAR},
+      </if>
+      <if test="packageIntro != null">
+        #{packageIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="packagePrice != null">
+        #{packagePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="packageContent != null">
+        #{packageContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Package">
+    update package
+    <set>
+      <if test="schoolId != null">
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="packageName != null">
+        package_name = #{packageName,jdbcType=VARCHAR},
+      </if>
+      <if test="packageType != null">
+        package_type = #{packageType,jdbcType=VARCHAR},
+      </if>
+      <if test="packageIntro != null">
+        package_intro = #{packageIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="packagePrice != null">
+        package_price = #{packagePrice,jdbcType=VARCHAR},
+      </if>
+      <if test="packageContent != null">
+        package_content = #{packageContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.Package">
+    update package
+    set school_id = #{schoolId,jdbcType=INTEGER},
+      package_name = #{packageName,jdbcType=VARCHAR},
+      package_type = #{packageType,jdbcType=VARCHAR},
+      package_intro = #{packageIntro,jdbcType=VARCHAR},
+      package_price = #{packagePrice,jdbcType=VARCHAR},
+      package_content = #{packageContent,jdbcType=VARCHAR}
+    where package_id = #{packageId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findBySchoolId" resultType="java.util.Map">
+  	select *,(select count(*) from package where school_id=#{school_id}) as packagenum
+  	from package 
+  	where school_id=#{school_id}
+  </select>
+</mapper>

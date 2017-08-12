@@ -71,8 +71,8 @@ public class AlipayServiceImpl implements AlipayService {
 	private static final String SIGN_TYPE = "RSA2";
 	
 	public String sign(String subject,String body,String total_amount,String payer_id,String receiver_id) throws UnsupportedEncodingException {
-		subject = new String(subject.getBytes("ISO-8859-1"), "utf-8");
-		body = new String(body.getBytes("ISO-8859-1"),"utf-8");
+//		subject = new String(subject.getBytes("ISO-8859-1"), "utf-8");
+//		body = new String(body.getBytes("ISO-8859-1"),"utf-8");
 		System.out.println("subject:"+subject+",body:"+body);
 		//实例化客户端
 		AlipayClient alipayClient = new DefaultAlipayClient(URL,APP_ID,APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);

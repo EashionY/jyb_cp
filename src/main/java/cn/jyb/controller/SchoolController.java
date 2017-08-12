@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jyb.entity.School;
 import cn.jyb.service.SchoolService;
+import cn.jyb.service.TeachRecordService;
 import cn.jyb.util.JsonResult;
 @Controller
 @RequestMapping("/school")
@@ -22,6 +23,9 @@ public class SchoolController extends ExceptionController {
 
 	@Resource
 	private SchoolService schoolService;
+	
+	@Resource
+	private TeachRecordService teachRecordService;
 	
 	/**
 	 * 更新驾校的浏览数
@@ -140,5 +144,62 @@ public class SchoolController extends ExceptionController {
 		boolean tf = schoolService.modifySchoolLogo(request, school_name);
 		return new JsonResult(tf);
 	}
+	
+	@RequestMapping("/schoolDetail")
+	@ResponseBody
+	public JsonResult schoolDetail(int school_id,double lon1,double lat1){
+		Map<String,Object> result = schoolService.schoolDetail(school_id, lon1, lat1);
+		return new JsonResult(result);
+	}
+	
+	/**
+	 * 后台管理系统：添加教学环境
+	 * @param request
+	 * @param response
+	 * @param school_id
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/addEnvironment")
+	@ResponseBody
+	public JsonResult addEnvironment(HttpServletRequest request,HttpServletResponse response,int school_id) throws IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.addEnvironment(request, school_id);
+		return new JsonResult(tf);
+	}
+	
+	@RequestMapping("/listSchoolEval")
+	@ResponseBody
+	public JsonResult listSchoolEval(String school_name, int evaltype, int page, int pageSize){
+		Map<String, Object> result = teachRecordService.listSchoolEval(school_name, evaltype, page, pageSize);
+		return new JsonResult(result);
+	}
+	
+	@RequestMapping("/addPackage")
+	@ResponseBody
+	public JsonResult addPackage(HttpServletResponse response,Integer school_id, String packageName, String packageType, String packageIntro,
+			String packagePrice, String packageContent){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.addPackage(school_id, packageName, packageType, packageIntro, packagePrice, packageContent);
+		return new JsonResult(tf);
+	}
+	
+	@RequestMapping("/deletePackage")
+	@ResponseBody
+	public JsonResult deletePackage(HttpServletResponse response,int packageId){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.deletePackage(packageId);
+		return new JsonResult(tf);
+	}
+	
+	@RequestMapping("/modifyPackage")
+	@ResponseBody
+	public JsonResult modifyPackage(HttpServletResponse response,int packageId,int school_id, String packageName, String packageType, String packageIntro,
+			String packagePrice, String packageContent){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.modifyPackage(packageId, school_id, packageName, packageType, packageIntro, packagePrice, packageContent);
+		return new JsonResult(tf);
+	}
+	
 	
 }

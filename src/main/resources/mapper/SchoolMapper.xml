@@ -87,6 +87,10 @@
 	<update id="modifySchoolLogo" parameterType="string">
 		UPDATE school SET school_logo=#{school_logo} WHERE school_name=#{school_name}
 	</update>	
+	
+	<select id="schoolDetail" resultType="java.util.Map">
+		SELECT * FROM school WHERE school_id=#{school_id}
+	</select>
 </mapper>
 
 

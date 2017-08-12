@@ -119,4 +119,9 @@ public class TestCase {
 			System.out.println(map.get("appoint_time"));
 		}
 	}
+	
+	@Test
+	public void test12(){
+		System.out.println("".equals(null));
+	}
 }

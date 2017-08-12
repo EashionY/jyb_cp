@@ -41,13 +41,16 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 	
 	@Resource
 	private UserDao userDao;
+	
+	@Resource
+	private CoachService coachService;
 
 	public boolean addTeachRecord(int student_id, int coach_id, String teach_subject, String teach_time,
 			String teach_field, String shuttle, String shuttle_time, String shuttle_place, String tips) throws UnsupportedEncodingException{
-		teach_subject = new String(teach_subject.getBytes("ISO-8859-1"),"utf-8");
-		teach_field = new String(teach_field.getBytes("ISO-8859-1"),"utf-8");
-		shuttle_place = new String(shuttle_place.getBytes("ISO-8859-1"),"utf-8");
-		tips = new String(tips.getBytes("ISO-8859-1"),"utf-8");
+//		teach_subject = new String(teach_subject.getBytes("ISO-8859-1"),"utf-8");
+//		teach_field = new String(teach_field.getBytes("ISO-8859-1"),"utf-8");
+//		shuttle_place = new String(shuttle_place.getBytes("ISO-8859-1"),"utf-8");
+//		tips = new String(tips.getBytes("ISO-8859-1"),"utf-8");
 		TeachRecord record = new TeachRecord();
 		record.setStudent_id(student_id);
 		record.setCoach_id(coach_id);
@@ -178,7 +181,7 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 	}
 
 	public boolean addEvaluation(int teach_id, String evaluation, int evaltype, int evalstar) throws UnsupportedEncodingException{
-		evaluation = new String(evaluation.getBytes("ISO-8859-1"),"utf-8");
+//		evaluation = new String(evaluation.getBytes("ISO-8859-1"),"utf-8");
 //		System.out.println("评价内容："+evaluation);
 		TeachRecord record = teachRecordDao.findByTeachId(teach_id);
 		if(record==null){
@@ -231,7 +234,7 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 			throw new EvalException("未找到相关数据");
 		}
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>();
-		DateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		for(TeachRecord record : list){
 			Map<String,String> map = new HashMap<String, String>();
 			Student student = studentDao.findById(student_id);
@@ -396,11 +399,8 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 			list = teachRecordDao.findTeachEvaluations(coach_id, evaltype, offset, pageSize);
 		}
 		System.out.println("list:"+list);
-		if(list==null){
-			throw new TeachRecordException("未找到相关数据");
-		}
 		List<Map<String,String>> result = new ArrayList<Map<String,String>>();
-		DateFormat df = new SimpleDateFormat("MM-dd HH:mm");
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		for(TeachRecord record : list){
 			Map<String,String> map = new HashMap<String, String>();
 			int student_id = record.getStudent_id();
@@ -483,6 +483,40 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 			throw new DataBaseException("数据库异常");
 		}
 		return result;
+	}
+
+	public Map<String, Object> listSchoolEval(String school_name, int evaltype, int page, int pageSize) {
+		List<Map<String,String>> evals = new ArrayList<Map<String,String>>();
+		List<Map<String, Object>> list = coachService.listRecomdCoach(school_name);
+		//全部评价条数
+		int all = 0;
+		//好评条数
+		int good = 0;
+		//中评条数
+		int medium = 0;
+		//差评条数
+		int worse = 0;
+		try {
+			for(Map<String,Object> coach : list){
+				int coach_id = (Integer) coach.get("coach_id");
+				//将每个教练获得的评价，添加到驾校评价里面
+				evals.addAll(findTeachEvaluations(coach_id, evaltype, page, pageSize));
+				all += teachRecordDao.findTeachEvaluationNumber(coach_id);
+				good += teachRecordDao.findTeachEvaluationNumByType(coach_id, 1);
+				medium += teachRecordDao.findTeachEvaluationNumByType(coach_id, 2);
+				worse += teachRecordDao.findTeachEvaluationNumByType(coach_id, 3);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("all", all);
+		map.put("good", good);
+		map.put("medium", medium);
+		map.put("worse", worse);
+		map.put("evalList", evals);
+		return map;
 	}
 	
 	

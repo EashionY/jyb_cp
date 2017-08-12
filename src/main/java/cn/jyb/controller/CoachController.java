@@ -114,5 +114,12 @@ public class CoachController extends ExceptionController {
 		return new JsonResult(result);
 	}
 	
+	@RequestMapping("/listRecomdCoach")
+	@ResponseBody
+	public JsonResult listRecomdCoach(String school_name){
+		List<Map<String, Object>> result = coachService.listRecomdCoach(school_name);
+		return new JsonResult(result);
+	}
+	
 	
 }
