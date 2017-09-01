@@ -19,6 +19,7 @@ import cn.jyb.entity.Coach;
 import cn.jyb.entity.User;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.NoCoachFoundException;
+import cn.jyb.exception.NoUserFoundException;
 import cn.jyb.exception.NumberParseException;
 import cn.jyb.util.Distance;
 import cn.jyb.util.Message;
@@ -69,6 +70,9 @@ public class CoachServiceImpl implements CoachService {
 			//获取教练头像路径
 			int user_id = coach.getUser_id();
 			User user = userDao.findById(user_id);
+			if(user==null){
+				throw new NoUserFoundException("user_id不存在");
+			}
 			String headImg = user.getImgpath();
 			int coach_id = coach.getCoach_id();
 			//获取约教数

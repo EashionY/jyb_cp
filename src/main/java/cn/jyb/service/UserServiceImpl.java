@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(AccountUtil.md5(password));
 		user.setRole(role);
 		//设置默认头像为应用logo
-		String headImg = "http://39.108.73.207/img/default/logo.png";
+		String headImg = "http://39.108.73.207/img/default/head.png";
 		user.setImgpath(headImg);
 		int i = userDao.save(user);
 		if(i!=1){

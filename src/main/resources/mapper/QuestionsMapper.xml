@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.QuestionsMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.Questions">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="option1" jdbcType="VARCHAR" property="option1" />
+    <result column="option2" jdbcType="VARCHAR" property="option2" />
+    <result column="option3" jdbcType="VARCHAR" property="option3" />
+    <result column="option4" jdbcType="VARCHAR" property="option4" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="explain" jdbcType="VARCHAR" property="explain" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="chapter" jdbcType="VARCHAR" property="chapter" />
+    <result column="subject" jdbcType="BIT" property="subject" />
+    <result column="creatime" jdbcType="TIMESTAMP" property="creatime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, question, option1, option2, option3, option4, answer, explain, pic, type, chapter, 
+    subject, creatime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from questions
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from questions
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.Questions">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into questions (id, question, option1, 
+      option2, option3, option4, 
+      answer, `explain`, pic, 
+      type, chapter, subject, 
+      creatime)
+    values (#{id,jdbcType=INTEGER}, #{question,jdbcType=VARCHAR}, #{option1,jdbcType=VARCHAR}, 
+      #{option2,jdbcType=VARCHAR}, #{option3,jdbcType=VARCHAR}, #{option4,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{explain,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{chapter,jdbcType=VARCHAR}, #{subject,jdbcType=BIT}, 
+      #{creatime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.Questions">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into questions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="question != null">
+        question,
+      </if>
+      <if test="option1 != null">
+        option1,
+      </if>
+      <if test="option2 != null">
+        option2,
+      </if>
+      <if test="option3 != null">
+        option3,
+      </if>
+      <if test="option4 != null">
+        option4,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="explain != null">
+        `explain`,
+      </if>
+      <if test="pic != null">
+        pic,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="chapter != null">
+        chapter,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="creatime != null">
+        creatime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="question != null">
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null">
+        #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null">
+        #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null">
+        #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null">
+        #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null">
+        #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="chapter != null">
+        #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=BIT},
+      </if>
+      <if test="creatime != null">
+        #{creatime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Questions">
+    update questions
+    <set>
+      <if test="question != null">
+        question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="option1 != null">
+        option1 = #{option1,jdbcType=VARCHAR},
+      </if>
+      <if test="option2 != null">
+        option2 = #{option2,jdbcType=VARCHAR},
+      </if>
+      <if test="option3 != null">
+        option3 = #{option3,jdbcType=VARCHAR},
+      </if>
+      <if test="option4 != null">
+        option4 = #{option4,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="explain != null">
+        explain = #{explain,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="chapter != null">
+        chapter = #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=BIT},
+      </if>
+      <if test="creatime != null">
+        creatime = #{creatime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.Questions">
+    update questions
+    set question = #{question,jdbcType=VARCHAR},
+      option1 = #{option1,jdbcType=VARCHAR},
+      option2 = #{option2,jdbcType=VARCHAR},
+      option3 = #{option3,jdbcType=VARCHAR},
+      option4 = #{option4,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      explain = #{explain,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      chapter = #{chapter,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=BIT},
+      creatime = #{creatime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <insert id="saveQuestion" parameterType="cn.jyb.entity.Questions">
+  	INSERT INTO questions(question, option1, option2, option3, option4, 
+      answer, `explain`, pic, type, chapter, subject)
+    VALUES(#{question,jdbcType=VARCHAR}, #{option1,jdbcType=VARCHAR}, 
+      #{option2,jdbcType=VARCHAR}, #{option3,jdbcType=VARCHAR}, #{option4,jdbcType=VARCHAR}, 
+      #{answer,jdbcType=VARCHAR}, #{explain,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{chapter,jdbcType=VARCHAR}, #{subject,jdbcType=BIT})
+  </insert>
+</mapper>

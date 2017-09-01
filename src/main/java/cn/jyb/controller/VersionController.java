@@ -9,7 +9,7 @@ import cn.jyb.util.Version;
 
 @Controller()
 @RequestMapping("/version")
-public class VersionController {
+public class VersionController extends ExceptionController{
 
 	@RequestMapping("/getVersion")
 	@ResponseBody

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.Admin">
+    <id column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="privil" jdbcType="BIT" property="privil" />
+    <result column="admin_status" jdbcType="BIT" property="adminStatus" />
+    <result column="creatime" jdbcType="TIMESTAMP" property="creatime" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_id, account, password, privil, admin_status, creatime, school
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from admin
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.Admin">
+    <selectKey keyProperty="adminId" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin (admin_id, account, password, 
+      privil, admin_status, creatime, 
+      school)
+    values (#{adminId,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{privil,jdbcType=BIT}, #{adminStatus,jdbcType=BIT}, #{creatime,jdbcType=TIMESTAMP}, 
+      #{school,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.Admin">
+    <selectKey keyProperty="adminId" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      admin_id,
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="privil != null">
+        privil,
+      </if>
+      <if test="adminStatus != null">
+        admin_status,
+      </if>
+      <if test="creatime != null">
+        creatime,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{adminId,jdbcType=INTEGER},
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="privil != null">
+        #{privil,jdbcType=BIT},
+      </if>
+      <if test="adminStatus != null">
+        #{adminStatus,jdbcType=BIT},
+      </if>
+      <if test="creatime != null">
+        #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Admin">
+    update admin
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="privil != null">
+        privil = #{privil,jdbcType=BIT},
+      </if>
+      <if test="adminStatus != null">
+        admin_status = #{adminStatus,jdbcType=BIT},
+      </if>
+      <if test="creatime != null">
+        creatime = #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.Admin">
+    update admin
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      privil = #{privil,jdbcType=BIT},
+      admin_status = #{adminStatus,jdbcType=BIT},
+      creatime = #{creatime,jdbcType=TIMESTAMP},
+      school = #{school,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from admin where account=#{account,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listAdmins" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from admin
+  	<if test="privil != null">
+  	where privil=#{privil,jdbcType=BIT}
+  	</if>
+  </select>
+</mapper>

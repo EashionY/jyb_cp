@@ -82,6 +82,15 @@ public interface SchoolService {
 	public boolean modifySchoolLogo(HttpServletRequest request,String school_name) throws IOException;
 	
 	/**
+	 * 修改驾校的营业执照(后台管理系统)
+	 * @param request
+	 * @param school_name
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean modifySchoolLicense(HttpServletRequest request,String school_name) throws IOException;
+	
+	/**
 	 * 通过驾校名搜索驾校（后台管理系统）
 	 * @param school_name
 	 * @return
@@ -152,4 +161,44 @@ public interface SchoolService {
 	 */
 	public boolean modifyPackage(int packageId,int school_id,String packageName,String packageType,String packageIntro,
 			String packagePrice,String packageContent);
+	
+	/**
+	 * 添加训练场地(后台管理系统)
+	 * @param school_id
+	 * @param fieldName
+	 * @param fieldAddress
+	 * @param fieldLon
+	 * @param fieldLat
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean addTeachField(Integer school_id,String school_name,String fieldName,String fieldAddress,String fieldLon,String fieldLat,HttpServletRequest request) throws IOException;
+	
+	/**
+	 * 修改训练场地信息（后台管理系统）
+	 * @param fieldId
+	 * @param fieldName
+	 * @param fieldAddress
+	 * @param fieldLon
+	 * @param fieldLat
+	 * @return
+	 */
+	public boolean modifyTeachFieldInfo(Integer fieldId,String school_name,String fieldName,String fieldAddress,String fieldLon,String fieldLat,HttpServletRequest request) throws IOException;
+	
+	/**
+	 * 删除训练场地(后台管理系统)
+	 * @param fieldId
+	 * @return
+	 */
+	public boolean deleteTeachField(Integer fieldId);
+	
+	/**
+	 * 审核驾校
+	 * @param school_id
+	 * @param schoolStatus
+	 * @return
+	 */
+	public Integer dealSchool(Integer school_id,Integer schoolStatus);
+	
 }

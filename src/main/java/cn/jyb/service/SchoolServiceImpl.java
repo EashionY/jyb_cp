@@ -19,6 +19,7 @@ import cn.jyb.dao.SchoolDao;
 import cn.jyb.dao.TeachFieldMapper;
 import cn.jyb.entity.Environment;
 import cn.jyb.entity.School;
+import cn.jyb.entity.TeachField;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.NoSchoolFoundException;
 import cn.jyb.exception.SchoolException;
@@ -98,6 +99,7 @@ public class SchoolServiceImpl implements SchoolService {
 		List<String> paths = Upload.uploadImg(request, "logos", school_name);
 		if(!paths.isEmpty()){
 			newSchool.setSchool_logo(paths.get(0));
+			newSchool.setSchool_license(paths.get(1));
 		}
 		newSchool.setSchool_name(school_name);
 		newSchool.setSchool_address(school_address);
@@ -107,6 +109,7 @@ public class SchoolServiceImpl implements SchoolService {
 		newSchool.setSchool_price(Integer.parseInt(school_price));
 		newSchool.setSchool_tel(school_tel);
 		newSchool.setSchool_area(school_area);
+		newSchool.setSchool_status(0);
 		try {
 			schoolDao.save(newSchool);
 		} catch (Exception e) {
@@ -156,10 +159,26 @@ public class SchoolServiceImpl implements SchoolService {
 		try {
 			i = schoolDao.modifySchoolLogo(school_logo,school_name);
 		} catch (Exception e) {
-			throw new DataBaseException("修改logo失败");
+			throw new DataBaseException("数据库异常");
 		}
 		if(i!=1){
 			throw new SchoolException("修改logo失败");
+		}
+		return true;
+	}
+	
+	public boolean modifySchoolLicense(HttpServletRequest request,String school_name) throws IOException{
+		List<String> paths = Upload.uploadImg(request, "logos", school_name);
+		String school_license = paths.get(0);
+		System.out.println(school_license);
+		int i;
+		try {
+			i = schoolDao.modifySchoolLicense(school_license,school_name);
+		} catch (Exception e) {
+			throw new DataBaseException("数据库异常");
+		}
+		if(i!=1){
+			throw new SchoolException("修改营业执照失败");
 		}
 		return true;
 	}
@@ -316,6 +335,65 @@ public class SchoolServiceImpl implements SchoolService {
 			throw new SchoolException("修改报名套餐失败");
 		}
 		return i==1;
+	}
+
+	public boolean addTeachField(Integer school_id,String school_name, String fieldName, String fieldAddress, String fieldLon,
+			String fieldLat, HttpServletRequest request) throws IOException {
+		TeachField teachField = new TeachField();
+		//上传场地的封面
+		List<String> paths = Upload.uploadImg(request, "logos", school_name);
+		if(!paths.isEmpty()){
+			String fieldImg = paths.get(0); 
+			teachField.setFieldImg(fieldImg);
+		}
+		teachField.setSchoolId(school_id);
+		teachField.setFieldName(fieldName);
+		teachField.setFieldAddress(fieldAddress);
+		teachField.setFieldLon(fieldLon);
+		teachField.setFieldLat(fieldLat);
+		int i = teachFieldMapper.insertSelective(teachField);
+		if(i!=1){
+			throw new SchoolException("新增训练场地失败");
+		}
+		return i==1;
+	}
+
+	public boolean modifyTeachFieldInfo(Integer fieldId, String school_name, String fieldName, String fieldAddress, String fieldLon, String fieldLat,HttpServletRequest request) throws IOException {
+		TeachField teachField = new TeachField();
+		//上传场地的封面
+		List<String> paths = Upload.uploadImg(request, "logos", school_name);
+		if(!paths.isEmpty()){
+			String fieldImg = paths.get(0); 
+			teachField.setFieldImg(fieldImg);
+		}
+		teachField.setFieldName(fieldName);
+		teachField.setFieldAddress(fieldAddress);
+		teachField.setFieldLon(fieldLon);
+		teachField.setFieldLat(fieldLat);
+		int i = teachFieldMapper.updateByPrimaryKeySelective(teachField);
+		if(i!=1){
+			throw new SchoolException("修改训练场地信息失败");
+		}
+		return i==1;
+	}
+
+	public boolean deleteTeachField(Integer fieldId) {
+		int i = teachFieldMapper.deleteByPrimaryKey(fieldId);
+		if(i!=1){
+			throw new SchoolException("删除训练场地失败");
+		}
+		return i==1;
+	}
+
+	public Integer dealSchool(Integer school_id, Integer schoolStatus) {
+		School school = new School();
+		school.setSchool_id(school_id);
+		school.setSchool_status(schoolStatus);
+		int i = schoolDao.updateByPrimaryKeySelective(school);
+		if(i!=1){
+			throw new SchoolException("审核失败");
+		}
+		return schoolStatus;
 	}
 	
 	

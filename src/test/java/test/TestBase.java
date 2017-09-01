@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class TestBase {
 
 	public ApplicationContext getContext(){
-		String[] conf = {"conf/spring-mybatis.xml"};
+		String[] conf = {"conf/spring-mvc.xml","conf/spring-mybatis.xml"};
 		ApplicationContext ac = new ClassPathXmlApplicationContext(conf);
 		return ac;
 	}

@@ -108,4 +108,19 @@ public interface SchoolDao {
 	 * @return
 	 */
 	public Map<String,Object> schoolDetail(int school_id);
+	
+	/**
+	 * 修改驾校的营业执照
+	 * @param school_license
+	 * @param school_name
+	 * @return
+	 */
+	public int modifySchoolLicense(@Param("school_license")String school_license,@Param("school_name")String school_name);
+	
+	/**
+	 * 根据主键选择性更新数据
+	 * @param school
+	 * @return
+	 */
+	public int updateByPrimaryKeySelective(School school);
 }

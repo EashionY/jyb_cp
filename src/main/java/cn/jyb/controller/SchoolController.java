@@ -145,6 +145,14 @@ public class SchoolController extends ExceptionController {
 		return new JsonResult(tf);
 	}
 	
+	@RequestMapping(value="/modifySchoolLicense")
+	@ResponseBody
+	public JsonResult modifySchoolLicense(HttpServletRequest request,HttpServletResponse response,String school_name) throws IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.modifySchoolLicense(request, school_name);
+		return new JsonResult(tf);
+	}
+	
 	/**
 	 * 驾校详情（前后端通用）
 	 * @param response
@@ -210,5 +218,37 @@ public class SchoolController extends ExceptionController {
 		return new JsonResult(tf);
 	}
 	
+	@RequestMapping("/addTeachField")
+	@ResponseBody
+	public JsonResult addTeachField(Integer school_id,String school_name, String fieldName, String fieldAddress, String fieldLon,
+			String fieldLat, HttpServletRequest request, HttpServletResponse response) throws IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.addTeachField(school_id, school_name, fieldName, fieldAddress, fieldLon, fieldLat, request);
+		return new JsonResult(tf);
+	}
 	
+	@RequestMapping("/modifyTeachFieldInfo")
+	@ResponseBody
+	public JsonResult modifyTeachFieldInfo(Integer fieldId, String school_name, String fieldName, String fieldAddress, String fieldLon, String fieldLat,
+			HttpServletRequest request, HttpServletResponse response) throws IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.modifyTeachFieldInfo(fieldId, school_name, fieldName, fieldAddress, fieldLon, fieldLat, request);
+		return new JsonResult(tf);
+	}
+	
+	@RequestMapping("/deleteTeachField")
+	@ResponseBody
+	public JsonResult deleteTeachField(Integer fieldId, HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.deleteTeachField(fieldId);
+		return new JsonResult(tf);
+	}
+	
+	@RequestMapping("/dealSchool")
+	@ResponseBody
+	public JsonResult dealSchool(Integer school_id, Integer schoolStatus, HttpServletResponse response){
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		Integer result = schoolService.dealSchool(school_id, schoolStatus);
+		return new JsonResult(result);
+	}
 }

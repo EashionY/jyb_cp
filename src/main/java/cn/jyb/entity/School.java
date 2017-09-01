@@ -29,27 +29,12 @@ public class School implements Serializable{
 	//驾校电话 
 	private String school_tel;  
 	//驾校所在地区
-	private String  school_area; 
+	private String school_area; 
+	//驾校状态（0未过审，1过审）
+	private Integer school_status;
+	//驾校营业执照
+	private String school_license;
 	
-	public School() {
-		
-	}
-	
-	public School(int school_id, String school_logo, String school_name, String school_address, String school_slogan,
-			String school_distance, String school_jingdu, String school_weidu, int school_browse, int school_price) {
-		super();
-		this.school_id = school_id;
-		this.school_logo = school_logo;
-		this.school_name = school_name;
-		this.school_address = school_address;
-		this.school_slogan = school_slogan;
-		this.school_distance = school_distance;
-		this.school_jingdu = school_jingdu;
-		this.school_weidu = school_weidu;
-		this.school_browse = school_browse;
-		this.school_price = school_price;
-	}
-
 	public int getSchool_id() {
 		return school_id;
 	}
@@ -123,6 +108,19 @@ public class School implements Serializable{
 		this.school_area = school_area;
 	}
 
+	public Integer getSchool_status() {
+		return school_status;
+	}
+	public void setSchool_status(Integer school_status) {
+		this.school_status = school_status;
+	}
+	public String getSchool_license() {
+		return school_license;
+	}
+	public void setSchool_license(String school_license) {
+		this.school_license = school_license;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -149,7 +147,8 @@ public class School implements Serializable{
 				+ ", school_address=" + school_address + ", school_slogan=" + school_slogan + ", school_distance="
 				+ school_distance + ", school_jingdu=" + school_jingdu + ", school_weidu=" + school_weidu
 				+ ", school_browse=" + school_browse + ", school_price=" + school_price + ", school_tel=" + school_tel
-				+ ", school_area=" + school_area + "]";
+				+ ", school_area=" + school_area + ", school_status=" + school_status + ", school_license="
+				+ school_license + "]";
 	}
 
 }

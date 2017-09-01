@@ -18,10 +18,10 @@
     <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
     <!-- 生成Dao类存放位置 -->
     <javaClientGenerator targetPackage="cn.jyb.dao" targetProject="src/main/java" type="XMLMAPPER" />
-    <table schema="jyb" tableName="environment" domainObjectName="Environment" enableCountByExample="false" 
+    <table schema="jyb" tableName="admin" domainObjectName="Admin" enableCountByExample="false" 
     	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
     	 selectByExampleQueryId="false">
-      <generatedKey column="environment_id" sqlStatement="Mysql"/>
+      <generatedKey column="admin_id" sqlStatement="Mysql"/>
     </table>
   </context>
 </generatorConfiguration>

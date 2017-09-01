@@ -16,7 +16,9 @@
 			school_weidu,
 			school_price,
 			school_tel,
-			school_area)
+			school_area,
+			school_status,
+			school_license)
 		VALUES(
 			#{school_logo},
 			#{school_name},
@@ -26,7 +28,9 @@
 			#{school_weidu},
 			#{school_price},
 			#{school_tel},
-			#{school_area})
+			#{school_area},
+			#{school_status},
+			#{school_license})
 	</insert>
 	
 	<!-- 更新驾校被浏览数 -->
@@ -44,15 +48,15 @@
 	</select>
 	
 	<select id="findSchoolByDistance" resultType="cn.jyb.entity.School">
-		SELECT * FROM school WHERE school_area=#{2} ORDER BY school_distance LIMIT #{0},#{1}
+		SELECT * FROM school WHERE school_area=#{2} AND school_status=1 ORDER BY school_distance LIMIT #{0},#{1}
 	</select>
 	
 	<select id="findSchool" resultType="cn.jyb.entity.School">
-		SELECT * FROM school WHERE school_area=#{2} LIMIT #{0},#{1}
+		SELECT * FROM school WHERE school_area=#{2} AND school_status=1 LIMIT #{0},#{1}
 	</select>
 	
 	<select id="findSchoolByBrowse" resultType="cn.jyb.entity.School">
-		SELECT * FROM school WHERE school_area=#{2} ORDER BY school_browse DESC LIMIT #{0},#{1}
+		SELECT * FROM school WHERE school_area=#{2} AND school_status=1 ORDER BY school_browse DESC LIMIT #{0},#{1}
 	</select>
 	
 	<select id="findSchoolByName" parameterType="String" resultType="cn.jyb.entity.School">
@@ -68,7 +72,8 @@
 			school_weidu=#{school_weidu},
 			school_price=#{school_price},
 			school_tel=#{school_tel},
-			school_area=#{school_area}
+			school_area=#{school_area},
+			school_status=0
 		WHERE school_id=#{school_id}
 	</update>
 	
@@ -81,7 +86,7 @@
 	</delete>
 	
 	<select id="getSchoolNum" resultType="int">
-		SELECT count(*) FROM school WHERE school_area=#{school_area}
+		SELECT count(*) FROM school WHERE school_area=#{school_area} AND school_status=1
 	</select>
 
 	<update id="modifySchoolLogo" parameterType="string">
@@ -91,6 +96,56 @@
 	<select id="schoolDetail" resultType="java.util.Map">
 		SELECT * FROM school WHERE school_id=#{school_id}
 	</select>
+	
+	<update id="modifySchoolLicense">
+		UPDATE school SET school_license=#{school_license} WHERE school_name=#{school_name}
+	</update>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.School">
+		UPDATE school
+		<set>
+		<if test="school_logo != null">
+			school_logo=#{school_logo},
+		</if>
+		<if test="school_name != null">
+			school_name=#{school_name},
+		</if>
+		<if test="school_address != null">
+			school_address=#{school_address},
+		</if>
+		<if test="school_slogan != null">
+			school_slogan=#{school_slogan},
+		</if>
+		<if test="school_distance != null">
+			school_distance=#{school_distance},
+		</if>
+		<if test="school_jingdu != null">
+			school_jingdu=#{school_jingdu},
+		</if>
+		<if test="school_weidu != null">
+			school_weidu=#{school_weidu},
+		</if>
+		<if test="school_browse != null">
+			school_browse=#{school_browse},
+		</if>
+		<if test="school_price != null">
+			school_price=#{school_price},
+		</if>
+		<if test="school_tel != null">
+			school_tel=#{school_tel},
+		</if>
+		<if test="school_area != null">
+			school_area=#{school_area},
+		</if>
+		<if test="school_status != null">
+			school_status=#{school_status},
+		</if>
+		<if test="school_license != null">
+			school_license=#{school_license},
+		</if>
+		</set>
+		WHERE school_id=#{school_id}
+	</update>
 </mapper>
 
 
