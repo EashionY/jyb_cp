@@ -146,11 +146,18 @@
 	</select>
 	
 	<select id="listAllTeachRecord" resultType="cn.jyb.entity.TeachRecord">
-		SELECT * FROM teach_record ORDER BY creatime DESC LIMIT #{offset},#{pageSize}
+		SELECT * FROM teach_record 
+		<if test="teach_subject != null and teach_subject != ''">
+		where teach_subject=#{teach_subject}
+		</if>
+		ORDER BY creatime DESC LIMIT #{offset},#{pageSize}
 	</select>
 	
 	<select id="getTeachRecordNum" resultType="int">
 		SELECT COUNT(*) FROM teach_record
+		<if test="teach_subject != null and teach_subject != ''">
+		where teach_subject=#{teach_subject}
+		</if>
 	</select>
 	
 	<select id="findRecordByCoachName" resultType="map">
@@ -169,6 +176,12 @@
 		SELECT c.coach_name,s.student_name,t.*
 		FROM teach_record t,coach c,student s
 		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND t.teach_time LIKE #{teach_time}
+	</select>
+	
+	<select id="findRecordBySubject" resultType="map">
+		SELECT c.coach_name,s.student_name,t.*
+		FROM teach_record t,coach c,student s
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND t.teach_subject=#{teach_subject}
 	</select>
 </mapper>
 

@@ -27,7 +27,7 @@ public class Orders implements Serializable {
 	private Timestamp creatime;
 	//结束时间
 	private Timestamp finishtime;
-	//交易状态
+	//交易状态(支付成功TRADE_SUCCESS,交易创建WAIT_BUYER_PAY,交易关闭TRADE_CLOSED,交易完结TRADE_FINISHED)
 	private String trade_status;
 	//支付方用户id
 	private int payer_id;

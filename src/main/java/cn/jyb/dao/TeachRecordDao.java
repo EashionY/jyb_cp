@@ -154,13 +154,13 @@ public interface TeachRecordDao {
 	 * @param pageSize
 	 * @return
 	 */
-	public List<TeachRecord> listAllTeachRecord(@Param("offset")int offset,@Param("pageSize")int pageSize);
+	public List<TeachRecord> listAllTeachRecord(@Param("teach_subject")String teach_subject,@Param("offset")int offset,@Param("pageSize")int pageSize);
 	
 	/**
 	 * 获得所有约教记录条数
 	 * @return
 	 */
-	public int getTeachRecordNum();
+	public int getTeachRecordNum(@Param("teach_subject")String teach_subject);
 	
 	/**
 	 * 通过教练名查找记录(后台，模糊查询)
@@ -182,4 +182,11 @@ public interface TeachRecordDao {
 	 * @return
 	 */
 	public List<Map<String,Object>> findRecordByTeachTime(String teach_time);
+	
+	/**
+	 * 通过约教科目查找记录(后台，科目二或者科目三)
+	 * @param teach_subject
+	 * @return
+	 */
+	public List<Map<String,Object>> findRecordBySubject(String teach_subject);
 }

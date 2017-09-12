@@ -36,10 +36,10 @@ public class CoachController extends ExceptionController {
 			String coach_birthday,String school_name, String school_address,String train_field,
 			String field_jingdu,String field_weidu,String coach_license,String coach_car,
 			String coach_area,HttpServletRequest request) throws NumberFormatException, IOException{
-		Coach coach = coachService.insertCoach(Integer.parseInt(user_id), phone, coach_name, coach_sex,
+		coachService.insertCoach(Integer.parseInt(user_id), phone, coach_name, coach_sex,
 				coach_birthday, school_name, school_address, train_field, field_jingdu, field_weidu,
 				coach_license,coach_car,coach_area, request);
-		return new JsonResult(coach);
+		return new JsonResult("");
 	}
 	
 	@RequestMapping("/teachSet")
@@ -121,5 +121,18 @@ public class CoachController extends ExceptionController {
 		return new JsonResult(result);
 	}
 	
+	@RequestMapping("/findByUserId")
+	@ResponseBody
+	public JsonResult findByUserId(Integer user_id){
+		Coach coach = coachService.findByUserId(user_id);
+		return new JsonResult(coach);
+	}
 	
+	@RequestMapping("/listBySchool")
+	@ResponseBody
+	public JsonResult listBySchool(HttpServletResponse resp,String school_name,String coach_status,Integer page,Integer pageSize){
+		resp.setHeader("Access-Control-Allow-Origin", "*");
+		List<Map<String, Object>> result = coachService.listBySchool(school_name, coach_status,page,pageSize);
+		return new JsonResult(result);
+	}
 }

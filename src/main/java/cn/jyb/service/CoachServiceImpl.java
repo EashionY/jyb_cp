@@ -63,9 +63,6 @@ public class CoachServiceImpl implements CoachService {
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		Map<String,Object> map = new HashMap<String, Object>();
 		List<Coach> coachs = coachDao.hotCoach(offset,pageSize, coach_area); 
-		if(coachs==null || coachs.isEmpty()){
-			throw new NoCoachFoundException("未找到相关数据");
-		}
 		for(Coach coach : coachs){
 			//获取教练头像路径
 			int user_id = coach.getUser_id();
@@ -88,38 +85,69 @@ public class CoachServiceImpl implements CoachService {
 		return result;
 	}
 
-	public Coach insertCoach(int user_id,String phone,String coach_name,String coach_sex,
+	public void insertCoach(int user_id,String phone,String coach_name,String coach_sex,
 			String coach_birthday,String school_name, String school_address,
 			String train_field,String field_jingdu,String field_weidu,
 			String coach_license, String coach_car, String coach_area, HttpServletRequest request) throws IOException{
+		Coach coach = coachDao.findByUserId(user_id);
 		String folder = "qualification";
 		List<String> paths = Upload.uploadImg(request, phone, folder);
-		Coach coach = new Coach();
-		if(!paths.isEmpty()){
-			coach.setCoach_qualification(paths.get(0));
-			coach.setCoach_idcardfront(paths.get(1));
-			coach.setCoach_idcardback(paths.get(2));
-			coach.setSchool_imgpath(paths.get(3));
+		if(coach!=null){
+			//若教练已存在，则为修改教练审核资料
+			if(!paths.isEmpty() && paths.size()==4){
+				coach.setCoach_qualification(paths.get(0));
+				coach.setCoach_idcardfront(paths.get(1));
+				coach.setCoach_idcardback(paths.get(2));
+				coach.setSchool_imgpath(paths.get(3));
+			}
+			coach.setUser_id(user_id);
+			coach.setCoach_name(coach_name);
+			coach.setCoach_sex(coach_sex);
+			coach.setCoach_birthday(coach_birthday);
+			coach.setSchool_name(school_name);
+			coach.setSchool_address(school_address);
+			coach.setTrain_field(train_field);
+			coach.setField_jingdu(field_jingdu);
+			coach.setField_weidu(field_weidu);
+			coach.setCoach_license(coach_license);
+			coach.setCoach_car(coach_car);
+			coach.setCoach_area(coach_area);
+			coach.setCoach_status("0");
+			try {
+				coachDao.modifyCoachinfo(coach);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DataBaseException("数据库连接失败");
+			}
+		}else{
+			//教练为null时，新增教练
+			coach = new Coach();
+			if(!paths.isEmpty() && paths.size()==4){
+				coach.setCoach_qualification(paths.get(0));
+				coach.setCoach_idcardfront(paths.get(1));
+				coach.setCoach_idcardback(paths.get(2));
+				coach.setSchool_imgpath(paths.get(3));
+			}
+			coach.setUser_id(user_id);
+			coach.setCoach_name(coach_name);
+			coach.setCoach_sex(coach_sex);
+			coach.setCoach_birthday(coach_birthday);
+			coach.setSchool_name(school_name);
+			coach.setSchool_address(school_address);
+			coach.setTrain_field(train_field);
+			coach.setField_jingdu(field_jingdu);
+			coach.setField_weidu(field_weidu);
+			coach.setCoach_license(coach_license);
+			coach.setCoach_car(coach_car);
+			coach.setCoach_area(coach_area);
+			coach.setCoach_status("0");
+			try {
+				coachDao.insertCoach(coach);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DataBaseException("数据库连接失败");
+			}
 		}
-		coach.setUser_id(user_id);
-		coach.setCoach_name(coach_name);
-		coach.setCoach_sex(coach_sex);
-		coach.setCoach_birthday(coach_birthday);
-		coach.setSchool_name(school_name);
-		coach.setSchool_address(school_address);
-		coach.setTrain_field(train_field);
-		coach.setField_jingdu(field_jingdu);
-		coach.setField_weidu(field_weidu);
-		coach.setCoach_license(coach_license);
-		coach.setCoach_car(coach_car);
-		coach.setCoach_area(coach_area);
-		try {
-			coachDao.insertCoach(coach);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DataBaseException("数据库连接失败");
-		}
-		return coach;
 	}
 
 	public boolean teachSet(String coach_id, String coach_paying_two, String coach_paying_three,
@@ -161,9 +189,6 @@ public class CoachServiceImpl implements CoachService {
 	public Map<String,Object> listCoachByStatus(String coach_status, int page, int pageSize) {
 		int offset = (page-1)*pageSize;
 		List<Map<String, Object>> list = coachDao.listCoachByStatus(coach_status, offset, pageSize);
-		if(list==null || list.isEmpty()){
-			throw new NoCoachFoundException("未找到相关教练");
-		}
 		int coachNum = coachDao.coachNum(coach_status);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("coachNum", coachNum);
@@ -415,12 +440,38 @@ public class CoachServiceImpl implements CoachService {
 	public List<Map<String,Object>> listRecomdCoach(String school_name) {
 		List<Map<String, Object>> result;
 		try {
-			result = coachDao.listRecomdCoach(school_name);
+			result = coachDao.listRecomdCoach(school_name,"1",null,null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
 		return result;
 	}
+
+	public Coach findByUserId(Integer user_id) {
+		return coachDao.findByUserId(user_id);
+	}
+
+	public List<Map<String, Object>> listBySchool(String school_name, String coach_status, Integer page, Integer pageSize) {
+		Integer offset = null;
+		if(page != null){
+			offset = (page-1)*pageSize;
+		}
+		List<Map<String, Object>> result;
+		try {
+			//总条数
+			result = coachDao.listRecomdCoach(school_name, coach_status, null, null);
+			Map<String,Object> map = new HashMap<String, Object>();
+			//添加总条数
+			map.put("totalNum", result.size());
+			result = coachDao.listRecomdCoach(school_name,coach_status, offset, pageSize);
+			result.add(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return result;
+	}
+	
 	
 }

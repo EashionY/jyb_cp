@@ -49,7 +49,8 @@ public interface SchoolDao {
 	 * @param pageSize
 	 * @return
 	 */
-	public List<School> findSchool(int offset,int pageSize,String school_area);
+	public List<School> findSchool(@Param("offset")int offset,@Param("pageSize")int pageSize,
+			@Param("school_area")String school_area,@Param("school_status")Integer school_status);
 	
 	/**
 	 * 按照浏览数排序查找驾校
@@ -92,7 +93,7 @@ public interface SchoolDao {
 	 * @param school_area
 	 * @return
 	 */
-	public int getSchoolNum(String school_area);
+	public int getSchoolNum(@Param("school_area")String school_area,@Param("school_status")Integer school_status);
 
 	/**
 	 * 修改驾校logo

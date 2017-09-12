@@ -193,9 +193,9 @@ public class DrivingTestController extends ExceptionController {
 	 */
 	@RequestMapping("/listAllTeachRecord")
 	@ResponseBody
-	public JsonResult listAllTeachRecord(String page,String pageSize,HttpServletRequest req,HttpServletResponse resp){
+	public JsonResult listAllTeachRecord(String teach_subject,String page,String pageSize,HttpServletRequest req,HttpServletResponse resp){
 		resp.addHeader("Access-Control-Allow-Origin", "*");
-		List<Map<String,Object>> result = teachRecordService.listAllTeachRecord(Integer.parseInt(page), Integer.parseInt(pageSize));
+		List<Map<String,Object>> result = teachRecordService.listAllTeachRecord(teach_subject, Integer.parseInt(page), Integer.parseInt(pageSize));
 		return new JsonResult(result);
 	}
 	
@@ -223,6 +223,15 @@ public class DrivingTestController extends ExceptionController {
 		req.setCharacterEncoding("utf-8");
 		resp.addHeader("Access-Control-Allow-Origin", "*");
 		List<Map<String,Object>> result = teachRecordService.findRecordByTeachTime(teach_time);
+		return new JsonResult(result);
+	}
+	
+	@RequestMapping("/findRecordBySubject")
+	@ResponseBody
+	public JsonResult findRecordBySubject(String teach_subject,HttpServletRequest req,HttpServletResponse resp) throws UnsupportedEncodingException{
+		req.setCharacterEncoding("utf-8");
+		resp.addHeader("Access-Control-Allow-Origin", "*");
+		List<Map<String,Object>> result = teachRecordService.findRecordBySubject(teach_subject);
 		return new JsonResult(result);
 	}
 	

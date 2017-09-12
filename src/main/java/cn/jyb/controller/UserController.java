@@ -21,6 +21,9 @@ import cn.jyb.util.Upload;
 @RequestMapping("/account")
 public class UserController extends ExceptionController{
 
+	//用于生成推荐码的加密数字
+	private final static Integer ENCRYPTCODE = 10323;
+	
 	@Resource
 	private UserService userService;
 	
@@ -70,4 +73,15 @@ public class UserController extends ExceptionController{
 		return new JsonResult(paths.get(0));
 	}
 	
+	/**
+	 * 获得推荐码
+	 * @param user_id
+	 * @return
+	 */
+	@RequestMapping("/getRecomdCode")
+	@ResponseBody
+	public JsonResult getRecomdCode(Integer user_id){
+		Integer recomdCode = user_id + ENCRYPTCODE;
+		return new JsonResult(recomdCode);
+	}
 }

@@ -14,6 +14,7 @@ import cn.jyb.dao.StudentDao;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.StudentException;
+import cn.jyb.util.IDCardUtil;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
@@ -30,11 +31,16 @@ public class StudentServiceImpl implements StudentService {
 //		}
 //		student_name = new String(student_name.getBytes("ISO-8859-1"),"utf-8");
 //		student_name = req.getParameter("student_name");
-		System.out.println("student_name:"+student_name);
+//		System.out.println("student_name:"+student_name);
 		student.setUser_id(Integer.parseInt(user_id));
 		student.setSchool_id(Integer.parseInt(school_id));
 		student.setStudent_name(student_name);
 		student.setStudent_license(student_license);
+		//验证身份证号码的有效性
+		boolean success = IDCardUtil.isIDCard(student_idcard);
+		if(!success){
+			throw new StudentException("身份证号码不合法");
+		}
 		student.setStudent_idcard(student_idcard);
 		student.setStudent_recommend(student_recommend);
 		student.setStudent_tel(student_tel);

@@ -104,7 +104,7 @@ public interface SchoolService {
 	 * @param school_area
 	 * @return
 	 */
-	public Map<String, Object> findAllSchool(int page,int pageSize,String school_area);
+	public Map<String, Object> findAllSchool(int page,int pageSize,String school_area,Integer school_status);
 	
 	/**
 	 * 删除驾校（后台管理系统）
@@ -194,11 +194,19 @@ public interface SchoolService {
 	public boolean deleteTeachField(Integer fieldId);
 	
 	/**
-	 * 审核驾校
+	 * 审核驾校（后台管理系统）
 	 * @param school_id
 	 * @param schoolStatus
 	 * @return
 	 */
 	public Integer dealSchool(Integer school_id,Integer schoolStatus);
 	
+	/**
+	 * 修改训练场地封面
+	 * @param school_name
+	 * @param request
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean modifyTeachFieldImg(Integer fieldId, String school_name, HttpServletRequest request) throws IOException;
 }

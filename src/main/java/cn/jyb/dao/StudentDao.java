@@ -9,8 +9,13 @@ import cn.jyb.entity.Student;
 
 public interface StudentDao {
 
-	public Student findStudent(String user_id, String school_id);
-
+	/**
+	 * 通过用户id和驾校id查找学员
+	 * @param user_id
+	 * @param school_id
+	 * @return
+	 */
+	public Student findStudent(@Param("user_id")String user_id, @Param("school_id")String school_id);
 	
 	public void save(Student student);
 	
@@ -65,4 +70,6 @@ public interface StudentDao {
 	 * @return
 	 */
 	public Student findByUserId(int user_id);
+	
+	
 }

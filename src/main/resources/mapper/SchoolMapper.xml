@@ -52,7 +52,15 @@
 	</select>
 	
 	<select id="findSchool" resultType="cn.jyb.entity.School">
-		SELECT * FROM school WHERE school_area=#{2} AND school_status=1 LIMIT #{0},#{1}
+		SELECT * FROM school 
+		WHERE 1=1
+		<if test="school_area != null">
+		    AND school_area=#{school_area}
+		</if>
+		<if test="school_status != null">
+		    AND school_status=#{school_status}
+		</if>
+		LIMIT #{offset},#{pageSize}
 	</select>
 	
 	<select id="findSchoolByBrowse" resultType="cn.jyb.entity.School">
@@ -86,7 +94,14 @@
 	</delete>
 	
 	<select id="getSchoolNum" resultType="int">
-		SELECT count(*) FROM school WHERE school_area=#{school_area} AND school_status=1
+		SELECT count(*) FROM school 
+		WHERE 1=1
+		<if test="school_status != null">
+			AND school_status=#{school_status} 
+		</if>
+		<if test="school_area != null">
+		    AND school_area=#{school_area}
+		</if>
 	</select>
 
 	<update id="modifySchoolLogo" parameterType="string">

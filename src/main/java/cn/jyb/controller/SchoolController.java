@@ -95,9 +95,9 @@ public class SchoolController extends ExceptionController {
 	
 	@RequestMapping(value="/findAllSchool")
 	@ResponseBody
-	public JsonResult findAllSchool(String page,String pageSize,String school_area,HttpServletRequest req,HttpServletResponse res){
+	public JsonResult findAllSchool(String page,String pageSize,String school_area,Integer school_status,HttpServletRequest req,HttpServletResponse res){
 		res.addHeader("Access-Control-Allow-Origin", "*");
-		Map<String,Object> result = schoolService.findAllSchool(Integer.parseInt(page), Integer.parseInt(pageSize), school_area);
+		Map<String,Object> result = schoolService.findAllSchool(Integer.parseInt(page), Integer.parseInt(pageSize), school_area, school_status);
 		return new JsonResult(result);
 	}
 	
@@ -251,4 +251,14 @@ public class SchoolController extends ExceptionController {
 		Integer result = schoolService.dealSchool(school_id, schoolStatus);
 		return new JsonResult(result);
 	}
+	
+	@RequestMapping("/modifyTeachFieldImg")
+	@ResponseBody
+	public JsonResult modifyTeachFieldImg(Integer fieldId,String school_name,HttpServletRequest request,HttpServletResponse response) throws IOException{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		boolean tf = schoolService.modifyTeachFieldImg(fieldId, school_name, request);
+		return new JsonResult(tf);
+	}
+	
+	
 }

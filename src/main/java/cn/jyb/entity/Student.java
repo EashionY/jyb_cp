@@ -22,22 +22,8 @@ public class Student implements Serializable {
 	private String student_tel;
 	//报名时间
 	private Timestamp signup_time;
-	
-	public Student() { }
-
-	public Student(int student_id, int user_id, int school_id, String student_name, String student_license,
-			String student_idcard, String student_recommend, String student_tel, Timestamp signup_time) {
-		super();
-		this.student_id = student_id;
-		this.user_id = user_id;
-		this.school_id = school_id;
-		this.student_name = student_name;
-		this.student_license = student_license;
-		this.student_idcard = student_idcard;
-		this.student_recommend = student_recommend;
-		this.student_tel = student_tel;
-		this.signup_time = signup_time;
-	}
+	//支付状态
+	private Integer pay_status;
 
 	public int getStudent_id() {
 		return student_id;
@@ -111,12 +97,20 @@ public class Student implements Serializable {
 		this.signup_time = signup_time;
 	}
 
+	public Integer getPay_status() {
+		return pay_status;
+	}
+
+	public void setPay_status(Integer pay_status) {
+		this.pay_status = pay_status;
+	}
+
 	@Override
 	public String toString() {
 		return "Student [student_id=" + student_id + ", user_id=" + user_id + ", school_id=" + school_id
 				+ ", student_name=" + student_name + ", student_license=" + student_license + ", student_idcard="
 				+ student_idcard + ", student_recommend=" + student_recommend + ", student_tel=" + student_tel
-				+ ", signup_time=" + signup_time + "]";
+				+ ", signup_time=" + signup_time + ", pay_status=" + pay_status + "]";
 	}
 
 	@Override

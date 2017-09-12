@@ -36,4 +36,13 @@ public interface AdminService {
 	 * @param adminStatus
 	 */
 	void dealAdmin(Integer adminId,boolean adminStatus);
+	
+	/**
+	 * 新增管理员账号
+	 * @param account
+	 * @param password
+	 * @param privil
+	 * @param school
+	 */
+	void saveAdmin(String account,String password,Integer privil,String school);
 }

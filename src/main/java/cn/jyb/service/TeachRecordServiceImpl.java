@@ -422,15 +422,15 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 		return result;
 	}
 
-	public List<Map<String, Object>> listAllTeachRecord(int page, int pageSize) {
+	public List<Map<String, Object>> listAllTeachRecord(String teach_subject, int page, int pageSize) {
 		int offset = (page-1)*pageSize;
 		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
 		//单独的一个map，用来保存记录条数
 		Map<String,Object> map1 = new HashMap<String, Object>();
-		int recordNum = teachRecordDao.getTeachRecordNum();
+		int recordNum = teachRecordDao.getTeachRecordNum(teach_subject);
 		map1.put("recordNum", recordNum);
 		result.add(map1);
-		List<TeachRecord> records = teachRecordDao.listAllTeachRecord(offset, pageSize);
+		List<TeachRecord> records = teachRecordDao.listAllTeachRecord(teach_subject, offset, pageSize);
 		for(TeachRecord record : records){
 			Map<String,Object> map2 = new HashMap<String, Object>();
 			try {
@@ -479,6 +479,16 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 		List<Map<String, Object>> result;
 		try {
 			result = teachRecordDao.findRecordByTeachTime(teach_time);
+		} catch (Exception e) {
+			throw new DataBaseException("数据库异常");
+		}
+		return result;
+	}
+
+	public List<Map<String, Object>> findRecordBySubject(String teach_subject) {
+		List<Map<String, Object>> result;
+		try {
+			result = teachRecordDao.findRecordBySubject(teach_subject);
 		} catch (Exception e) {
 			throw new DataBaseException("数据库异常");
 		}

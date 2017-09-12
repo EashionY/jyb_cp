@@ -51,4 +51,12 @@ public class AdminController extends ExceptionController{
 		adminService.dealAdmin(adminId, adminStatus);
 		return new JsonResult("");
 	}
+	
+	@RequestMapping("/saveAdmin")
+	@ResponseBody
+	public JsonResult saveAdmin(HttpServletResponse resp, String account, String password, Integer privil, String school){
+		resp.setHeader("Access-Control-Allow-Origin", "*");
+		adminService.saveAdmin(account, password, privil, school);
+		return new JsonResult("");
+	}
 }

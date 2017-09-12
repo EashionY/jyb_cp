@@ -126,7 +126,7 @@ public interface TeachRecordService {
 	 * @param pageSize
 	 * @return 
 	 */
-	public List<Map<String,Object>> listAllTeachRecord(int page,int pageSize);
+	public List<Map<String,Object>> listAllTeachRecord(String teach_subject,int page,int pageSize);
 	
 	/**
 	 * 通过教练名查找记录(后台)
@@ -148,6 +148,13 @@ public interface TeachRecordService {
 	 * @return
 	 */
 	public List<Map<String,Object>> findRecordByTeachTime(String teach_time);
+	
+	/**
+	 * 通过约教科目查找记录(后台)
+	 * @param teach_subject
+	 * @return
+	 */
+	public List<Map<String,Object>> findRecordBySubject(String teach_subject);
 	
 	/**
 	 * 查找该驾校所有教练收到的评价

@@ -6,22 +6,58 @@
 
 	<!-- 修改教练资料 -->
 	<update id="modifyCoachinfo" parameterType="cn.jyb.entity.Coach">
-		UPDATE coach SET
+		UPDATE coach 
+		<set>
+			<if test="coach_name != null">
 			coach_name=#{coach_name}, 
+			</if>
+			<if test="school_name != null">
 			school_name=#{school_name},
+			</if>
+			<if test="coach_idcardfront != null">
 			coach_idcardfront=#{coach_idcardfront}, 
+			</if>
+			<if test="coach_idcardback != null">
 			coach_idcardback=#{coach_idcardback}, 
+			</if>
+			<if test="coach_qualification != null">
 			coach_qualification=#{coach_qualification}, 
+			</if>
+			<if test="coach_license != null">
 			coach_license=#{coach_license}, 
+			</if>
+			<if test="coach_car != null">
 			coach_car=#{coach_car}, 
+			</if>
+			<if test="coach_car != null">
 			school_address=#{school_address}, 
+			</if>
+			<if test="train_field != null">
 			train_field=#{train_field}, 
+			</if>
+			<if test="field_jingdu != null">
 			field_jingdu=#{field_jingdu},
+			</if>
+			<if test="field_weidu != null">
 			field_weidu=#{field_weidu}, 
+			</if>
+			<if test="school_imgpath != null">
 			school_imgpath=#{school_imgpath},
+			</if>
+			<if test="coach_sex != null">
 			coach_sex=#{coach_sex},
+			</if>
+			<if test="coach_birthday != null">
 			coach_birthday=#{coach_birthday},
-			coach_area=#{coach_area}
+			</if>
+			<if test="coach_area != null">
+			coach_area=#{coach_area},
+			</if>
+			<if test="coach_status != null">
+			coach_status=#{coach_status},
+			</if>
+			modifytime=current_timestamp()
+		</set>
 		WHERE coach_id=#{coach_id}
 	</update>
 
@@ -57,7 +93,8 @@
 			school_imgpath,
 			coach_sex,
 			coach_birthday,
-			coach_area)
+			coach_area,
+			coach_status)
 		VALUES(
 			#{user_id},
 			#{coach_name}, 
@@ -74,7 +111,8 @@
 			#{school_imgpath},
 			#{coach_sex},
 			#{coach_birthday},
-			#{coach_area})
+			#{coach_area},
+			#{coach_status})
 	</insert>
 	
 	<!-- 教学设置 -->
@@ -199,11 +237,22 @@
 	<select id="findByName" resultType="cn.jyb.entity.Coach">
 		SELECT * FROM coach WHERE coach_status='1' AND coach_area=#{coach_area} AND coach_name LIKE #{coach_name}
 	</select>
-	
+	<!-- 该驾校的推荐教练 -->
 	<select id="listRecomdCoach" resultType="java.util.Map">
-		SELECT c.*,u.imgpath 
+		SELECT c.*,u.imgpath
 		FROM coach c JOIN user u ON c.user_id=u.user_id
-		WHERE c.coach_status='1' AND c.school_name=#{school_name}
+		WHERE c.school_name=#{school_name} 
+		<if test="coach_status != null">
+		AND c.coach_status=#{coach_status}
+		</if>
+		<if test="offset != null">
+		LIMIT #{offset},#{pageSize}
+		</if>
+	</select>
+	<!-- 通过用户id查找教练 -->
+	<select id="findByUserId" resultType="cn.jyb.entity.Coach">
+		select * from coach
+		where user_id=#{user_id}
 	</select>
 </mapper>
 

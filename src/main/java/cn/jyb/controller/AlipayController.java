@@ -1,9 +1,12 @@
 package cn.jyb.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,14 +30,11 @@ public class AlipayController extends ExceptionController {
 	}
 	
 	@RequestMapping("/notify")
-	@ResponseBody
-	public JsonResult notify(HttpServletRequest request){
+	public void notify(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		String result = alipayService.notify(request);
-		if("success".equals(result)){
-			return new JsonResult(result);
-		}else{
-			return new JsonResult(0,"failure","—È«© ß∞‹");
-		}
+		System.out.println(result);
+		PrintWriter pw = response.getWriter();
+		pw.write(result);
 	}
 	
 }

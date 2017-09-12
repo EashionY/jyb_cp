@@ -1,5 +1,8 @@
 package cn.jyb.service;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -126,10 +129,13 @@ public class AlipayServiceImpl implements AlipayService {
 		return response.getBody();
 	}
 
-	public String notify(HttpServletRequest request) {
+	public String notify(HttpServletRequest request) throws IOException {
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
 		Map<String, String[]> requestParams = request.getParameterMap();
+		//分割线
+		String line = System.getProperty("line.separator");
+		StringBuffer str = new StringBuffer();
 		for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
 		    String name = (String) iter.next();
 		    String[] values = (String[]) requestParams.get(name);
@@ -140,42 +146,66 @@ public class AlipayServiceImpl implements AlipayService {
 			//乱码解决，这段代码在出现乱码时使用。
 			//valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
 			params.put(name, valueStr);
+			str.append(name+":"+valueStr).append(line);
 		}
+		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("alipay.txt"),"UTF-8");
+		osw.write(str.toString());
+		osw.flush();
 		//调用SDK验证签名
 		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
 		boolean flag = false;
 		try {
 			flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET, SIGN_TYPE);
+			osw.write("验签flag:"+flag+line);
+			osw.flush();
 		} catch (AlipayApiException e) {
+			osw.write(e.toString()+line);
+			osw.flush();
 			e.printStackTrace();
-			return "failure";
+			return "fail";
 		}
 		if(flag){
 			//四步验证
 			String trade_status = params.get("trade_status");
 			String out_trade_no = params.get("out_trade_no");
 			Orders orders = ordersDao.findByNo(out_trade_no);
+			osw.write("数据库中的total_amount:"+orders.getTotal_amount()+line);
+			osw.write("返回参数total_amount:"+params.get("total_amount")+line);
+			osw.write("数据库中的seller_id:"+orders.getSeller_id()+line);
+			osw.write("返回参数seller_id:"+params.get("seller_id")+line);
+			osw.write("返回参数app_id:"+params.get("app_id")+line);
+			osw.write("应用id:"+APP_ID);
+			osw.flush();
 			if(orders!=null && orders.getTotal_amount().equals(params.get("total_amount"))
 					&& orders.getSeller_id().equals(params.get("seller_id"))
 					&& params.get("app_id").equals(APP_ID)){
+				osw.write("通过四步验证"+line);
+				osw.flush();
 				int i;
 				try {
 					i = ordersDao.updateStatus(trade_status, out_trade_no);
 					ordersDao.finishOrder(out_trade_no);
 				} catch (Exception e) {
+					osw.write(e.toString()+line);
+					osw.flush();
 					e.printStackTrace();
-					return "failure";
+					return "fail";
 				}
 				if(i!=1){
-					return "failure";
+					osw.write("数据库更新失败"+line);
+					osw.flush();
+					return "fail";
 				}
 				return "success";
 			}else{
-				return "failure";
+				osw.write("未通过四步验证"+line);
+				osw.flush();
+				return "fail";
 			}
 		}else{
-			return "failure";
+			return "fail";
 		}
+		
 	}
 
 }

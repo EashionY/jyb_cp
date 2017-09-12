@@ -21,6 +21,7 @@ import cn.jyb.entity.Environment;
 import cn.jyb.entity.School;
 import cn.jyb.entity.TeachField;
 import cn.jyb.exception.DataBaseException;
+import cn.jyb.exception.ImgpathException;
 import cn.jyb.exception.NoSchoolFoundException;
 import cn.jyb.exception.SchoolException;
 import cn.jyb.util.Distance;
@@ -55,7 +56,7 @@ public class SchoolServiceImpl implements SchoolService {
 		int offset = (page-1)*pageSize;
 		List<School> schools;
 		if(lon1==null||lon1.trim().isEmpty() || lat1==null||lat1.trim().isEmpty()){
-			schools = schoolDao.findSchool(offset, pageSize, school_area);
+			schools = schoolDao.findSchool(offset, pageSize, school_area, 1);
 			if(schools==null || schools.isEmpty()){
 				throw new NoSchoolFoundException("未找到相关驾校");
 			}
@@ -154,7 +155,7 @@ public class SchoolServiceImpl implements SchoolService {
 	public boolean modifySchoolLogo(HttpServletRequest request,String school_name) throws IOException{
 		List<String> paths = Upload.uploadImg(request, "logos", school_name);
 		String school_logo = paths.get(0);
-		System.out.println(school_logo);
+//		System.out.println(school_logo);
 		int i;
 		try {
 			i = schoolDao.modifySchoolLogo(school_logo,school_name);
@@ -170,7 +171,7 @@ public class SchoolServiceImpl implements SchoolService {
 	public boolean modifySchoolLicense(HttpServletRequest request,String school_name) throws IOException{
 		List<String> paths = Upload.uploadImg(request, "logos", school_name);
 		String school_license = paths.get(0);
-		System.out.println(school_license);
+//		System.out.println(school_license);
 		int i;
 		try {
 			i = schoolDao.modifySchoolLicense(school_license,school_name);
@@ -194,17 +195,18 @@ public class SchoolServiceImpl implements SchoolService {
 		return schools;
 	}
 
-	public Map<String,Object> findAllSchool(int page, int pageSize, String school_area) {
+	public Map<String,Object> findAllSchool(int page, int pageSize, String school_area, Integer school_status) {
 		int offset = (page-1)*pageSize;
 		Map<String,Object> result = new HashMap<String, Object>();
 		List<School> schools = new ArrayList<School>();
 		try {
-			schools = schoolDao.findSchool(offset, pageSize, school_area);
+			schools = schoolDao.findSchool(offset, pageSize, school_area, school_status);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DataBaseException("查找驾校失败");
 		}
 		result.put("schools", schools);
-		int schoolNum = schoolDao.getSchoolNum(school_area);
+		int schoolNum = schoolDao.getSchoolNum(school_area, school_status);
 		result.put("schoolNum", schoolNum);
 		return result;
 	}
@@ -359,7 +361,10 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	public boolean modifyTeachFieldInfo(Integer fieldId, String school_name, String fieldName, String fieldAddress, String fieldLon, String fieldLat,HttpServletRequest request) throws IOException {
-		TeachField teachField = new TeachField();
+		TeachField teachField = teachFieldMapper.selectByPrimaryKey(fieldId);
+		if(teachField == null){
+			throw new SchoolException("未找到对应的训练场地");
+		}
 		//上传场地的封面
 		List<String> paths = Upload.uploadImg(request, "logos", school_name);
 		if(!paths.isEmpty()){
@@ -395,8 +400,24 @@ public class SchoolServiceImpl implements SchoolService {
 		}
 		return schoolStatus;
 	}
-	
-	
+
+	public boolean modifyTeachFieldImg(Integer fieldId, String school_name, HttpServletRequest request) throws IOException{
+		TeachField teachField = teachFieldMapper.selectByPrimaryKey(fieldId);
+		if(teachField == null){
+			throw new SchoolException("未找到对应的训练场地");
+		}
+		List<String> paths = Upload.uploadImg(request, "logos", school_name);
+		if(paths.isEmpty()){
+			throw new ImgpathException("图片上传失败");
+		}
+		teachField.setFieldImg(paths.get(0));
+		System.out.println(teachField);
+		int i = teachFieldMapper.updateByPrimaryKeySelective(teachField);
+		if(i != 1){
+			throw new SchoolException("修改训练场地封面失败");
+		}
+		return i==1;
+	}
 
 	
 }

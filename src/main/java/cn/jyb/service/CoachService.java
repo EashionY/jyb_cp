@@ -40,7 +40,7 @@ public interface CoachService {
 	 * @return coach
 	 * @throws IOException
 	 */
-	public Coach insertCoach(int user_id,String phone,String coach_name,String coach_sex,
+	public void insertCoach(int user_id,String phone,String coach_name,String coach_sex,
 			String coach_birthday,String school_name, String school_address,
 			String train_field,String field_jingdu,String field_weidu,
 			String coach_license,String coach_car,String coach_area,HttpServletRequest request) throws IOException;
@@ -133,4 +133,19 @@ public interface CoachService {
 	 * @return
 	 */
 	public List<Map<String, Object>> listRecomdCoach(String school_name);
+	
+	/**
+	 * 通过用户id查找教练
+	 * @param user_id
+	 * @return
+	 */
+	public Coach findByUserId(Integer user_id);
+	
+	/**
+	 * 查看某驾校的所有教练（后台管理系统）
+	 * @param school_name
+	 * @param coach_status
+	 * @return
+	 */
+	public List<Map<String, Object>> listBySchool(String school_name,String coach_status,Integer page,Integer pageSize);
 }

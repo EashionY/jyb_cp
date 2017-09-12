@@ -254,5 +254,13 @@ public interface CoachDao {
 	 * @param school_name
 	 * @return
 	 */
-	public List<Map<String,Object>> listRecomdCoach(String school_name);
+	public List<Map<String,Object>> listRecomdCoach(@Param("school_name")String school_name,@Param("coach_status")String coach_status,
+			@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
+	
+	/**
+	 * 通过用户id查找教练
+	 * @param user_id
+	 * @return
+	 */
+	public Coach findByUserId(Integer user_id);
 }

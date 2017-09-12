@@ -1,11 +1,14 @@
 package test;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.jyb.util.DateUtil;
+import cn.jyb.util.IDCardUtil;
 
 public class TestCase {
 
@@ -124,4 +128,31 @@ public class TestCase {
 	public void test12(){
 		System.out.println("".equals(null));
 	}
+	
+	@Test
+	public void testIDCard(){
+		String certNo = "511025199006150202";
+		boolean tf = IDCardUtil.isIDCard(certNo);
+		System.out.println(tf);
+	}
+	
+	@Test
+	public void test13(){
+		String curtime = ""+System.currentTimeMillis();
+		System.out.println(curtime);
+	}
+	
+	@Test
+	public void test14() throws IOException{
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("测试", "键值对1");
+		params.put("test", "键值对2");
+		params.put("exam", "键值对3");
+		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("osw.txt"), "UTF-8");
+		osw.write(params.toString());
+		osw.flush();
+		osw.close();
+		System.out.println("输出完毕");
+	}
+
 }

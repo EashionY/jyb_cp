@@ -1,5 +1,6 @@
 package cn.jyb.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public interface AlipayService {
 	 * 支付成功后，回调
 	 * @param request
 	 * @return
+	 * @throws IOException 
 	 */
-	public String notify(HttpServletRequest request);
+	public String notify(HttpServletRequest request) throws IOException;
 }

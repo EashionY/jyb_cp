@@ -25,9 +25,9 @@
 			#{student_tel})
 	</insert>
 	
-	<!-- 通过user_id查找学员 -->
+	<!-- 通过user_id和school_id查找学员 -->
 	<select id="findStudent" resultType="cn.jyb.entity.Student">
-		SELECT * FROM student WHERE user_id=#{0} AND school_id=#{1}
+		SELECT * FROM student WHERE user_id=#{user_id} AND school_id=#{school_id}
 	</select>
 	
 	<select id="findById" resultType="cn.jyb.entity.Student">

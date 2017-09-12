@@ -62,7 +62,8 @@
 	</select>
 	
 	<select id="getCoachScheduleNum" resultType="int">
-		SELECT count(*) FROM coach_schedule
+		SELECT count(*) FROM coach_schedule cs,coach c
+		WHERE cs.coach_id=c.coach_id
 	</select>
 	
 	<select id="findCoachScheduleByName" resultType="map">

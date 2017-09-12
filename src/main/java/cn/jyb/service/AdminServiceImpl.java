@@ -80,4 +80,24 @@ public class AdminServiceImpl implements AdminService {
 		}
 	}
 
+	public void saveAdmin(String account, String password, Integer privil, String school) {
+		Admin admin = adminMapper.findByAccount(account);
+		//账号已存在
+		if(admin != null){
+			throw new AdminException("账号已存在");
+		}else{
+			admin = new Admin();
+			admin.setAccount(account);
+			admin.setPassword(password);
+			admin.setPrivil(privil);
+			admin.setAdminStatus(true);
+			admin.setSchool(school);
+			int i = adminMapper.insertSelective(admin);
+			if(i != 1){
+				throw new AdminException("新增管理员失败");
+			}
+		}
+	}
+
+	
 }
