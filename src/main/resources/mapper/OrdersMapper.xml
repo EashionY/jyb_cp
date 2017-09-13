@@ -44,6 +44,7 @@
 	<update id="finishOrder" parameterType="String">
 		UPDATE orders SET finishtime=CURRENT_TIMESTAMP WHERE out_trade_no=#{out_trade_no}
 	</update>
+
 </mapper>
 
 

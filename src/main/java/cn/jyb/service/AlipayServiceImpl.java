@@ -21,7 +21,9 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 
 import cn.jyb.dao.OrdersDao;
+import cn.jyb.dao.StudentDao;
 import cn.jyb.entity.Orders;
+import cn.jyb.entity.Student;
 import cn.jyb.exception.AlipayException;
 import cn.jyb.util.DateUtil;
 @Service("alipayService")
@@ -29,6 +31,8 @@ public class AlipayServiceImpl implements AlipayService {
 	
 	@Resource
 	private OrdersDao ordersDao;
+	@Resource
+	private StudentDao studentDao;
 //	//沙箱版支付宝默认网关
 //	private static final String URL = "https://openapi.alipaydev.com/gateway.do";
 //	//测试沙箱版支付宝应用id
@@ -174,8 +178,9 @@ public class AlipayServiceImpl implements AlipayService {
 			osw.write("数据库中的seller_id:"+orders.getSeller_id()+line);
 			osw.write("返回参数seller_id:"+params.get("seller_id")+line);
 			osw.write("返回参数app_id:"+params.get("app_id")+line);
-			osw.write("应用id:"+APP_ID);
+			osw.write("应用id:"+APP_ID+line);
 			osw.flush();
+			//四步验证
 			if(orders!=null && orders.getTotal_amount().equals(params.get("total_amount"))
 					&& orders.getSeller_id().equals(params.get("seller_id"))
 					&& params.get("app_id").equals(APP_ID)){
@@ -183,6 +188,7 @@ public class AlipayServiceImpl implements AlipayService {
 				osw.flush();
 				int i;
 				try {
+					//更新数据库中交易状态
 					i = ordersDao.updateStatus(trade_status, out_trade_no);
 					ordersDao.finishOrder(out_trade_no);
 				} catch (Exception e) {
@@ -195,6 +201,20 @@ public class AlipayServiceImpl implements AlipayService {
 					osw.write("数据库更新失败"+line);
 					osw.flush();
 					return "fail";
+				}
+				//交易成功
+				if("TRADE_SUCCESS".equals(trade_status)){
+					//获得支付者(学员)的用户id
+					int user_id = orders.getPayer_id();
+					//获得接收方(教练或者学校)的id
+					int receiver_id = orders.getReceiver_id();
+					//学校id
+					if(receiver_id<1000000){
+						Student student = studentDao.findStudent(user_id, receiver_id);
+						//付款成功
+						student.setPay_status(1);
+						studentDao.updateByPrimaryKeySelective(student);
+					}
 				}
 				return "success";
 			}else{

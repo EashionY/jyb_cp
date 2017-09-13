@@ -85,7 +85,7 @@ public class SchoolController extends ExceptionController {
 	@RequestMapping(value="/addSchool",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public JsonResult addSchool(String school_name, String school_address, String school_slogan, String school_jingdu,
-			String school_weidu, String school_price, String school_tel, String school_area, HttpServletRequest request,
+			String school_weidu, double school_price, String school_tel, String school_area, HttpServletRequest request,
 			HttpServletResponse response) throws IOException{
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		boolean tf = schoolService.addSchool(school_name, school_address, school_slogan, school_jingdu,
@@ -121,7 +121,7 @@ public class SchoolController extends ExceptionController {
 	@RequestMapping(value="/modifySchoolInfo",produces="application/json;charset=utf-8")
 	@ResponseBody
 	public JsonResult modifySchoolInfo(String school_id, String school_name, String school_address, String school_slogan,
-			String school_jingdu, String school_weidu, String school_price, String school_tel, String school_area,
+			String school_jingdu, String school_weidu, double school_price, String school_tel, String school_area,
 			HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException{
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		boolean tf = schoolService.modifySchoolInfo(school_id, school_name, school_address, school_slogan,

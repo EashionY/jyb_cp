@@ -15,7 +15,7 @@ public interface StudentDao {
 	 * @param school_id
 	 * @return
 	 */
-	public Student findStudent(@Param("user_id")String user_id, @Param("school_id")String school_id);
+	public Student findStudent(@Param("user_id")Integer user_id, @Param("school_id")Integer school_id);
 	
 	public void save(Student student);
 	
@@ -71,5 +71,11 @@ public interface StudentDao {
 	 */
 	public Student findByUserId(int user_id);
 	
+	/**
+	 * 选择性更新学员的资料
+	 * @param student
+	 * @return
+	 */
+	public int updateByPrimaryKeySelective(Student student);
 	
 }

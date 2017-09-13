@@ -50,7 +50,7 @@ public interface SchoolService {
 	 * @throws IOException 
 	 */
 	public boolean addSchool(String school_name,String school_address,String school_slogan,
-			String school_jingdu,String school_weidu,String school_price,String school_tel,
+			String school_jingdu,String school_weidu,double school_price,String school_tel,
 			String school_area,HttpServletRequest request) throws IOException;
 	
 	/**
@@ -69,7 +69,7 @@ public interface SchoolService {
 	 * @throws IOException 
 	 */
 	public boolean modifySchoolInfo(String school_id,String school_name,String school_address,String school_slogan,
-			String school_jingdu,String school_weidu,String school_price,String school_tel,
+			String school_jingdu,String school_weidu,double school_price,String school_tel,
 			String school_area,HttpServletRequest req) throws UnsupportedEncodingException;
 	
 	/**

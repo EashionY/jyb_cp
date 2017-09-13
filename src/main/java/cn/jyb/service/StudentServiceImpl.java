@@ -25,31 +25,54 @@ public class StudentServiceImpl implements StudentService {
 	public boolean addStudent(HttpServletRequest req,String user_id, String school_id, String student_name, String student_license,
 			String student_idcard, String student_recommend, String student_tel) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("utf-8");
-		Student student = new Student();
-//		if(studentDao.findStudent(user_id,school_id)!=null){
-//			throw new StudentException("已报名该驾校，请勿重复操作");
-//		}
+		//解决乱码
 //		student_name = new String(student_name.getBytes("ISO-8859-1"),"utf-8");
 //		student_name = req.getParameter("student_name");
 //		System.out.println("student_name:"+student_name);
-		student.setUser_id(Integer.parseInt(user_id));
-		student.setSchool_id(Integer.parseInt(school_id));
-		student.setStudent_name(student_name);
-		student.setStudent_license(student_license);
 		//验证身份证号码的有效性
-		boolean success = IDCardUtil.isIDCard(student_idcard);
-		if(!success){
-			throw new StudentException("身份证号码不合法");
+		if(student_idcard!=null){
+			boolean success = IDCardUtil.isIDCard(student_idcard);
+			if(!success){
+				throw new StudentException("身份证号码不合法");
+			}
 		}
-		student.setStudent_idcard(student_idcard);
-		student.setStudent_recommend(student_recommend);
-		student.setStudent_tel(student_tel);
-		try {
-			studentDao.save(student);
-		} catch (Exception e) {
-			throw new StudentException("报名失败");
+		Student student = studentDao.findStudent(Integer.parseInt(user_id),Integer.parseInt(school_id));
+		//已报名该驾校
+		if(student != null){
+			//付款成功
+			if(student.getPay_status() == 1){
+				throw new StudentException("已报名该驾校，请勿重复操作");
+			}else{//付款未成功
+				student.setStudent_name(student_name);
+				student.setStudent_license(student_license);
+				student.setStudent_idcard(student_idcard);
+				student.setStudent_recommend(student_recommend);
+				student.setStudent_tel(student_tel);
+				try {
+					studentDao.updateByPrimaryKeySelective(student);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new StudentException("报名失败");
+				}
+				return true;
+			}
+		}else{//未报名该驾校
+			student = new Student();
+			student.setUser_id(Integer.parseInt(user_id));
+			student.setSchool_id(Integer.parseInt(school_id));
+			student.setStudent_name(student_name);
+			student.setStudent_license(student_license);
+			student.setStudent_idcard(student_idcard);
+			student.setStudent_recommend(student_recommend);
+			student.setStudent_tel(student_tel);
+			try {
+				studentDao.save(student);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new StudentException("报名失败");
+			}
+			return true;
 		}
-		return true;
 	}
 
 	public List<Map<String, Object>> listAllStudent(String school_area, int page, int pageSize) {
@@ -105,6 +128,5 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return result;
 	}
-
 	
 }

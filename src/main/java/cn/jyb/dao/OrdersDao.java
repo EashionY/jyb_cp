@@ -17,14 +17,14 @@ public interface OrdersDao {
 	 * @param out_trade_no
 	 * @return
 	 */
-	public int delete(String out_trade_no);
+	public int delete(@Param("out_trade_no")String out_trade_no);
 	
 	/**
 	 * 通过订单号查找订单记录
 	 * @param out_trade_no
 	 * @return
 	 */
-	public Orders findByNo(String out_trade_no);
+	public Orders findByNo(@Param("out_trade_no")String out_trade_no);
 	
 	/**
 	 * 更新交易状态
@@ -38,6 +38,7 @@ public interface OrdersDao {
 	 * @param out_trade_no
 	 * @return
 	 */
-	public int finishOrder(String out_trade_no);
+	public int finishOrder(@Param("out_trade_no")String out_trade_no);
+	
 	
 }

@@ -60,6 +60,7 @@ public class SchoolServiceImpl implements SchoolService {
 			if(schools==null || schools.isEmpty()){
 				throw new NoSchoolFoundException("未找到相关驾校");
 			}
+			System.out.println(schools);
 			return schools;
 		}
 		List<School> list = schoolDao.findJWdu();
@@ -91,7 +92,7 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	public boolean addSchool(String school_name, String school_address, String school_slogan, String school_jingdu,
-			String school_weidu, String school_price, String school_tel, String school_area,HttpServletRequest request) throws IOException {
+			String school_weidu, double school_price, String school_tel, String school_area,HttpServletRequest request) throws IOException {
 		School school = schoolDao.findSchoolByName(school_name);
 		if(school != null){
 			throw new SchoolException("驾校已存在");
@@ -107,7 +108,7 @@ public class SchoolServiceImpl implements SchoolService {
 		newSchool.setSchool_slogan(school_slogan);
 		newSchool.setSchool_jingdu(school_jingdu);
 		newSchool.setSchool_weidu(school_weidu);
-		newSchool.setSchool_price(Integer.parseInt(school_price));
+		newSchool.setSchool_price(school_price);
 		newSchool.setSchool_tel(school_tel);
 		newSchool.setSchool_area(school_area);
 		newSchool.setSchool_status(0);
@@ -120,7 +121,7 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	public boolean modifySchoolInfo(String school_id, String school_name, String school_address, String school_slogan,
-			String school_jingdu, String school_weidu, String school_price, String school_tel, String school_area,
+			String school_jingdu, String school_weidu, double school_price, String school_tel, String school_area,
 			HttpServletRequest req) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("utf-8");
 		School school;
@@ -137,7 +138,7 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setSchool_slogan(school_slogan);
 		school.setSchool_jingdu(school_jingdu);
 		school.setSchool_weidu(school_weidu);
-		school.setSchool_price(Integer.parseInt(school_price));
+		school.setSchool_price(school_price);
 		school.setSchool_tel(school_tel);
 		school.setSchool_area(school_area);
 		int i;

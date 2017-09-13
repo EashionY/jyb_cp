@@ -75,6 +75,38 @@
 	<select id="findByUserId" resultType="cn.jyb.entity.Student">
 		SELECT * FROM student WHERE user_id=#{user_id} GROUP BY user_id
 	</select>
+	
+	<update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Student">
+		update student
+		<set>
+		    <if test="user_id != null">
+		    user_id=#{user_id},
+		    </if>
+		    <if test="school_id != null">
+		    school_id=#{school_id},
+		    </if>
+		    <if test="student_name != null">
+		    student_name=#{student_name},
+		    </if>
+		    <if test="student_license != null">
+		    student_license=#{student_license},
+		    </if>
+		    <if test="student_idcard != null">
+		    student_idcard=#{student_idcard},
+		    </if>
+		    <if test="student_recommend != null">
+		    student_recommend=#{student_recommend},
+		    </if>
+		    <if test="student_tel != null">
+		    student_tel=#{student_tel},
+		    </if>
+		    <if test="pay_status != null">
+		    pay_status=#{pay_status},  
+		    </if>
+		    signup_time=current_timestamp()
+		</set>
+		where student_id=#{student_id}
+	</update>
 </mapper>
 
 
