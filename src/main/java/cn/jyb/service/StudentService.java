@@ -21,7 +21,7 @@ public interface StudentService {
 	 * @throws UnsupportedEncodingException
 	 */
 	public boolean addStudent(HttpServletRequest req,String user_id,String school_id,String student_name,String student_license,
-			String student_idcard,String student_recommend,String student_tel) throws UnsupportedEncodingException;
+			String student_idcard,String student_recommend,String student_tel,String packageName) throws UnsupportedEncodingException;
 	
 	/**
 	 * 列出所有学员(后台)

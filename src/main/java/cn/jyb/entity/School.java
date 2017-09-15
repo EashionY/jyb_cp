@@ -25,7 +25,7 @@ public class School implements Serializable{
 	//驾校被浏览数数   
 	private int school_browse;  
 	//驾校收费
-	private double school_price;  
+	private String school_price;  
 	//驾校电话 
 	private String school_tel;  
 	//驾校所在地区
@@ -89,10 +89,10 @@ public class School implements Serializable{
 	public void setSchool_browse(int school_browse) {
 		this.school_browse = school_browse;
 	}
-	public double getSchool_price() {
+	public String getSchool_price() {
 		return school_price;
 	}
-	public void setSchool_price(double school_price) {
+	public void setSchool_price(String school_price) {
 		this.school_price = school_price;
 	}
 	public String getSchool_tel() {

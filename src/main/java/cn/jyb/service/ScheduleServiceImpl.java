@@ -70,7 +70,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			coachSchedule1.setTime7(time7);
 			coachSchedule1.setTime8(time8);
 			coachSchedule1.setTime9(time9);
-			coachSchedule1.setTime10(time10);
+			coachSchedule1.setTime10(time10); 
 			if(coachSchedule==null){
 				try {
 					i = coachScheduleDao.saveCoachSchedule(coachSchedule1);
@@ -93,34 +93,42 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, String>> listCoachSchedule(String data) {
+		//返回的结果集
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+		//存储日期的集合
 		List<String> dates = new ArrayList<String>();
-		objectMapper = new ObjectMapper();
 		//将Json字符串解析map
+		objectMapper = new ObjectMapper();
 		int coach_id;
-		int student_id;
-		String subtype;
 		try {
+			//解析传入的data数据
 			Map<String,String> params = objectMapper.readValue(data, Map.class);
 			System.out.println(params);
+			//教练id
 			coach_id = Integer.parseInt(params.get("coach_id"));
-			student_id = Integer.parseInt(params.get("student_id"));
-			subtype = params.get("subtype");
+			//日期1
 			String date1 = params.get("date1");
 			dates.add(date1);
+			//日期2
 			String date2 = params.get("date2");
 			dates.add(date2);
+			//日期3
 			String date3 = params.get("date3");
 			dates.add(date3);
 		} catch (Exception e) {
-			throw new DataErrorException("传入数据有误");
+			e.printStackTrace();
+			throw new DataErrorException("数据解析异常");
 		}
 		for(String appoint_time : dates){
+			//用于存储教练每天的日程安排
 			Map<String,String> map = new HashMap<String,String>();
 			map.put("coach_id", ""+coach_id);
+			//预约日期
 			map.put("appoint_time", appoint_time);
+			//找到该教练当天的日程设置情况
 			CoachSchedule coachSchedule = coachScheduleDao.findSchedule(appoint_time, coach_id);
-			StudentSchedule studentSchedule = studentScheduleDao.findSchedule(appoint_time,coach_id,subtype,student_id);
+			//找到该教练当天各个时段的预约人数
+			Map<String,Integer> counts = studentScheduleDao.listTimeCount(coach_id, appoint_time);
 			if(coachSchedule==null){
 				//教练未设置当天的日程,所有时段设置为-1(不可约)
 				map.put("time1","-1");
@@ -133,30 +141,18 @@ public class ScheduleServiceImpl implements ScheduleService {
 				map.put("time8","-1");
 				map.put("time9","-1");
 				map.put("time10","-1");
-			}else if(studentSchedule==null){
-				//该学员当天还没有预约该教练
-				map.put("time1",coachSchedule.getTime1());
-				map.put("time2",coachSchedule.getTime2());
-				map.put("time3",coachSchedule.getTime3());
-				map.put("time4",coachSchedule.getTime4());
-				map.put("time5",coachSchedule.getTime5());
-				map.put("time6",coachSchedule.getTime6());
-				map.put("time7",coachSchedule.getTime7());
-				map.put("time8",coachSchedule.getTime8());
-				map.put("time9",coachSchedule.getTime9());
-				map.put("time10",coachSchedule.getTime10());
 			}else{
-				//该学生已经预约的时段，状态用"1"表示;若未预约，则保存原状态不变
-				map.put("time1","1".equals(studentSchedule.getTime1())?"1":coachSchedule.getTime1());
-				map.put("time2","1".equals(studentSchedule.getTime2())?"1":coachSchedule.getTime2());
-				map.put("time3","1".equals(studentSchedule.getTime3())?"1":coachSchedule.getTime3());
-				map.put("time4","1".equals(studentSchedule.getTime4())?"1":coachSchedule.getTime4());
-				map.put("time5","1".equals(studentSchedule.getTime5())?"1":coachSchedule.getTime5());
-				map.put("time6","1".equals(studentSchedule.getTime6())?"1":coachSchedule.getTime6());
-				map.put("time7","1".equals(studentSchedule.getTime7())?"1":coachSchedule.getTime7());
-				map.put("time8","1".equals(studentSchedule.getTime8())?"1":coachSchedule.getTime8());
-				map.put("time9","1".equals(studentSchedule.getTime9())?"1":coachSchedule.getTime9());
-				map.put("time10","1".equals(studentSchedule.getTime10())?"1":coachSchedule.getTime10());
+				//若该教练某时段的预约人数>=1，则将对应时间设置为不可预约(-1)
+				map.put("time1",counts.get("count1")>=1?"-1":coachSchedule.getTime1());
+				map.put("time2",counts.get("count2")>=1?"-1":coachSchedule.getTime2());
+				map.put("time3",counts.get("count3")>=1?"-1":coachSchedule.getTime3());
+				map.put("time4",counts.get("count4")>=1?"-1":coachSchedule.getTime4());
+				map.put("time5",counts.get("count5")>=1?"-1":coachSchedule.getTime5());
+				map.put("time6",counts.get("count6")>=1?"-1":coachSchedule.getTime6());
+				map.put("time7",counts.get("count7")>=1?"-1":coachSchedule.getTime7());
+				map.put("time8",counts.get("count8")>=1?"-1":coachSchedule.getTime8());
+				map.put("time9",counts.get("count9")>=1?"-1":coachSchedule.getTime9());
+				map.put("time10",counts.get("count10")>=1?"-1":coachSchedule.getTime10());
 			}
 			list.add(map);
 		}
@@ -178,6 +174,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		for(Map<String,String> map : params){
 			int student_id = Integer.parseInt(map.get("student_id"));
 			int coach_id = Integer.parseInt(map.get("coach_id"));
+			//预约时间
 			String appoint_time = map.get("appoint_time");
 			String time1 = map.get("time1");
 			String time2 = map.get("time2");

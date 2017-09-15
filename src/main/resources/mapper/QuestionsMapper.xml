@@ -17,7 +17,7 @@
     <result column="creatime" jdbcType="TIMESTAMP" property="creatime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, question, option1, option2, option3, option4, answer, explain, pic, type, chapter, 
+    id, question, option1, option2, option3, option4, answer, `explain`, pic, type, chapter, 
     subject, creatime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -196,4 +196,34 @@
       #{answer,jdbcType=VARCHAR}, #{explain,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{chapter,jdbcType=VARCHAR}, #{subject,jdbcType=BIT})
   </insert>
+  
+  <select id="getNormalQuestions" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from questions
+    where subject=#{subject}
+    limit #{offset},#{pageSize} 
+  </select>
+  
+  <select id="getRandQuestions" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from questions
+    where subject=#{subject}
+    <if test="subject == 4">
+    and CHAR_LENGTH(answer)&lt;=1
+    </if>
+    order by rand()
+    limit #{pageSize}
+  </select>
+  
+  <select id="getMultSelection" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from questions
+    where subject=4
+    and CHAR_LENGTH(answer)&gt;1
+    order by rand()
+    limit #{pageSize}
+  </select>
 </mapper>

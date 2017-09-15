@@ -2,6 +2,7 @@ package cn.jyb.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -108,7 +109,8 @@ public class SchoolServiceImpl implements SchoolService {
 		newSchool.setSchool_slogan(school_slogan);
 		newSchool.setSchool_jingdu(school_jingdu);
 		newSchool.setSchool_weidu(school_weidu);
-		newSchool.setSchool_price(school_price);
+		DecimalFormat df = new DecimalFormat("#.00");
+		newSchool.setSchool_price(df.format(school_price));
 		newSchool.setSchool_tel(school_tel);
 		newSchool.setSchool_area(school_area);
 		newSchool.setSchool_status(0);
@@ -138,7 +140,8 @@ public class SchoolServiceImpl implements SchoolService {
 		school.setSchool_slogan(school_slogan);
 		school.setSchool_jingdu(school_jingdu);
 		school.setSchool_weidu(school_weidu);
-		school.setSchool_price(school_price);
+		DecimalFormat df = new DecimalFormat("#.00");
+		school.setSchool_price(df.format(school_price));
 		school.setSchool_tel(school_tel);
 		school.setSchool_area(school_area);
 		int i;

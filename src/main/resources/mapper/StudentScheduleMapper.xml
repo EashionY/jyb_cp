@@ -41,7 +41,7 @@
 
 	<select id="findSchedule" resultType="cn.jyb.entity.StudentSchedule">
 		SELECT * FROM student_schedule 
-		WHERE appoint_time=#{0} AND coach_id=#{1} AND subtype=#{2} AND student_id=#{3}
+		WHERE appoint_time=#{appoint_time} AND coach_id=#{coach_id} AND subtype=#{subtype} AND student_id=#{student_id}
 	</select>
 
 	<update id="updateStudentSchedule" parameterType="cn.jyb.entity.StudentSchedule">
@@ -63,6 +63,20 @@
 			subtype=#{subtype}	
 	</update>
 	
+	<select id="listTimeCount" resultType="java.util.Map">
+		SELECT sum(time1) as count1,
+		       sum(time2) as count2,
+		       sum(time3) as count3,
+		       sum(time4) as count4,
+		       sum(time5) as count5,
+		       sum(time6) as count6,
+		       sum(time7) as count7,
+		       sum(time8) as count8,
+		       sum(time9) as count9,
+		       sum(time10) as count10
+		FROM student_schedule
+		WHERE coach_id=#{coach_id} AND appoint_time=#{appoint_time}
+	</select>
 </mapper>
 
 

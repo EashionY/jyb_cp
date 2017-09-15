@@ -25,9 +25,9 @@ public class StudentController extends ExceptionController {
 	@RequestMapping("/enrollStudent")
 	@ResponseBody
 	public JsonResult enrollStudent(HttpServletRequest req, String user_id, String school_id, String student_name, String student_license,
-			String student_idcard, String student_recommend, String student_tel) throws UnsupportedEncodingException{
+			String student_idcard, String student_recommend, String student_tel, String packageName) throws UnsupportedEncodingException{
 		boolean tf = studentService.addStudent(req, user_id, school_id, student_name, student_license, 
-				student_idcard, student_recommend, student_tel);
+				student_idcard, student_recommend, student_tel, packageName);
 		return new JsonResult(tf);
 	}
 	

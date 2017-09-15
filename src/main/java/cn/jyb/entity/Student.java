@@ -24,6 +24,8 @@ public class Student implements Serializable {
 	private Timestamp signup_time;
 	//支付状态
 	private Integer pay_status;
+	//所报名驾校的套餐
+	private String packageName;
 
 	public int getStudent_id() {
 		return student_id;
@@ -105,12 +107,20 @@ public class Student implements Serializable {
 		this.pay_status = pay_status;
 	}
 
+	public String getPackageName() {
+		return packageName;
+	}
+
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
+	}
+
 	@Override
 	public String toString() {
 		return "Student [student_id=" + student_id + ", user_id=" + user_id + ", school_id=" + school_id
 				+ ", student_name=" + student_name + ", student_license=" + student_license + ", student_idcard="
 				+ student_idcard + ", student_recommend=" + student_recommend + ", student_tel=" + student_tel
-				+ ", signup_time=" + signup_time + ", pay_status=" + pay_status + "]";
+				+ ", signup_time=" + signup_time + ", pay_status=" + pay_status + ", packageName=" + packageName + "]";
 	}
 
 	@Override

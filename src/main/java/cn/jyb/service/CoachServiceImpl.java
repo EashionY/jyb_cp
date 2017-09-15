@@ -89,6 +89,7 @@ public class CoachServiceImpl implements CoachService {
 			String coach_birthday,String school_name, String school_address,
 			String train_field,String field_jingdu,String field_weidu,
 			String coach_license, String coach_car, String coach_area, HttpServletRequest request) throws IOException{
+		request.setCharacterEncoding("UTF-8");
 		Coach coach = coachDao.findByUserId(user_id);
 		String folder = "qualification";
 		List<String> paths = Upload.uploadImg(request, phone, folder);
@@ -201,6 +202,7 @@ public class CoachServiceImpl implements CoachService {
 		try {
 			i = coachDao.dealCoach(Integer.parseInt(coach_id), coach_status);
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DataBaseException("²Ù×÷Ê§°Ü");
 		}
 		if(i!=1){

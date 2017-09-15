@@ -23,14 +23,14 @@ public class StudentServiceImpl implements StudentService {
 	private StudentDao studentDao;
 	
 	public boolean addStudent(HttpServletRequest req,String user_id, String school_id, String student_name, String student_license,
-			String student_idcard, String student_recommend, String student_tel) throws UnsupportedEncodingException {
+			String student_idcard, String student_recommend, String student_tel, String packageName) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("utf-8");
 		//解决乱码
 //		student_name = new String(student_name.getBytes("ISO-8859-1"),"utf-8");
 //		student_name = req.getParameter("student_name");
 //		System.out.println("student_name:"+student_name);
 		//验证身份证号码的有效性
-		if(student_idcard!=null){
+		if(student_idcard != null){
 			boolean success = IDCardUtil.isIDCard(student_idcard);
 			if(!success){
 				throw new StudentException("身份证号码不合法");
@@ -48,6 +48,7 @@ public class StudentServiceImpl implements StudentService {
 				student.setStudent_idcard(student_idcard);
 				student.setStudent_recommend(student_recommend);
 				student.setStudent_tel(student_tel);
+				student.setPackageName(packageName);
 				try {
 					studentDao.updateByPrimaryKeySelective(student);
 				} catch (Exception e) {
@@ -65,6 +66,7 @@ public class StudentServiceImpl implements StudentService {
 			student.setStudent_idcard(student_idcard);
 			student.setStudent_recommend(student_recommend);
 			student.setStudent_tel(student_tel);
+			student.setPackageName(packageName);
 			try {
 				studentDao.save(student);
 			} catch (Exception e) {

@@ -1,5 +1,8 @@
 package cn.jyb.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -7,26 +10,24 @@ import org.springframework.stereotype.Service;
 import cn.jyb.dao.QuestionsMapper;
 import cn.jyb.entity.Questions;
 import cn.jyb.exception.DataBaseException;
+import cn.jyb.exception.QuestionsException;
 import cn.jyb.util.HttpUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 @Service("questionsService")
 public class QuestionsServiceImpl implements QuestionsService {
+	//“极速数据”驾考题库的appkey
 	public static final String APPKEY = "2485934808878226";// 你的appkey
+	//“极速数据”驾考题库的接口请求地址
 	public static final String URL = "http://api.jisuapi.com/driverexam/query";
-	public static final String type = "C1";// 驾照类型 A1,A3,B1,A2,B2,C1,C2,C3,D,E,F
-	public static final String subject = "4";// 1：科目一 4：科目四
-	public static final String pagesize = "10";
-//	public static final String pagenum = "1";
-	public static final String sort = "normal";// normal：顺序查询 rand：随机查询
 	
 	@Resource
 	private QuestionsMapper qMapper;
 	
 	public void addQuestsion(Integer pagenum) {
 		String result = null;
-		String url = URL + "?appkey=" + APPKEY + "&type=" + type + "&subject=" + subject + "&pagesize=" + pagesize
-				+ "&pagenum=" + pagenum + "&sort=" + sort;
+		String url = URL + "?appkey=" + APPKEY + "&type=" + "C1" + "&subject=" + "4" + "&pagesize=" + "10"
+				+ "&pagenum=" + pagenum + "&sort=" + "normal";
 		try {
 			result = HttpUtil.sendGet(url, "utf-8");
 			JSONObject json = JSONObject.fromObject(result);
@@ -61,7 +62,7 @@ public class QuestionsServiceImpl implements QuestionsService {
 						q.setPic(pic);
 						q.setType(type1);
 						q.setChapter(chapter);
-						q.setSubject(Integer.parseInt(subject));
+						q.setSubject(4);
 						System.out.println(q);
 						qMapper.saveQuestion(q);
 					}
@@ -71,6 +72,33 @@ public class QuestionsServiceImpl implements QuestionsService {
 			e.printStackTrace();
 			throw new DataBaseException("数据异常");
 		}
+	}
+
+	public List<Questions> getQuestions(Integer subject, Integer page, Integer pageSize, String sort) {
+		Integer offset = 0;
+		if(page != null && page > 1){
+			 offset = (page-1)*pageSize;
+		}
+		if(subject != 1 && subject != 4){
+			throw new QuestionsException("科目不正确");
+		}
+		List<Questions> result = new ArrayList<Questions>();
+		//顺序查找
+		if("normal".equals(sort.toLowerCase())){
+			result = qMapper.getNormalQuestions(subject, offset, pageSize);
+		}
+		//随机查找
+		if("rand".equals(sort.toLowerCase())){
+			if(subject==1){//科目1考试(100道题，无多选)
+				result = qMapper.getRandQuestions(subject,pageSize);
+			}else if(subject==4){//科目4考试(50道题，45单选，5多选)
+				result = qMapper.getRandQuestions(subject, pageSize-5);
+				//5道多选题
+				List<Questions> mult = qMapper.getMultSelection(pageSize-45);
+				result.addAll(mult);
+			}
+		}
+		return result;
 	}
 
 }

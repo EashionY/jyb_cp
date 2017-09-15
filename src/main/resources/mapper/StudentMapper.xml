@@ -14,7 +14,8 @@
 			student_license,
 			student_idcard,
 			student_recommend,
-			student_tel)
+			student_tel,
+			package_name)
 		VALUES(
 			#{user_id},
 			#{school_id},
@@ -22,7 +23,8 @@
 			#{student_license},
 			#{student_idcard},
 			#{student_recommend},
-			#{student_tel})
+			#{student_tel},
+			#{packageName})
 	</insert>
 	
 	<!-- 通过user_id和school_id查找学员 -->
@@ -102,6 +104,9 @@
 		    </if>
 		    <if test="pay_status != null">
 		    pay_status=#{pay_status},  
+		    </if>
+		    <if test="packageName != null">
+		    package_name=#{packageName}
 		    </if>
 		    signup_time=current_timestamp()
 		</set>
