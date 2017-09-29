@@ -17,10 +17,10 @@ public interface StudentService {
 	 * @param student_idcard
 	 * @param student_recommend
 	 * @param student_tel
-	 * @return
+	 * @return 返回学生选择的套餐价格
 	 * @throws UnsupportedEncodingException
 	 */
-	public boolean addStudent(HttpServletRequest req,String user_id,String school_id,String student_name,String student_license,
+	public String addStudent(HttpServletRequest req,String user_id,String school_id,String student_name,String student_license,
 			String student_idcard,String student_recommend,String student_tel,String packageName) throws UnsupportedEncodingException;
 	
 	/**

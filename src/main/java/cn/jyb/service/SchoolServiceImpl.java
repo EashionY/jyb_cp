@@ -303,16 +303,31 @@ public class SchoolServiceImpl implements SchoolService {
 
 	public boolean addPackage(Integer school_id, String packageName, String packageType, String packageIntro,
 			String packagePrice, String packageContent) {
-		cn.jyb.entity.Package pkg = new cn.jyb.entity.Package();
-		pkg.setSchoolId(school_id);
-		pkg.setPackageName(packageName);
-		pkg.setPackageType(packageType);
-		pkg.setPackageIntro(packageIntro);
-		pkg.setPackagePrice(packagePrice);
-		pkg.setPackageContent(packageContent);
-		int i = packageMapper.insert(pkg);
-		if(i != 1){
-			throw new SchoolException("增加报名套餐失败");
+		cn.jyb.entity.Package pkg = packageMapper.findPackage(school_id, packageName);
+		int i = 0;
+		if(pkg == null){
+			pkg = new cn.jyb.entity.Package();
+			pkg.setSchoolId(school_id);
+			pkg.setPackageName(packageName);
+			pkg.setPackageType(packageType);
+			pkg.setPackageIntro(packageIntro);
+			pkg.setPackagePrice(packagePrice);
+			pkg.setPackageContent(packageContent);
+			i = packageMapper.insert(pkg);
+			if(i != 1){
+				throw new SchoolException("增加报名套餐失败");
+			}
+		} else {
+			pkg.setSchoolId(school_id);
+			pkg.setPackageName(packageName);
+			pkg.setPackageType(packageType);
+			pkg.setPackageIntro(packageIntro);
+			pkg.setPackagePrice(packagePrice);
+			pkg.setPackageContent(packageContent);
+			i = packageMapper.updateByPrimaryKeySelective(pkg);
+			if(i != 1){
+				throw new SchoolException("增加报名套餐失败");
+			}
 		}
 		return i==1;
 	}

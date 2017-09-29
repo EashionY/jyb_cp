@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import cn.jyb.dao.PackageMapper;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.DataBaseException;
@@ -22,7 +23,10 @@ public class StudentServiceImpl implements StudentService {
 	@Resource
 	private StudentDao studentDao;
 	
-	public boolean addStudent(HttpServletRequest req,String user_id, String school_id, String student_name, String student_license,
+	@Resource
+	private PackageMapper packageMapper;
+	
+	public String addStudent(HttpServletRequest req,String user_id, String school_id, String student_name, String student_license,
 			String student_idcard, String student_recommend, String student_tel, String packageName) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("utf-8");
 		//解决乱码
@@ -37,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
 			}
 		}
 		Student student = studentDao.findStudent(Integer.parseInt(user_id),Integer.parseInt(school_id));
-		//已报名该驾校
+		//已报名该驾校  
 		if(student != null){
 			//付款成功
 			if(student.getPay_status() == 1){
@@ -55,7 +59,6 @@ public class StudentServiceImpl implements StudentService {
 					e.printStackTrace();
 					throw new StudentException("报名失败");
 				}
-				return true;
 			}
 		}else{//未报名该驾校
 			student = new Student();
@@ -73,8 +76,11 @@ public class StudentServiceImpl implements StudentService {
 				e.printStackTrace();
 				throw new StudentException("报名失败");
 			}
-			return true;
 		}
+		//通过驾校id和套餐名字获得套餐
+		cn.jyb.entity.Package pkg = packageMapper.findPackage(Integer.parseInt(school_id), packageName);
+		//返回套餐价格(精确到小数点后两位)
+		return pkg.getPackagePrice()+".00";
 	}
 
 	public List<Map<String, Object>> listAllStudent(String school_area, int page, int pageSize) {

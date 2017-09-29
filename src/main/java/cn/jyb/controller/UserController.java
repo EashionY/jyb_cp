@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.jyb.entity.User;
 import cn.jyb.service.UserService;
 import cn.jyb.util.JsonResult;
 import cn.jyb.util.Upload;
@@ -55,9 +56,9 @@ public class UserController extends ExceptionController{
 	public JsonResult modifyUserinfo(String phone, String nickname, String sex, String address,
 			String birthday, String signature, String xingzuo, String height, String weight,
 			String job, String salary, String interest, String region,HttpServletRequest req) throws UnsupportedEncodingException{
-		boolean tf = userService.modifyUserinfo(phone, nickname, sex, address, birthday, 
+		User user = userService.modifyUserinfo(phone, nickname, sex, address, birthday, 
 				signature, xingzuo, height, weight, job, salary, interest, region, req);
-		return new JsonResult(tf);
+		return new JsonResult(user);
 	}
 
 	@RequestMapping("/uploadHeadImg")

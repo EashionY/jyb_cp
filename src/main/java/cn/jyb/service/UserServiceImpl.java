@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-	public boolean modifyUserinfo(String phone, String nickname, String sex, String address, String birthday,
+	public User modifyUserinfo(String phone, String nickname, String sex, String address, String birthday,
 			String signature, String xingzuo, String height, String weight, String job, String salary,
 			String interest,String region,HttpServletRequest req) throws UnsupportedEncodingException {
 		req.setCharacterEncoding("UTF-8");
@@ -200,7 +200,7 @@ public class UserServiceImpl implements UserService {
 		if(i!=1){
 			throw new DataBaseException("用户信息修改失败");
 		}
-		return true;
+		return userDao.findByPhone(phone);
 	}
 
 	public String findPhoneById(int user_id) {

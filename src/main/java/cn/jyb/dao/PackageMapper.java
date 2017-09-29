@@ -3,6 +3,8 @@ package cn.jyb.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.jyb.entity.Package;
 
 public interface PackageMapper {
@@ -24,4 +26,12 @@ public interface PackageMapper {
      * @return
      */
 	List<Map<String, Object>> findBySchoolId(int school_id);
+	
+	/**
+	 * 通过学校id和套餐名字找到某套餐
+	 * @param school_id
+	 * @param packageName
+	 * @return
+	 */
+	Package findPackage(@Param("school_id")int school_id,@Param("packageName")String packageName);
 }

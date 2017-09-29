@@ -152,19 +152,20 @@ public class AlipayServiceImpl implements AlipayService {
 			params.put(name, valueStr);
 			str.append(name+":"+valueStr).append(line);
 		}
-		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("alipay.txt"),"UTF-8");
-		osw.write(str.toString());
-		osw.flush();
+		//调试，打印回调参数
+//		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("alipay.txt"),"UTF-8");
+//		osw.write(str.toString());
+//		osw.flush();
 		//调用SDK验证签名
 		//boolean AlipaySignature.rsaCheckV1(Map<String, String> params, String publicKey, String charset, String sign_type)
 		boolean flag = false;
 		try {
 			flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET, SIGN_TYPE);
-			osw.write("验签flag:"+flag+line);
-			osw.flush();
+//			osw.write("验签flag:"+flag+line);
+//			osw.flush();
 		} catch (AlipayApiException e) {
-			osw.write(e.toString()+line);
-			osw.flush();
+//			osw.write(e.toString()+line);
+//			osw.flush();
 			e.printStackTrace();
 			return "fail";
 		}
@@ -173,33 +174,33 @@ public class AlipayServiceImpl implements AlipayService {
 			String trade_status = params.get("trade_status");
 			String out_trade_no = params.get("out_trade_no");
 			Orders orders = ordersDao.findByNo(out_trade_no);
-			osw.write("数据库中的total_amount:"+orders.getTotal_amount()+line);
-			osw.write("返回参数total_amount:"+params.get("total_amount")+line);
-			osw.write("数据库中的seller_id:"+orders.getSeller_id()+line);
-			osw.write("返回参数seller_id:"+params.get("seller_id")+line);
-			osw.write("返回参数app_id:"+params.get("app_id")+line);
-			osw.write("应用id:"+APP_ID+line);
-			osw.flush();
+//			osw.write("数据库中的total_amount:"+orders.getTotal_amount()+line);
+//			osw.write("返回参数total_amount:"+params.get("total_amount")+line);
+//			osw.write("数据库中的seller_id:"+orders.getSeller_id()+line);
+//			osw.write("返回参数seller_id:"+params.get("seller_id")+line);
+//			osw.write("返回参数app_id:"+params.get("app_id")+line);
+//			osw.write("应用id:"+APP_ID+line);
+//			osw.flush();
 			//四步验证
 			if(orders!=null && orders.getTotal_amount().equals(params.get("total_amount"))
 					&& orders.getSeller_id().equals(params.get("seller_id"))
 					&& params.get("app_id").equals(APP_ID)){
-				osw.write("通过四步验证"+line);
-				osw.flush();
+//				osw.write("通过四步验证"+line);
+//				osw.flush();
 				int i;
 				try {
 					//更新数据库中交易状态
 					i = ordersDao.updateStatus(trade_status, out_trade_no);
 					ordersDao.finishOrder(out_trade_no);
 				} catch (Exception e) {
-					osw.write(e.toString()+line);
-					osw.flush();
+//					osw.write(e.toString()+line);
+//					osw.flush();
 					e.printStackTrace();
 					return "fail";
 				}
 				if(i!=1){
-					osw.write("数据库更新失败"+line);
-					osw.flush();
+//					osw.write("数据库更新失败"+line);
+//					osw.flush();
 					return "fail";
 				}
 				//交易成功
@@ -218,8 +219,8 @@ public class AlipayServiceImpl implements AlipayService {
 				}
 				return "success";
 			}else{
-				osw.write("未通过四步验证"+line);
-				osw.flush();
+//				osw.write("未通过四步验证"+line);
+//				osw.flush();
 				return "fail";
 			}
 		}else{

@@ -242,5 +242,4 @@ public class TalkServiceImpl implements TalkService{
 	}
 	
 	
-	
 }

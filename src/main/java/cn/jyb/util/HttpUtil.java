@@ -44,7 +44,6 @@ public class HttpUtil {
 	}
 
 	// HTTP POST request
-	@SuppressWarnings("deprecation")
 	public static String sendPost(String url, Map<String, String> param, String charset) throws Exception {
 		URL realurl = new URL(url);
 		HttpsURLConnection con = (HttpsURLConnection) realurl.openConnection();

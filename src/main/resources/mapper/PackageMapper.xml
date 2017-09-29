@@ -123,4 +123,8 @@
   	from package 
   	where school_id=#{school_id}
   </select>
+  
+  <select id="findPackage" resultMap="BaseResultMap">
+    select * from package where school_id=#{school_id} and package_name=#{packageName}
+  </select>
 </mapper>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.jyb.entity.User;
 import cn.jyb.exception.PhoneException;
 import cn.jyb.exception.PwdException;
 
@@ -56,7 +57,7 @@ public interface UserService {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public boolean modifyUserinfo(String phone,String nickname,String sex,String address,
+	public User modifyUserinfo(String phone,String nickname,String sex,String address,
 			String birthday,String signature,String xingzuo,String height,String weight,
 			String job,String salary,String interest,String region,HttpServletRequest req)throws UnsupportedEncodingException;
 	

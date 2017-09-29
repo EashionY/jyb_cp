@@ -106,7 +106,7 @@
 		    pay_status=#{pay_status},  
 		    </if>
 		    <if test="packageName != null">
-		    package_name=#{packageName}
+		    package_name=#{packageName},
 		    </if>
 		    signup_time=current_timestamp()
 		</set>
