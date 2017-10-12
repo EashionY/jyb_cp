@@ -1,5 +1,9 @@
 package cn.jyb.service;
-
+/**
+ * ¶ÌÐÅÑéÖ¤Âë
+ * @author Eashion
+ *
+ */
 public interface MsgService {
 	
 	/**

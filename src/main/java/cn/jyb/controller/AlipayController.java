@@ -35,6 +35,8 @@ public class AlipayController extends ExceptionController {
 		System.out.println(result);
 		PrintWriter pw = response.getWriter();
 		pw.write(result);
+		pw.flush();
+		pw.close();
 	}
 	
 }

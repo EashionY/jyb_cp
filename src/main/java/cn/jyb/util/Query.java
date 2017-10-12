@@ -2,7 +2,11 @@ package cn.jyb.util;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
+/**
+ * 从网上扒考题
+ * @author Eashion
+ *
+ */
 public class Query {
 	public static final String APPKEY = "2485934808878226";// 你的appkey
 	public static final String URL = "http://api.jisuapi.com/driverexam/query";
