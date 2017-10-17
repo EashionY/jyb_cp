@@ -50,17 +50,17 @@ public class WxpayServiceImpl implements WxpayService {
 		if(price100 <= 0){
 			throw new WxpayException("付款金额错误");
 		}
-		logger.info("price100:"+price100);
+		logger.error("price100:"+price100);
 		System.out.println("price100:"+price100);
 		//商品描述(格式为：驾易宝-xx驾校报名)
 		String body = request.getParameter("body");
-		logger.info("body:"+body);
+		logger.error("body:"+body);
 		System.out.println("body:"+body);
 		//生成订单号
 		String out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
 		//下单的终端IP
 		String spbill_create_ip = WxpayUtil.getIPAddr(request);
-		logger.info("spbill_create_ip:"+spbill_create_ip);
+		logger.error("spbill_create_ip:"+spbill_create_ip);
 		System.out.println("spbill_create_ip:"+spbill_create_ip);
 		//微信服务器异步通知地址
 		String notify_url = "http://api.drivingyeepay.com/jyb_cp/wxpay/notify";
@@ -134,7 +134,7 @@ public class WxpayServiceImpl implements WxpayService {
 		Map<String, String> map = new HashMap<String, String>();
 		map = XMLUtil.doXMLParse(sb.toString());
 		for(Object keyValue : map.keySet()){
-			logger.info(keyValue+"="+map.get(keyValue));
+			logger.error(keyValue+"="+map.get(keyValue));
 		}
 		//过滤空值null，设置TreeMap
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
@@ -161,7 +161,7 @@ public class WxpayServiceImpl implements WxpayService {
 				String transaction_id = (String)packageParams.get("transaction_id");
 				Orders orders = ordersDao.findByNo(out_trade_no);
 				if(!WxpayConfig.MCH_ID.equals(mch_id) || orders==null || new BigDecimal(total_fee).compareTo(new BigDecimal(orders.getTotal_amount()).multiply(new BigDecimal(100))) != 0){
-					logger.info("支付失败，错误信息：" + "参数错误");
+					logger.error("支付失败，错误信息：" + "参数错误");
 					resXML = "<xml>"
 							   + "<return_code><![CDATA[FAIL]]></return_code>"
 							   + "<return_msg><![CDATA[参数错误]]></return_msg>"
@@ -171,7 +171,7 @@ public class WxpayServiceImpl implements WxpayService {
 					int i = ordersDao.updateStatus("TRADE_SUCCESS", out_trade_no);
 					ordersDao.finishOrder(out_trade_no);
 					if(i != 1){
-						logger.info("支付失败，错误信息：" + "服务器订单状态更新失败");
+						logger.error("支付失败，错误信息：" + "服务器订单状态更新失败");
 						resXML = "<xml>"
 								   + "<return_code><![CDATA[FAIL]]></return_code>"
 								   + "<return_msg><![CDATA[数据库订单交易状态更新失败]]></return_msg>"
@@ -192,18 +192,18 @@ public class WxpayServiceImpl implements WxpayService {
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"
 									+ "<return_msg><![CDATA[OK]]></return_msg>"
 									+ "</xml>";
-						logger.info("支付成功，订单已处理");
+						logger.error("支付成功，订单已处理");
 					}
 				}
 			}else{
-				logger.info("支付失败,错误信息：" + packageParams.get("err_code"));  
+				logger.error("支付失败,错误信息：" + packageParams.get("err_code"));  
                 resXML = "<xml>" 
                            + "<return_code><![CDATA[FAIL]]></return_code>"  
                            + "<return_msg><![CDATA[报文为空]]></return_msg>" 
                            + "</xml> ";
 			}
 		}else{
-			logger.info("通知签名验证失败");
+			logger.error("通知签名验证失败");
 			resXML = "<xml>" 
 						+ "<return_code><![CDATA[FAIL]]></return_code>"  
 						+ "<return_msg><![CDATA[报文为空]]></return_msg>" 

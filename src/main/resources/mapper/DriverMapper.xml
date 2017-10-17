@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.DriverMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.Driver">
+    <id column="driver_id" jdbcType="INTEGER" property="driverId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
+    <result column="driver_license_pic" jdbcType="VARCHAR" property="driverLicensePic" />
+    <result column="driving_license_pic" jdbcType="VARCHAR" property="drivingLicensePic" />
+    <result column="car_no" jdbcType="VARCHAR" property="carNo" />
+    <result column="car_brand" jdbcType="VARCHAR" property="carBrand" />
+    <result column="driver_regtime" jdbcType="TIMESTAMP" property="driverRegtime" />
+    <result column="driver_status" jdbcType="TINYINT" property="driverStatus" />
+    <result column="driver_idcard" jdbcType="VARCHAR" property="driverIdcard" />
+    <result column="driver_license_date" jdbcType="VARCHAR" property="driverLicenseDate" />
+    <result column="car_owner" jdbcType="VARCHAR" property="carOwner" />
+    <result column="driving_license_date" jdbcType="VARCHAR" property="drivingLicenseDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    driver_id, user_id, driver_name, driver_license_pic, driving_license_pic, car_no, 
+    car_brand, driver_regtime, driver_status, driver_idcard, driver_license_date, car_owner, 
+    driving_license_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from driver
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from driver
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.Driver">
+    <selectKey keyProperty="driverId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into driver (driver_id, user_id, driver_name, 
+      driver_license_pic, driving_license_pic, car_no, 
+      car_brand, driver_regtime, driver_status, 
+      driver_idcard, driver_license_date, car_owner, 
+      driving_license_date)
+    values (#{driverId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{driverName,jdbcType=VARCHAR}, 
+      #{driverLicensePic,jdbcType=VARCHAR}, #{drivingLicensePic,jdbcType=VARCHAR}, #{carNo,jdbcType=VARCHAR}, 
+      #{carBrand,jdbcType=VARCHAR}, #{driverRegtime,jdbcType=TIMESTAMP}, #{driverStatus,jdbcType=TINYINT}, 
+      #{driverIdcard,jdbcType=VARCHAR}, #{driverLicenseDate,jdbcType=VARCHAR}, #{carOwner,jdbcType=VARCHAR}, 
+      #{drivingLicenseDate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.Driver">
+    <selectKey keyProperty="driverId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into driver
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      driver_id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="driverName != null">
+        driver_name,
+      </if>
+      <if test="driverLicensePic != null">
+        driver_license_pic,
+      </if>
+      <if test="drivingLicensePic != null">
+        driving_license_pic,
+      </if>
+      <if test="carNo != null">
+        car_no,
+      </if>
+      <if test="carBrand != null">
+        car_brand,
+      </if>
+      <if test="driverRegtime != null">
+        driver_regtime,
+      </if>
+      <if test="driverStatus != null">
+        driver_status,
+      </if>
+      <if test="driverIdcard != null">
+        driver_idcard,
+      </if>
+      <if test="driverLicenseDate != null">
+        driver_license_date,
+      </if>
+      <if test="carOwner != null">
+        car_owner,
+      </if>
+      <if test="drivingLicenseDate != null">
+        driving_license_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{driverId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="driverName != null">
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicensePic != null">
+        #{driverLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicensePic != null">
+        #{drivingLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null">
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null">
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="driverRegtime != null">
+        #{driverRegtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverStatus != null">
+        #{driverStatus,jdbcType=TINYINT},
+      </if>
+      <if test="driverIdcard != null">
+        #{driverIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicenseDate != null">
+        #{driverLicenseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwner != null">
+        #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicenseDate != null">
+        #{drivingLicenseDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.Driver">
+    update driver
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="driverName != null">
+        driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicensePic != null">
+        driver_license_pic = #{driverLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicensePic != null">
+        driving_license_pic = #{drivingLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null">
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null">
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="driverRegtime != null">
+        driver_regtime = #{driverRegtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverStatus != null">
+        driver_status = #{driverStatus,jdbcType=TINYINT},
+      </if>
+      <if test="driverIdcard != null">
+        driver_idcard = #{driverIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="driverLicenseDate != null">
+        driver_license_date = #{driverLicenseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="carOwner != null">
+        car_owner = #{carOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicenseDate != null">
+        driving_license_date = #{drivingLicenseDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.Driver">
+    update driver
+    set user_id = #{userId,jdbcType=INTEGER},
+      driver_name = #{driverName,jdbcType=VARCHAR},
+      driver_license_pic = #{driverLicensePic,jdbcType=VARCHAR},
+      driving_license_pic = #{drivingLicensePic,jdbcType=VARCHAR},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      car_brand = #{carBrand,jdbcType=VARCHAR},
+      driver_regtime = #{driverRegtime,jdbcType=TIMESTAMP},
+      driver_status = #{driverStatus,jdbcType=TINYINT},
+      driver_idcard = #{driverIdcard,jdbcType=VARCHAR},
+      driver_license_date = #{driverLicenseDate,jdbcType=VARCHAR},
+      car_owner = #{carOwner,jdbcType=VARCHAR},
+      driving_license_date = #{drivingLicenseDate,jdbcType=VARCHAR}
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from driver
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="findAllDriver" parameterType="java.lang.Integer" resultType="java.util.Map">
+    select 
+    (select count(*) from driver 
+    <if test="driverStatus != null">
+    where driver_status = #{driverStatus}
+    </if>) as num,<include refid="Base_Column_List" /> 
+    from driver
+    <if test="driverStatus != null">
+    where driver_status = #{driverStatus}
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+</mapper>
