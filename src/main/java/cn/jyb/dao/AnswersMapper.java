@@ -1,5 +1,10 @@
 package cn.jyb.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
 import cn.jyb.entity.Answers;
 
 public interface AnswersMapper {
@@ -15,5 +20,7 @@ public interface AnswersMapper {
 
     int updateByPrimaryKey(Answers record);
     
-    Answers findByIds(Integer userId,Integer questionId);
+    Answers findByIds(@Param("userId")Integer userId,@Param("questionId")Integer questionId);
+    
+    List<Map<String,Object>> viewWrong(@Param("userId")Integer userId,@Param("subject")Integer subject);
 }

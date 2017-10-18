@@ -18,13 +18,26 @@ public class QuestionsController extends ExceptionController {
 
 	@Resource
 	private QuestionsService questionsService;
-	
+
 	@RequestMapping("/getQuestions")
 	@ResponseBody
-	public JsonResult getQuestions(Integer subject, Integer page, Integer pageSize, String sort){
+	public JsonResult getQuestions(Integer subject, Integer page, Integer pageSize, String sort) {
 		List<Questions> result = questionsService.getQuestions(subject, page, pageSize, sort);
 		return new JsonResult(result);
 	}
+
+	@RequestMapping("/getChapter")
+	@ResponseBody
+	public JsonResult getChapter(Integer subject) {
+		return new JsonResult(questionsService.getChapter(subject));
+	}
+
+	@RequestMapping("/getQuestionsByChapter")
+	@ResponseBody
+	public JsonResult getQuestionsByChapter(String chapter, Integer page, Integer pageSize) {
+		return new JsonResult(questionsService.getQuestionsByChapter(chapter, page, pageSize));
+	}
+
 	
 	
 }

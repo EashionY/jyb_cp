@@ -21,6 +21,8 @@ public class Answers implements Serializable{
     private Integer questionId;
 
     private Integer wrongTimes;
+    
+    private Integer subject;
 
     private Date lastTime;
 
@@ -56,7 +58,15 @@ public class Answers implements Serializable{
         this.wrongTimes = wrongTimes;
     }
 
-    public Date getLastTime() {
+    public Integer getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Integer subject) {
+		this.subject = subject;
+	}
+
+	public Date getLastTime() {
         return lastTime;
     }
 
@@ -67,7 +77,7 @@ public class Answers implements Serializable{
 	@Override
 	public String toString() {
 		return "Answers [id=" + id + ", userId=" + userId + ", questionId=" + questionId + ", wrongTimes=" + wrongTimes
-				+ ", lastTime=" + lastTime + "]";
+				+ ", subject=" + subject + ", lastTime=" + lastTime + "]";
 	}
 
 	@Override

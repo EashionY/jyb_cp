@@ -1,6 +1,7 @@
 package cn.jyb.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -45,4 +46,21 @@ public interface QuestionsMapper {
 	 * @return
 	 */
     List<Questions> getMultSelection(@Param("pageSize")Integer pageSize);
+    
+    /**
+     * 获取对应科目考试的章节考题数量
+     * @param subject
+     * @return
+     */
+    List<Map<String,Object>> getChapter(@Param("subject")Integer subject);
+    
+    /**
+     * 获取对应章节的考题
+     * @param chapter
+     * @return
+     */
+    List<Questions> getQuestionsByChapter(@Param("chapter")String chapter,@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
+    
+    
+    
 }

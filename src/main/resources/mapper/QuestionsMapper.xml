@@ -226,4 +226,19 @@
     order by rand()
     limit #{pageSize}
   </select>
+  
+  <select id="getChapter" resultType="java.util.Map">
+    select chapter,count(*) as num,subject 
+    from questions 
+    where subject=#{subject} 
+    group by chapter
+  </select>
+  
+  <select id="getQuestionsByChapter" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+    from questions
+    where chapter=#{chapter}
+    limit #{offset},#{pageSize}
+  </select>
 </mapper>

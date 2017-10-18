@@ -16,11 +16,17 @@ public class AnswersController extends ExceptionController {
 	@Resource
 	private AnswersService answersService;
 	
-	@RequestMapping("/saveAnswer")
+	@RequestMapping("/saveWrong")
 	@ResponseBody
-	public JsonResult saveAnswer(Integer userId,Integer questionId){
-		answersService.saveAnswer(userId, questionId);
+	public JsonResult saveAnswer(Integer userId,Integer questionId,Integer subject){
+		answersService.saveAnswer(userId, questionId, subject);
 		return new JsonResult("");
+	}
+	
+	@RequestMapping("/viewWrong")
+	@ResponseBody
+	public JsonResult viewWrong(Integer userId,Integer subject){
+		return new JsonResult(answersService.viewWrong(userId, subject));
 	}
 	
 	

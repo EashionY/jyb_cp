@@ -1,6 +1,7 @@
 package cn.jyb.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -24,5 +25,21 @@ public interface QuestionsService {
 	 * @return
 	 */
 	public List<Questions> getQuestions(Integer subject,Integer page,Integer pageSize,String sort);
+	
+	/**
+	 * 获取对应科目考试的章节考题数量
+	 * @param subject
+	 * @return
+	 */
+	public List<Map<String,Object>> getChapter(Integer subject);
+	
+	/**
+	 * 获取对应章节的考题
+	 * @param chapter
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Questions> getQuestionsByChapter(String chapter,Integer page,Integer pageSize);
 	
 }
