@@ -18,6 +18,9 @@ import cn.jyb.service.UserService;
 import cn.jyb.util.JsonResult;
 import cn.jyb.util.Upload;
 
+/**
+ * The Class UserController.
+ */
 @Controller
 @RequestMapping("/account")
 public class UserController extends ExceptionController{
@@ -28,6 +31,12 @@ public class UserController extends ExceptionController{
 	@Resource
 	private UserService userService;
 	
+	/**
+	 * 用户登录.
+	 * @param phone the phone
+	 * @param password the password
+	 * @return the json result
+	 */
 	@RequestMapping("/login")
 	@ResponseBody
 	public JsonResult login(String phone,String password){
@@ -35,6 +44,14 @@ public class UserController extends ExceptionController{
 		return new JsonResult(result);
 	}
 	
+	/**
+	 * 注册.
+	 * @param phone the phone
+	 * @param password the password
+	 * @param role the role
+	 * @param verCode the ver code
+	 * @return the json result
+	 */
 	@RequestMapping("/regist")
 	@ResponseBody
 	public JsonResult regist(String phone,String password,String role,String verCode){
@@ -43,6 +60,13 @@ public class UserController extends ExceptionController{
 		return new JsonResult(tf);
 	}
 	
+	/**
+	 * 重置密码.
+	 * @param phone the phone
+	 * @param newPassword the new password
+	 * @param verCode the ver code
+	 * @return the json result
+	 */
 	@RequestMapping("/resetPwd")
 	@ResponseBody
 	public JsonResult resetPwd(String phone,String newPassword,String verCode){
@@ -51,6 +75,25 @@ public class UserController extends ExceptionController{
 		return new JsonResult(tf);
 	}
 	
+	/**
+	 * 修改用户信息.
+	 * @param phone the phone
+	 * @param nickname the nickname
+	 * @param sex the sex
+	 * @param address the address
+	 * @param birthday the birthday
+	 * @param signature the signature
+	 * @param xingzuo the xingzuo
+	 * @param height the height
+	 * @param weight the weight
+	 * @param job the job
+	 * @param salary the salary
+	 * @param interest the interest
+	 * @param region the region
+	 * @param req the req
+	 * @return the json result
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 */
 	@RequestMapping("/modifyUserinfo")
 	@ResponseBody
 	public JsonResult modifyUserinfo(String phone, String nickname, String sex, String address,
@@ -61,6 +104,13 @@ public class UserController extends ExceptionController{
 		return new JsonResult(user);
 	}
 
+	/**
+	 * Upload head img.
+	 * @param phone the phone
+	 * @param request the request
+	 * @return the json result
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@RequestMapping("/uploadHeadImg")
 	@ResponseBody
     public JsonResult uploadHeadImg(@RequestParam("phone")String phone,HttpServletRequest request) throws IOException{ 
@@ -75,9 +125,9 @@ public class UserController extends ExceptionController{
 	}
 	
 	/**
-	 * 获得推荐码
-	 * @param user_id
-	 * @return
+	 * 获得推荐码.
+	 * @param user_id the user id
+	 * @return the recomd code
 	 */
 	@RequestMapping("/getRecomdCode")
 	@ResponseBody
@@ -85,4 +135,45 @@ public class UserController extends ExceptionController{
 		Integer recomdCode = user_id + ENCRYPTCODE;
 		return new JsonResult(recomdCode);
 	}
+	
+	/**
+	 * 用户切换角色端口.
+	 * @param user_id the user id
+	 * @param role the role
+	 * @return the json result
+	 */
+	@RequestMapping("/changeRole")
+	@ResponseBody
+	public JsonResult changeRole(Integer user_id, String role){
+		return new JsonResult(userService.changeRole(user_id, role));
+	}
+	
+	/**
+	 * 用户修改密码.
+	 * @param phone the phone
+	 * @param oldPwd the old pwd
+	 * @param newPwd the new pwd
+	 * @return the json result
+	 */
+	@RequestMapping("/modifyPwd")
+	@ResponseBody
+	public JsonResult modifyPwd(String phone, String oldPwd, String newPwd){
+		return new JsonResult(userService.modifyPassword(phone, oldPwd, newPwd));
+	}
+	
+	/**
+	 * 用户变更登录手机号.
+	 * @param user_id the user id
+	 * @param newPhone the new phone
+	 * @param phoneCode the phone code
+	 * @return the json result
+	 */
+	@RequestMapping("/changePhone")
+	@ResponseBody
+	public JsonResult changePhone(Integer user_id, String newPhone, String phoneCode){
+		return new JsonResult(userService.changePhone(user_id, newPhone, phoneCode));
+	}
+	
+	
+	
 }

@@ -3,30 +3,31 @@ package cn.jyb.entity;
 import java.util.Date;
 
 public class Driver {
+	//车主id
     private Integer driverId;
-
+    //用户id
     private Integer userId;
-
+    //车主姓名
     private String driverName;
-
+    //驾驶证照片
     private String driverLicensePic;
-
+    //行驶证照片
     private String drivingLicensePic;
-
+    //车牌号
     private String carNo;
-
+    //汽车品牌
     private String carBrand;
-
+    //车主注册时间(该平台注册时间)
     private Date driverRegtime;
-
+    //车主认证状态
     private Integer driverStatus;
-
+    //车主身份证号
     private String driverIdcard;
-
+    //驾照领证日期
     private String driverLicenseDate;
-
+    //车辆所有人姓名
     private String carOwner;
-
+    //行驶证注册日期
     private String drivingLicenseDate;
 
     public Integer getDriverId() {

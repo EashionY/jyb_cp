@@ -57,15 +57,6 @@ public class DriverServiceImpl implements DriverService {
 		return driverStatus;
 	}
 
-	public boolean completeDriverInfo(Integer driverId, String driverName, String carNo, String carBrand) {
-		Driver driver = new Driver();
-		driver.setDriverId(driverId);
-		driver.setDriverName(driverName);
-		driver.setCarNo(carNo);
-		driver.setCarBrand(carBrand);
-		return driverMapper.updateByPrimaryKeySelective(driver);
-	}
-
 	public List<Map<String,Object>> findAllDriver(Integer driverStatus, Integer page, Integer pageSize) {
 		Integer offset = (page-1)*pageSize;
 		return driverMapper.findAllDriver(driverStatus, offset, pageSize);

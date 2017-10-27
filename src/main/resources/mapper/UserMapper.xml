@@ -49,7 +49,7 @@
 
 	<!-- 修改密码 -->
 	<update id="modifyPassword">
-		UPDATE user SET password=#{1} WHERE phone=#{0}
+		UPDATE user SET password=#{newPassword} WHERE phone=#{phone}
 	</update>
 
 	<!-- 修改用户个人资料 -->
@@ -70,9 +70,9 @@
 		WHERE phone=#{phone}
 	</update>
 
-	<!-- 通过教练名查找教练(role=0) -->
+	<!-- 通过教练名查找教练(role=1) -->
 	<select id="findCoachByName" parameterType="String" resultType="cn.jyb.entity.User">
-		SELECT * FROM user WHERE username=#{username} AND role='0'
+		SELECT * FROM user WHERE username=#{username} AND role='1'
 	</select>
 
 	<!-- 通过用户id查找用户 -->
@@ -85,6 +85,17 @@
 	<update id="updateHeadImg">
 		UPDATE user SET imgpath=#{0} WHERE phone=#{1}
 	</update>
+	
+	<!-- 切换用户的角色 -->
+	<update id="changeRole">
+	    UPDATE user SET role=#{role} WHERE user_id=#{user_id}
+	</update>
+	
+	<!-- 用户更换手机号 -->
+	<update id="changePhone">
+	    UPDATE user SET phone=#{newPhone} WHERE user_id=#{user_id}
+	</update>
+	
 </mapper>
 
 

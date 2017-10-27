@@ -71,4 +71,11 @@ public class StudentController extends ExceptionController {
 		return new JsonResult(result);
 	}
 	
+	@RequestMapping("/findStudentByUserId")
+	@ResponseBody
+	public JsonResult findStudentByUserId(Integer user_id){
+		return new JsonResult(studentService.findStudentByUserId(user_id));
+	}
+	
+	
 }

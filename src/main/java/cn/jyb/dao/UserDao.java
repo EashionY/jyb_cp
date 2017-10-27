@@ -1,5 +1,7 @@
 package cn.jyb.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import cn.jyb.entity.User;
 
 public interface UserDao {
@@ -24,7 +26,7 @@ public interface UserDao {
 	 * @param newPassword
 	 * @return
 	 */
-	public int modifyPassword(String phone,String newPassword);
+	public int modifyPassword(@Param("phone")String phone,@Param("newPassword")String newPassword);
 	
 	/**
 	 * 修改用户信息
@@ -46,4 +48,21 @@ public interface UserDao {
 	 * @return int
 	 */
 	public int updateHeadImg(String imgpath,String phone);
+	
+	/**
+	 * 切换客户端角色
+	 * @param user_id
+	 * @param role 0:学员，1:教练，2:车主
+	 * @return
+	 */
+	public int changeRole(@Param("user_id")Integer user_id,@Param("role")String role);
+	
+	/**
+	 * 用户更换手机号
+	 * @param user_id
+	 * @param newPhone
+	 * @return
+	 */
+	public int changePhone(@Param("user_id")Integer user_id,@Param("newPhone")String newPhone);
+	
 }

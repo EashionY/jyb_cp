@@ -6,10 +6,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.jyb.entity.Student;
+
 public interface StudentService {
 
 	/**
-	 * 报名驾校
+	 * 报名驾校（每个学员只能报名一个驾校）
 	 * @param user_id
 	 * @param school_id
 	 * @param student_name
@@ -52,4 +54,13 @@ public interface StudentService {
 	 * @return
 	 */
 	public List<Map<String,Object>> findStudentBySignupTime(String signup_time);
+	
+	/**
+	 * 通过用户id查找学员
+	 * @param user_id
+	 * @return
+	 */
+	public Student findStudentByUserId(Integer user_id);
+	
+	
 }

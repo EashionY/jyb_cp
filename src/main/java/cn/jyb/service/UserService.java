@@ -76,4 +76,30 @@ public interface UserService {
 	 */
 	public boolean updateHeadImg(String imgpath,String phone);
 	
+	/**
+	 * 切换用户角色
+	 * @param user_id
+	 * @param role 0:学员，1:教练，2:车主
+	 * @return user 用户信息
+	 */
+	public User changeRole(Integer user_id,String role);
+	
+	/**
+	 * 修改密码
+	 * @param phone
+	 * @param oldPwd
+	 * @param newPwd
+	 * @return boolean
+	 */
+	public boolean modifyPassword(String phone,String oldPwd,String newPwd);
+	
+	/**
+	 * 用户更换手机号
+	 * @param user_id 用户id
+	 * @param newPhone 新手机号
+	 * @param phoneCode 手机验证码
+	 * @return
+	 */
+	public boolean changePhone(Integer user_id,String newPhone,String phoneCode);
+	
 }

@@ -43,6 +43,12 @@ public class MsgController extends ExceptionController {
 		return new JsonResult(code);
 	}
 	
+	@RequestMapping("/sendPhoneCode")
+	@ResponseBody
+	public JsonResult sendPhoneCode(String phone){
+		return new JsonResult(msgService.sendPhoneCode(phone));
+	}
+	
 	@ExceptionHandler(PhoneException.class)
 	@ResponseBody
 	public JsonResult phoneexp(PhoneException e){

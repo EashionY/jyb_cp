@@ -6,11 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import cn.jyb.entity.Driver;
-
 public interface DriverService {
 	/**
-	 * 添加车主（成为车主）
+	 * 添加车主（车主认证）
 	 * @param request 
 	 * 传参：userId,carBrand,驾驶证与行驶证两张图片,driverName,carNo,driverIdcard,driverLicenseDate,carOwner,drivingLicenseDate
 	 * @return 
@@ -26,16 +24,6 @@ public interface DriverService {
 	 * @return
 	 */
 	public Integer dealDriver(Integer driverId, Integer driverStatus);
-	
-	/**
-	 * 补全车主信息（后台管理系统）
-	 * @param driverId
-	 * @param driverName
-	 * @param carNo
-	 * @param carBrand
-	 * @return
-	 */
-	public boolean completeDriverInfo(Integer driverId,String driverName,String carNo,String carBrand);
 	
 	/**
 	 * 分状态查找车主（后台管理系统）

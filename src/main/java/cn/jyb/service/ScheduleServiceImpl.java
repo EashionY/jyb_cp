@@ -11,13 +11,19 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import cn.jyb.dao.CoachDao;
 import cn.jyb.dao.CoachScheduleDao;
+import cn.jyb.dao.SchoolDao;
+import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.StudentScheduleDao;
+import cn.jyb.entity.Coach;
 import cn.jyb.entity.CoachSchedule;
+import cn.jyb.entity.Student;
 import cn.jyb.entity.StudentSchedule;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.DataErrorException;
 import cn.jyb.exception.ScheduleException;
+import cn.jyb.exception.StudentException;
 @Service("scheduleService")
 public class ScheduleServiceImpl implements ScheduleService {
 
@@ -28,6 +34,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 	
 	@Resource
 	private StudentScheduleDao studentScheduleDao;
+	
+	@Resource
+	private StudentDao studentDao;
+	
+	@Resource
+	private SchoolDao schoolDao;
+	
+	@Resource
+	private CoachDao coachDao;
 	
 	@SuppressWarnings("unchecked")
 	public boolean setCoachSchedule(String data) {
@@ -100,12 +115,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 		//将Json字符串解析map
 		objectMapper = new ObjectMapper();
 		int coach_id;
+		int student_id;
 		try {
 			//解析传入的data数据
 			Map<String,String> params = objectMapper.readValue(data, Map.class);
 			System.out.println(params);
 			//教练id
 			coach_id = Integer.parseInt(params.get("coach_id"));
+			//学员id
+			student_id = Integer.parseInt(params.get("student_id"));
 			//日期1
 			String date1 = params.get("date1");
 			dates.add(date1);
@@ -118,6 +136,31 @@ public class ScheduleServiceImpl implements ScheduleService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataErrorException("数据解析异常");
+		}
+		//通过学员id找到对应的学员
+		Student student = studentDao.findById(student_id);
+		if(student == null){
+			throw new StudentException("无效的学员id");
+		}else{
+			//学员的付款状态
+			Integer pay_status = student.getPay_status();
+			if(pay_status.equals(0)){
+				//未付款成功
+				throw new StudentException("请先完成驾校报名，再预约教练");
+			}else{
+				//驾校的id
+				Integer school_id = student.getSchool_id();
+				Map<String,Object> school = schoolDao.schoolDetail(school_id);
+				//获得驾校名字
+				String school_name = (String) school.get("school_name");
+				//获得该教练所属驾校名字
+				Coach coach = coachDao.findById(coach_id);
+				String school_name2 = coach.getSchool_name();
+				//报名的驾校和预约教练所属驾校不对应
+				if(!school_name.equals(school_name2)){
+					throw new StudentException("请预约对应报名驾校的教练");
+				}
+			}
 		}
 		for(String appoint_time : dates){
 			//用于存储教练每天的日程安排

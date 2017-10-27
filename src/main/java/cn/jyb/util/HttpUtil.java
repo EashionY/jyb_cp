@@ -46,7 +46,7 @@ public class HttpUtil {
 	// HTTP POST request
 	public static String sendPost(String url, Map<String, String> param, String charset) throws Exception {
 		URL realurl = new URL(url);
-		HttpsURLConnection con = (HttpsURLConnection) realurl.openConnection();
+		HttpURLConnection con = (HttpURLConnection) realurl.openConnection();
 		
 		con.setRequestMethod("POST");
 		// add reuqest header
@@ -69,9 +69,8 @@ public class HttpUtil {
 		wr.writeBytes(buffer.toString());
 		wr.flush();
 		wr.close();
-		// int responseCode = con.getResponseCode();
-		// System.out.println("Post parameters : " + urlParameters);
-		// System.out.println("Response Code : " + responseCode);
+		int responseCode = con.getResponseCode();
+		System.out.println("Response Code : " + responseCode);
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), charset));
 		String inputLine;

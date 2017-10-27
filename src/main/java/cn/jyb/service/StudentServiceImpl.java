@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import cn.jyb.dao.PackageMapper;
+import cn.jyb.dao.SchoolDao;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.DataBaseException;
@@ -22,6 +23,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Resource
 	private StudentDao studentDao;
+	
+	@Resource
+	private SchoolDao schoolDao;
 	
 	@Resource
 	private PackageMapper packageMapper;
@@ -40,13 +44,18 @@ public class StudentServiceImpl implements StudentService {
 				throw new StudentException("身份证号码不合法");
 			}
 		}
-		Student student = studentDao.findStudent(Integer.parseInt(user_id),Integer.parseInt(school_id));
-		//已报名该驾校  
+		Student student = studentDao.findByUserId(Integer.parseInt(user_id));
+		//已报名某驾校
 		if(student != null){
 			//付款成功
 			if(student.getPay_status() == 1){
-				throw new StudentException("已报名该驾校，请勿重复操作");
+				//学员报名成功的驾校id
+				Integer schoolId = student.getSchool_id();
+				Map<String,Object> school = schoolDao.schoolDetail(schoolId);
+				String schoolName = (String) school.get("school_name");
+				throw new StudentException("已报名驾校："+schoolName);
 			}else{//付款未成功
+				student.setSchool_id(Integer.parseInt(school_id));
 				student.setStudent_name(student_name);
 				student.setStudent_license(student_license);
 				student.setStudent_idcard(student_idcard);
@@ -60,7 +69,7 @@ public class StudentServiceImpl implements StudentService {
 					throw new StudentException("报名失败");
 				}
 			}
-		}else{//未报名该驾校
+		}else{//未报名
 			student = new Student();
 			student.setUser_id(Integer.parseInt(user_id));
 			student.setSchool_id(Integer.parseInt(school_id));
@@ -136,5 +145,11 @@ public class StudentServiceImpl implements StudentService {
 		}
 		return result;
 	}
+
+	public Student findStudentByUserId(Integer user_id) {
+		return studentDao.findByUserId(user_id);
+	}
+	
+	
 	
 }

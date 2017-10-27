@@ -391,7 +391,6 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 		int offset = (page-1)*pageSize;
 		List<TeachRecord> list;
 		if(evaltype == 0){
-			System.out.println(true);
 			//查看全部评价
 			list = teachRecordDao.findTeachEvaluation(coach_id, offset, pageSize);
 		}else{

@@ -26,4 +26,13 @@ public interface MsgService {
 	 * @return
 	 */
 	public String sendPayCode(String phone);
+	
+	/**
+	 * 发送变更手机号验证码
+	 * @param phone
+	 * @return
+	 */
+	public String sendPhoneCode(String phone);
+	
+	
 }

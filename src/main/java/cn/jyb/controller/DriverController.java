@@ -37,14 +37,6 @@ public class DriverController {
 		return new JsonResult(status);
 	}
 	
-	@RequestMapping("/completeDriverInfo")
-	@ResponseBody
-	public JsonResult completeDriverInfo(HttpServletResponse response,Integer driverId,String driverName,String carNo,String carBrand){
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		boolean tf = driverService.completeDriverInfo(driverId, driverName, carNo, carBrand);
-		return new JsonResult(tf);
-	}
-	
 	@RequestMapping("/findAllDriver")
 	@ResponseBody
 	public JsonResult findAllDriver(HttpServletResponse response,Integer driverStatus,Integer page,Integer pageSize){
