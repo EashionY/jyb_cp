@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.ShippingAddrMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.ShippingAddr">
+    <id column="addr_id" jdbcType="INTEGER" property="addrId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+    <result column="receiver_phone" jdbcType="VARCHAR" property="receiverPhone" />
+    <result column="addr_detail" jdbcType="VARCHAR" property="addrDetail" />
+    <result column="as_default" jdbcType="INTEGER" property="asDefault" />
+    <result column="creatime" jdbcType="TIMESTAMP" property="creatime" />
+    <result column="updatime" jdbcType="TIMESTAMP" property="updatime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    addr_id, user_id, receiver_name, receiver_phone, addr_detail, as_default, creatime, 
+    updatime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from shipping_addr
+    where addr_id = #{addrId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from shipping_addr
+    where addr_id = #{addrId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.ShippingAddr">
+    <selectKey keyProperty="addrId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into shipping_addr (addr_id, user_id, receiver_name, 
+      receiver_phone, addr_detail, as_default, 
+      creatime, updatime)
+    values (#{addrId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, 
+      #{receiverPhone,jdbcType=VARCHAR}, #{addrDetail,jdbcType=VARCHAR}, #{asDefault,jdbcType=INTEGER}, 
+      #{creatime,jdbcType=TIMESTAMP}, #{updatime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.ShippingAddr">
+    <selectKey keyProperty="addrId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into shipping_addr
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      addr_id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="receiverName != null">
+        receiver_name,
+      </if>
+      <if test="receiverPhone != null">
+        receiver_phone,
+      </if>
+      <if test="addrDetail != null">
+        addr_detail,
+      </if>
+      <if test="asDefault != null">
+        as_default,
+      </if>
+      <if test="creatime != null">
+        creatime,
+      </if>
+      <if test="updatime != null">
+        updatime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{addrId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="receiverName != null">
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null">
+        #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null">
+        #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="asDefault != null">
+        #{asDefault,jdbcType=INTEGER},
+      </if>
+      <if test="creatime != null">
+        #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatime != null">
+        #{updatime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.ShippingAddr">
+    update shipping_addr
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="receiverName != null">
+        receiver_name = #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverPhone != null">
+        receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addrDetail != null">
+        addr_detail = #{addrDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="asDefault != null">
+        as_default = #{asDefault,jdbcType=INTEGER},
+      </if>
+      <if test="creatime != null">
+        creatime = #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatime != null">
+        updatime = #{updatime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where addr_id = #{addrId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.ShippingAddr">
+    update shipping_addr
+    set user_id = #{userId,jdbcType=INTEGER},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      addr_detail = #{addrDetail,jdbcType=VARCHAR},
+      as_default = #{asDefault,jdbcType=INTEGER},
+      creatime = #{creatime,jdbcType=TIMESTAMP},
+      updatime = #{updatime,jdbcType=TIMESTAMP}
+    where addr_id = #{addrId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="listAddr" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from shipping_addr
+  	where user_id=#{userId}
+  </select>
+  
+  <update id="removeDefault" parameterType="java.lang.Integer">
+  	update shipping_addr
+  	set as_default=0
+  	where user_id=#{userId} and as_default=1 
+  </update>
+</mapper>
