@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.DrivingLicenseMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.DrivingLicense">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="driver_name" jdbcType="VARCHAR" property="driverName" />
+    <result column="license_no" jdbcType="VARCHAR" property="licenseNo" />
+    <result column="issue_date" jdbcType="VARCHAR" property="issueDate" />
+    <result column="driving_class" jdbcType="VARCHAR" property="drivingClass" />
+    <result column="driving_license_pic" jdbcType="VARCHAR" property="drivingLicensePic" />
+    <result column="creatime" jdbcType="TIMESTAMP" property="creatime" />
+    <result column="passtime" jdbcType="TIMESTAMP" property="passtime" />
+    <result column="driving_license_status" jdbcType="INTEGER" property="drivingLicenseStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, driver_name, license_no, issue_date, driving_class, driving_license_pic, 
+    creatime, passtime, driving_license_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from driving_license
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from driving_license
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.DrivingLicense">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into driving_license (id, user_id, driver_name, 
+      license_no, issue_date, driving_class, 
+      driving_license_pic, creatime, passtime, 
+      driving_license_status)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{driverName,jdbcType=VARCHAR}, 
+      #{licenseNo,jdbcType=VARCHAR}, #{issueDate,jdbcType=VARCHAR}, #{drivingClass,jdbcType=VARCHAR}, 
+      #{drivingLicensePic,jdbcType=VARCHAR}, #{creatime,jdbcType=TIMESTAMP}, #{passtime,jdbcType=TIMESTAMP}, 
+      #{drivingLicenseStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.DrivingLicense">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into driving_license
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="driverName != null">
+        driver_name,
+      </if>
+      <if test="licenseNo != null">
+        license_no,
+      </if>
+      <if test="issueDate != null">
+        issue_date,
+      </if>
+      <if test="drivingClass != null">
+        driving_class,
+      </if>
+      <if test="drivingLicensePic != null">
+        driving_license_pic,
+      </if>
+      <if test="creatime != null">
+        creatime,
+      </if>
+      <if test="passtime != null">
+        passtime,
+      </if>
+      <if test="drivingLicenseStatus != null">
+        driving_license_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="driverName != null">
+        #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null">
+        #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="issueDate != null">
+        #{issueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingClass != null">
+        #{drivingClass,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicensePic != null">
+        #{drivingLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="creatime != null">
+        #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passtime != null">
+        #{passtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drivingLicenseStatus != null">
+        #{drivingLicenseStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.DrivingLicense">
+    update driving_license
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="driverName != null">
+        driver_name = #{driverName,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNo != null">
+        license_no = #{licenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="issueDate != null">
+        issue_date = #{issueDate,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingClass != null">
+        driving_class = #{drivingClass,jdbcType=VARCHAR},
+      </if>
+      <if test="drivingLicensePic != null">
+        driving_license_pic = #{drivingLicensePic,jdbcType=VARCHAR},
+      </if>
+      <if test="creatime != null">
+        creatime = #{creatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passtime != null">
+        passtime = #{passtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="drivingLicenseStatus != null">
+        driving_license_status = #{drivingLicenseStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.DrivingLicense">
+    update driving_license
+    set user_id = #{userId,jdbcType=INTEGER},
+      driver_name = #{driverName,jdbcType=VARCHAR},
+      license_no = #{licenseNo,jdbcType=VARCHAR},
+      issue_date = #{issueDate,jdbcType=VARCHAR},
+      driving_class = #{drivingClass,jdbcType=VARCHAR},
+      driving_license_pic = #{drivingLicensePic,jdbcType=VARCHAR},
+      creatime = #{creatime,jdbcType=TIMESTAMP},
+      passtime = #{passtime,jdbcType=TIMESTAMP},
+      driving_license_status = #{drivingLicenseStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from driving_license
+  	where user_id=#{userId}
+  </select>
+  
+  <select id="listAll" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from driving_license
+  </select>
+  
+  <select id="listAllByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from driving_license
+  	where driving_license_status = #{drivingLicenseStatus,jdbcType=INTEGER}
+  </select>
+  
+</mapper>
