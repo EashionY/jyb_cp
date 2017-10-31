@@ -1,5 +1,6 @@
 package cn.jyb.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,19 @@ public class AnswersServiceImpl implements AnswersService {
 		}
 	}
 
-	public List<Map<String, Object>> viewWrong(Integer userId, Integer subject) {
-		return answersMapper.viewWrong(userId, subject);
+	public List<Map<String, Object>> viewWrong(Integer userId, Integer subject, String chapter) {
+		return answersMapper.viewWrong(userId, subject, chapter);
+	}
+
+	public List<Map<String, Object>> getWrongNum(Integer userId, Integer subject) {
+		//取得错题总条数
+		Integer totalNum = answersMapper.wrongTotalNum(userId, subject);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("totalNum", totalNum);
+		//分章节的错题数
+		List<Map<String,Object>> result = answersMapper.wrongChapterNum(userId, subject);
+		result.add(map);
+		return result;
 	}
 
 	

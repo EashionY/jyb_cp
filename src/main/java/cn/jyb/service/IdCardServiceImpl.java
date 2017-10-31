@@ -27,7 +27,7 @@ public class IdCardServiceImpl implements IdCardService {
 	public boolean addIdCard(HttpServletRequest request) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		Integer userId = Integer.parseInt(request.getParameter("userId"));
-		List<String> paths = Upload.uploadImg(request, "IdCard", ""+userId);
+		List<String> paths = Upload.uploadImg(request, ""+userId, "IdCard");
 		if(paths == null || paths.size() == 0){
 			throw new IdCardException("身份证上传失败");
 		}

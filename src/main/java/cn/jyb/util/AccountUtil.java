@@ -7,7 +7,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 
 public class AccountUtil {
 	/**
-	 * 使用MD5对字符串进行加密
+	 * 使用MD5对字符串进行加密（密码加密）
 	 * @param src
 	 * @return
 	 */

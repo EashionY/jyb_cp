@@ -21,6 +21,26 @@ public interface AnswersMapper {
     int updateByPrimaryKey(Answers record);
     
     Answers findByIds(@Param("userId")Integer userId,@Param("questionId")Integer questionId);
-    
-    List<Map<String,Object>> viewWrong(@Param("userId")Integer userId,@Param("subject")Integer subject);
+    /**
+     * 查看错题
+     * @param userId
+     * @param subject
+     * @param chapter
+     * @return
+     */
+    List<Map<String,Object>> viewWrong(@Param("userId")Integer userId,@Param("subject")Integer subject,@Param("chapter")String chapter);
+    /**
+     * 错题总数
+     * @param userId
+     * @param subject
+     * @return
+     */
+    int wrongTotalNum(@Param("userId")Integer userId,@Param("subject")Integer subject);
+    /**
+     * 分章节显示错题数
+     * @param userId
+     * @param subject
+     * @return
+     */
+    List<Map<String,Object>> wrongChapterNum(@Param("userId")Integer userId,@Param("subject")Integer subject);
 }

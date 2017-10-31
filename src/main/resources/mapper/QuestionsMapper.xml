@@ -210,7 +210,7 @@
     <include refid="Base_Column_List" />
     from questions
     where subject=#{subject}
-    <if test="subject == 4">
+    <if test="pageSize > 45">
     and CHAR_LENGTH(answer)&lt;=1
     </if>
     order by rand()

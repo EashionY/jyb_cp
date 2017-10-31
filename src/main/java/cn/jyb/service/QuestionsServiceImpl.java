@@ -93,11 +93,16 @@ public class QuestionsServiceImpl implements QuestionsService {
 		if ("rand".equals(sort.toLowerCase())) {
 			if (subject == 1) {// 科目1考试(100道题，无多选)
 				result = qMapper.getRandQuestions(subject, pageSize);
-			} else if (subject == 4) {// 科目4考试(50道题，45单选，5多选)
-				result = qMapper.getRandQuestions(subject, pageSize - 5);
-				// 5道多选题
-				List<Questions> mult = qMapper.getMultSelection(pageSize - 45);
-				result.addAll(mult);
+			} else if (subject == 4) {
+				if(pageSize <= 45){
+					result = qMapper.getRandQuestions(subject, pageSize);
+				}else{
+					// 科目4考试(50道题，45单选，5多选)
+					result = qMapper.getRandQuestions(subject, pageSize - 5);
+					// 5道多选题
+					List<Questions> mult = qMapper.getMultSelection(pageSize - 45);
+					result.addAll(mult);
+				}
 			}
 		}
 		return result;

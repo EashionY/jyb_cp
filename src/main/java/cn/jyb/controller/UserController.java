@@ -55,7 +55,7 @@ public class UserController extends ExceptionController{
 	@RequestMapping("/regist")
 	@ResponseBody
 	public JsonResult regist(String phone,String password,String role,String verCode){
-		System.out.println(phone+","+password+","+verCode);
+//		System.out.println(phone+","+password+","+verCode);
 		boolean tf = userService.regist(phone, password, role, verCode);
 		return new JsonResult(tf);
 	}
@@ -174,6 +174,13 @@ public class UserController extends ExceptionController{
 		return new JsonResult(userService.changePhone(user_id, newPhone, phoneCode));
 	}
 	
-	
-	
+	/**
+	 * 集成用户到环信
+	 * @return
+	 */
+	@RequestMapping("/regist2Easemob")
+	@ResponseBody
+	public JsonResult regist2Easemob(){
+		return new JsonResult(userService.regist2Easemob());
+	}
 }

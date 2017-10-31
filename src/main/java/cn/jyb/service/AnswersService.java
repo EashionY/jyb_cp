@@ -17,8 +17,17 @@ public interface AnswersService {
 	 * 查看错题
 	 * @param userId
 	 * @param subject
+	 * @param chapter
 	 * @return
 	 */
-	public List<Map<String,Object>> viewWrong(Integer userId,Integer subject);
+	public List<Map<String,Object>> viewWrong(Integer userId,Integer subject,String chapter);
+	
+	/**
+	 * 取得用户的错题数
+	 * @param userId
+	 * @param subject
+	 * @return
+	 */
+	public List<Map<String,Object>> getWrongNum(Integer userId,Integer subject);
 	
 }

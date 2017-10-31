@@ -16,6 +16,13 @@ public class AnswersController extends ExceptionController {
 	@Resource
 	private AnswersService answersService;
 	
+	/**
+	 * 保存错题
+	 * @param userId
+	 * @param questionId
+	 * @param subject
+	 * @return
+	 */
 	@RequestMapping("/saveWrong")
 	@ResponseBody
 	public JsonResult saveAnswer(Integer userId,Integer questionId,Integer subject){
@@ -23,12 +30,28 @@ public class AnswersController extends ExceptionController {
 		return new JsonResult("");
 	}
 	
+	/**
+	 * 查看错题
+	 * @param userId
+	 * @param subject
+	 * @return
+	 */
 	@RequestMapping("/viewWrong")
 	@ResponseBody
-	public JsonResult viewWrong(Integer userId,Integer subject){
-		return new JsonResult(answersService.viewWrong(userId, subject));
+	public JsonResult viewWrong(Integer userId,Integer subject,String chapter){
+		return new JsonResult(answersService.viewWrong(userId, subject, chapter));
 	}
 	
-	
+	/**
+	 * 获得用户的错题数
+	 * @param userId
+	 * @param subject
+	 * @return
+	 */
+	@RequestMapping("/getWrongNum")
+	@ResponseBody
+	public JsonResult getWrongNum(Integer userId,Integer subject){
+		return new JsonResult(answersService.getWrongNum(userId, subject));
+	}
 	
 }

@@ -96,6 +96,10 @@
 	    UPDATE user SET phone=#{newPhone} WHERE user_id=#{user_id}
 	</update>
 	
+	<!-- 查看所有用户 -->
+	<select id="listAll" resultType="cn.jyb.entity.User">
+	  select * from user
+	</select>
 </mapper>
 
 

@@ -111,10 +111,25 @@
     where user_id=#{userId} and question_id=#{questionId}
   </select>
   
-  <select id="viewWrong" parameterType="java.lang.Integer" resultType="java.util.Map">
+  <select id="viewWrong" resultType="java.util.Map">
     select * 
     from answers a join questions q on a.question_id=q.id
     where a.user_id=#{userId} and a.subject=#{subject} 
+    <if test="chapter != null">
+    and q.chapter = #{chapter}	
+    </if>
   </select>
   
+  <select id="wrongTotalNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select count(*) as totalNum 
+  	from answers 
+  	where user_id=#{userId} and subject=#{subject}
+  </select>
+  
+  <select id="wrongChapterNum" parameterType="java.lang.Integer" resultType="java.util.Map">
+    select q.chapter,count(q.chapter) as num 
+    from answers a join questions q on a.question_id=q.id
+    where a.user_id=#{userId} and a.subject=#{subject} 
+    group by q.chapter 
+  </select>
 </mapper>

@@ -2,7 +2,10 @@ package cn.jyb.service;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,6 +21,7 @@ import cn.jyb.entity.Student;
 import cn.jyb.entity.User;
 import cn.jyb.entity.VerCode;
 import cn.jyb.exception.DataBaseException;
+import cn.jyb.exception.EasemobException;
 import cn.jyb.exception.ImgpathException;
 import cn.jyb.exception.NoPhoneFoundException;
 import cn.jyb.exception.NoUserFoundException;
@@ -25,6 +29,8 @@ import cn.jyb.exception.PhoneException;
 import cn.jyb.exception.PwdException;
 import cn.jyb.exception.VerCodeException;
 import cn.jyb.util.AccountUtil;
+import cn.jyb.util.EasemobUtil;
+import net.sf.json.JSONObject;
 
 @Service("userService")
 @Transactional
@@ -67,7 +73,7 @@ public class UserServiceImpl implements UserService {
 			result.put("height", user.getHeight());
 			result.put("id", user.getUser_Id());
 			// 如果头像路径为空，则替换为默认的logo
-			String headImg = user.getImgpath() == null ? "http://39.108.73.207/img/default/logo.png"
+			String headImg = user.getImgpath() == null ? "http://39.108.73.207/img/default/head.png"
 					: user.getImgpath();
 			result.put("imgpath", headImg);
 			result.put("interest", user.getInterest());
@@ -124,14 +130,19 @@ public class UserServiceImpl implements UserService {
 			throw new VerCodeException("验证码错误");
 		}
 		user.setPhone(phone);
-		user.setPassword(AccountUtil.md5(password));
+		password = AccountUtil.md5(password);
+		user.setPassword(password);
 		user.setRole(role);
-		// 设置默认头像为应用logo
+		// 设置默认头像
 		String headImg = "http://39.108.73.207/img/default/head.png";
 		user.setImgpath(headImg);
 		int i = userDao.save(user);
 		if (i != 1) {
 			throw new DataBaseException("数据库连接失败");
+		}
+		JSONObject json = EasemobUtil.registUsers(phone, password);
+		if(json == null){
+			throw new EasemobException("集成聊天系统失败");
 		}
 		return true;
 	}
@@ -284,6 +295,25 @@ public class UserServiceImpl implements UserService {
 			}
 			return true;
 		}
+	}
+
+	public List<String> regist2Easemob() {
+		//结果集，用来存储集成之后的用户名
+		List<String> result = new ArrayList<String>();
+		List<User> list = userDao.listAll();
+		Iterator<User> i = list.iterator();
+		while(i.hasNext()){
+			//获取用户手机号和密码
+			User user = i.next();
+			String username = user.getPhone();
+			String password = user.getPassword();
+			//注册环信用户
+			JSONObject json = EasemobUtil.registUsers(username, password);
+			if(json != null){
+				result.add(username);
+			}
+		}
+		return result;
 	}
 
 	

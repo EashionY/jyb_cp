@@ -2,6 +2,7 @@ package cn.jyb.service;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -101,5 +102,11 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean changePhone(Integer user_id,String newPhone,String phoneCode);
+	
+	/**
+	 * 将用户集成到环信
+	 * @return
+	 */
+	public List<String> regist2Easemob();
 	
 }

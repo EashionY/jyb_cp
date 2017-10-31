@@ -1,5 +1,7 @@
 package cn.jyb.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import cn.jyb.entity.User;
@@ -65,4 +67,9 @@ public interface UserDao {
 	 */
 	public int changePhone(@Param("user_id")Integer user_id,@Param("newPhone")String newPhone);
 	
+	/**
+	 * 查看所有用户
+	 * @return
+	 */
+	public List<User> listAll();
 }
