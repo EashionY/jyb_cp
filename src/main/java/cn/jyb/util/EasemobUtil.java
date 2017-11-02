@@ -56,7 +56,6 @@ public class EasemobUtil {
 		util.getAccessToken();
 		return ACCESS_TOKEN;
 	}
-	
     
     /**
      * 查看单个用户的好友信息
@@ -103,8 +102,7 @@ public class EasemobUtil {
     	String data = null;
     	return EasemobHttp.authPost(url, data);
     }
-    
-   
+ 
     /**
      * 解除环信用户的好友关系
      * @param username 

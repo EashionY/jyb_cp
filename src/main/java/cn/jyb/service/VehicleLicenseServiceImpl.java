@@ -32,7 +32,7 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 			e1.printStackTrace();
 			throw new ImgpathException("ÐÐÊ»Ö¤ÕÕÆ¬ÉÏ´«Ê§°Ü");
 		}
-		//¼ÝÊ»Ö¤Í¼Æ¬Â·¾¶
+		//ÐÐÊ»Ö¤Í¼Æ¬Â·¾¶
 		String pic = null;
 		if(path != null && path.size() > 0){
 			pic = path.get(0);

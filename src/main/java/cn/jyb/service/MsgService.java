@@ -34,5 +34,13 @@ public interface MsgService {
 	 */
 	public String sendPhoneCode(String phone);
 	
+	/**
+	 * 发送一键挪车短信
+	 * @param userId 要求挪车的用户id
+	 * @param moveUserId 挪车人的用户id
+	 * @return
+	 */
+	public boolean sendMoveCarMsg(Integer userId,Integer moveUserId);
+	
 	
 }

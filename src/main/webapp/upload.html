@@ -5,14 +5,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form name="Form2" action="http://39.108.73.207/jyb_cp/account/uploadHeadImg" method="post" enctype="multipart/form-data">
+	<form name="Form2" action="http://39.108.73.207/jyb_cp/vehicleLic/saveVehicleLic" method="post" enctype="multipart/form-data">
 		<h1>使用spring mvc提供的类的方法上传文件</h1>
-		<input type="text" name="phone">
-		<input type="file" name="file1">
-		<input type="file" name="file2">
-		<input type="file" name="file3">
+		userId:<input type="text" name="userId">
+		vehicleNo:<input type="text" name="vehicleNo">
+		vehicleOwner:<input type="text" name="vehicleOwner">
+		vehicleBrand:<input type="text" name="vehicleBrand">
+		vehicleVin:<input type="text" name="vehicleVin">
+		engineNo:<input type="text" name="engineNo">
+		vehicleLicPic:<input type="file" name="vehicleLicPic">
 		<input type="submit" value="upload"/>
 	</form>
-	<img src="http://39.108.73.207/img/17358629537/headimg/logo.png">
 </body>
 </html>

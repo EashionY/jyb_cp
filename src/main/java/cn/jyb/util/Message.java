@@ -93,4 +93,40 @@ public class Message {
         boolean tf = rsp.isSuccess();
         return tf;
 	}
+	
+	/**
+	 * 发送一键挪车短信(通知车主挪车)
+	 * @param username 挪车申请人姓名
+	 * @param templateCode 短信模板id
+	 * @return boolean
+	 */
+	public static boolean sendMoveCarMsg(String phone,String username,String templateCode){
+        //短信模板的内容
+        String json="{\"username\":\""+username+"\"}";
+
+        TaobaoClient client = new DefaultTaobaoClient(URL, APPKEY, SECRET);
+
+        AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
+        //公共回传参数，在“消息返回”中会透传回该参数；
+        //举例：用户可以传入自己下级的会员ID，在消息返回时，该会员ID会包含在内，用户可以根据该会员ID识别是哪位会员使用了你的应用
+        req.setExtend("");
+        //短信类型，传入值请填写normal
+        req.setSmsType("normal");
+        //签名名称
+        req.setSmsFreeSignName("驾易宝");
+        //短信模板变量，传参规则{"key":"value"}，key的名字须和申请模板中的变量名一致，多个变量之间以逗号隔开。
+        req.setSmsParamString(json);
+        //短信接收号码
+        req.setRecNum(phone);
+        //短信模板ID
+        req.setSmsTemplateCode(templateCode);
+        AlibabaAliqinFcSmsNumSendResponse rsp = null;
+        try {
+            rsp = client.execute(req);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        boolean tf = rsp.isSuccess();
+        return tf;
+	}
 }

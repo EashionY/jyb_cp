@@ -42,11 +42,26 @@ public class MsgController extends ExceptionController {
 		String code = msgService.sendPayCode(phone);
 		return new JsonResult(code);
 	}
-	
+	/**
+	 * 发送变更手机验证码
+	 * @param phone
+	 * @return
+	 */
 	@RequestMapping("/sendPhoneCode")
 	@ResponseBody
 	public JsonResult sendPhoneCode(String phone){
 		return new JsonResult(msgService.sendPhoneCode(phone));
+	}
+	/**
+	 * 发送一键挪车短信
+	 * @param userId 要求挪车用户id
+	 * @param moveUserId 挪车用户id
+	 * @return
+	 */
+	@RequestMapping("/sendMoveCarMsg")
+	@ResponseBody
+	public JsonResult sendMoveCarMsg(Integer userId,Integer moveUserId){
+		return new JsonResult(msgService.sendMoveCarMsg(userId, moveUserId));
 	}
 	
 	@ExceptionHandler(PhoneException.class)

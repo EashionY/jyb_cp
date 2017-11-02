@@ -14,14 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.jyb.dao.DrivingLicenseMapper;
+import cn.jyb.dao.IdCardMapper;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.UserDao;
+import cn.jyb.dao.VehicleLicenseMapper;
 import cn.jyb.dao.VerCodeDao;
+import cn.jyb.entity.DrivingLicense;
+import cn.jyb.entity.IdCard;
 import cn.jyb.entity.Student;
 import cn.jyb.entity.User;
+import cn.jyb.entity.VehicleLicense;
 import cn.jyb.entity.VerCode;
 import cn.jyb.exception.DataBaseException;
-import cn.jyb.exception.EasemobException;
 import cn.jyb.exception.ImgpathException;
 import cn.jyb.exception.NoPhoneFoundException;
 import cn.jyb.exception.NoUserFoundException;
@@ -30,6 +35,7 @@ import cn.jyb.exception.PwdException;
 import cn.jyb.exception.VerCodeException;
 import cn.jyb.util.AccountUtil;
 import cn.jyb.util.EasemobUtil;
+import cn.jyb.util.ImgDownload;
 import net.sf.json.JSONObject;
 
 @Service("userService")
@@ -42,6 +48,12 @@ public class UserServiceImpl implements UserService {
 	private VerCodeDao verCodeDao;
 	@Resource
 	private StudentDao studentDao;
+	@Resource
+	private IdCardMapper idCardMapper;
+	@Resource
+	private DrivingLicenseMapper drLicenseMapper;
+	@Resource
+	private VehicleLicenseMapper veLicenseMapper;
 
 	// 密码的最小长度
 	private final static int PASSWORD_MIN_LENGTH = 6;
@@ -63,6 +75,15 @@ public class UserServiceImpl implements UserService {
 		String md5Password = AccountUtil.md5(password);
 		if (user.getPassword().equals(md5Password)) {
 			int user_id = user.getUser_Id();
+			// 将用户id放入二维码，并且下载到服务器(bg-背景色,fg-前景色,el-纠错等级,w-二维码大小,m-外边距,text-二维码内容)
+			String url = "http://qr.topscan.com/api.php?bg=ffffff&fg=000000&el=l&w=600&m=20&text="+user_id;
+			String filename = "QR_"+user_id+".png";
+			String savePath = "/usr/jybUpload/QRImg/";
+			try {
+				ImgDownload.download(url, filename, savePath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			Student student = studentDao.findByUserId(user_id);
 			String student_idcard = student == null ? "" : student.getStudent_idcard();
 			String student_id = student == null ? "" : String.valueOf(student.getStudent_id());
@@ -88,6 +109,7 @@ public class UserServiceImpl implements UserService {
 			result.put("weight", user.getWeight());
 			result.put("xingzuo", user.getXingzuo());
 			result.put("region", user.getRegion());
+			result.put("QRImg", "http://39.108.73.207/img/QRImg/QR_"+user_id+".png");
 			return result;
 		} else {
 			throw new PwdException("密码错误");
@@ -140,10 +162,8 @@ public class UserServiceImpl implements UserService {
 		if (i != 1) {
 			throw new DataBaseException("数据库连接失败");
 		}
-		JSONObject json = EasemobUtil.registUsers(phone, password);
-		if(json == null){
-			throw new EasemobException("集成聊天系统失败");
-		}
+		//将用户集成到环信
+		EasemobUtil.registUsers(phone, password);
 		return true;
 	}
 
@@ -316,6 +336,51 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	public List<Map<String, Object>> checkCertStatus(Integer userId) {
+		List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		//存放身份证认证情况
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		IdCard idcard = idCardMapper.findByUserId(userId);
+		//身份证未认证
+		if(idcard == null || idcard.getRealnameStatus() == 0){
+			map1.put("idcardStatus", 0);
+		}else{
+			map1.put("idcardStatus", 1);
+			map1.put("name", idcard.getIdcardRealname());
+			map1.put("sex", idcard.getIdcardSex());
+			map1.put("idcardNo", idcard.getIdcardNo());
+			map1.put("birthday", idcard.getIdcardNo().substring(6, 14));
+			map1.put("address", idcard.getIdcardAddress());
+		}
+		result.add(map1);
+		//存放驾驶证认证情况
+		Map<String, Object> map2 = new HashMap<String, Object>();
+		DrivingLicense drLicense = drLicenseMapper.findByUserId(userId);
+		if(drLicense == null || drLicense.getDrivingLicenseStatus() == 0){
+			map2.put("drvingLicStatus", 0);
+		}else{
+			map2.put("drvingLicStatus", 1);
+			map2.put("drvingLicNo", drLicense.getLicenseNo());
+			map2.put("drLicIssueDate", drLicense.getIssueDate());
+			map2.put("drLicClass", drLicense.getDrivingClass());
+		}
+		result.add(map2);
+		//存放驾驶证认证情况
+		Map<String, Object> map3 = new HashMap<String, Object>();
+		VehicleLicense veLicense = veLicenseMapper.findByUserId(userId);
+		if(veLicense == null || veLicense.getVehicleLicenseStatus() == 0){
+			map3.put("vehicleLicStatus", 0);
+		}else{
+			map3.put("vehicleLicStatus", 1);
+			map3.put("vehicleVin", veLicense.getVehicleVin());
+			map3.put("engineNo", veLicense.getEngineNo());
+			map3.put("vehicleNo", veLicense.getVehicleNo());
+			map3.put("vehicleOwner", veLicense.getVehicleOwner());
+		}
+		result.add(map3);
+		return result;
+	}
+ 
 	
 	
 }

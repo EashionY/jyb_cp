@@ -183,4 +183,16 @@ public class UserController extends ExceptionController{
 	public JsonResult regist2Easemob(){
 		return new JsonResult(userService.regist2Easemob());
 	}
+	
+	/**
+	 * 查看用户的三证认证状态
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/checkCertStatus")
+	@ResponseBody
+	public JsonResult checkCertStatus(Integer userId){
+		return new JsonResult(userService.checkCertStatus(userId));
+	}
+	
 }

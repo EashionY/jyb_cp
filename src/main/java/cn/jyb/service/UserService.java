@@ -109,4 +109,11 @@ public interface UserService {
 	 */
 	public List<String> regist2Easemob();
 	
+	/**
+	 * 查看用户的证件认证状态
+	 * @param 用户id
+	 * @return
+	 */
+	public List<Map<String,Object>> checkCertStatus(Integer userId);
+	
 }
