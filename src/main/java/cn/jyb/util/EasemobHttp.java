@@ -144,7 +144,7 @@ public class EasemobHttp {
     /**
      * 带有授权信息的POST请求
      * @param url
-     * @param data
+     * @param data body数据
      * @return
      */
     public static JSONObject authPost(String url,String data){
@@ -255,7 +255,7 @@ public class EasemobHttp {
 	/**
      * 发送PUT请求
      * @param url
-     * @param data
+     * @param data body数据
      * @return
      */
     public static JSONObject put(String url,String data){
@@ -278,7 +278,7 @@ public class EasemobHttp {
 
             http.connect();
 
-            //POST请求
+            //PUT请求
             OutputStreamWriter outWriter = new OutputStreamWriter(http.getOutputStream(), "utf-8");
             out = new PrintWriter(outWriter);
             out.print(data);

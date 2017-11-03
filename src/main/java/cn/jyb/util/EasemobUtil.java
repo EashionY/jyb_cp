@@ -126,5 +126,9 @@ public class EasemobUtil {
     	return EasemobHttp.put(url, data);
     }
     
-    
+    public static JSONObject resetPassword(String username,String newPassword){
+    	String url = "http://a1.easemob.com/"+ORGNAME+"/"+APPNAME+"/users/"+username+"/password";
+    	String data = "{\"newpassword\":\""+newPassword+"\"}";
+    	return EasemobHttp.put(url, data);
+    }
 }

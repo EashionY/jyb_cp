@@ -163,7 +163,8 @@ public class UserServiceImpl implements UserService {
 			throw new DataBaseException("数据库连接失败");
 		}
 		//将用户集成到环信
-		EasemobUtil.registUsers(phone, password);
+		String user_id = String.valueOf(userDao.findByPhone(phone).getUser_Id());
+		EasemobUtil.registUsers(user_id, password);
 		return true;
 	}
 
@@ -207,6 +208,9 @@ public class UserServiceImpl implements UserService {
 		if (i != 1) {
 			throw new DataBaseException("密码修改失败");
 		}
+		//重置用户环信上的密码，保持同步
+		String user_id = String.valueOf(userDao.findByPhone(phone).getUser_Id());
+		EasemobUtil.resetPassword(user_id, md5NewPassword);
 		return true;
 	}
 
@@ -280,6 +284,9 @@ public class UserServiceImpl implements UserService {
 			if(i != 1){
 				throw new PwdException("密码修改失败");
 			}
+			//修改用户环信上的密码，保持同步
+			String user_id = String.valueOf(user.getUser_Id());
+			EasemobUtil.resetPassword(user_id, newPwd);
 			return true;
 		}
 	}
@@ -325,7 +332,7 @@ public class UserServiceImpl implements UserService {
 		while(i.hasNext()){
 			//获取用户手机号和密码
 			User user = i.next();
-			String username = user.getPhone();
+			String username = String.valueOf(user.getUser_Id());
 			String password = user.getPassword();
 			//注册环信用户
 			JSONObject json = EasemobUtil.registUsers(username, password);
