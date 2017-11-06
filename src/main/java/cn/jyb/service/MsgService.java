@@ -38,9 +38,10 @@ public interface MsgService {
 	 * 发送一键挪车短信
 	 * @param userId 要求挪车的用户id
 	 * @param moveUserId 挪车人的用户id
+	 * @param vehicleNo 车牌号
 	 * @return
 	 */
-	public boolean sendMoveCarMsg(Integer userId,Integer moveUserId);
+	public boolean sendMoveCarMsg(Integer userId,Integer moveUserId,String vehicleNo);
 	
 	
 }

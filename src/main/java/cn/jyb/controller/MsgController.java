@@ -60,8 +60,8 @@ public class MsgController extends ExceptionController {
 	 */
 	@RequestMapping("/sendMoveCarMsg")
 	@ResponseBody
-	public JsonResult sendMoveCarMsg(Integer userId,Integer moveUserId){
-		return new JsonResult(msgService.sendMoveCarMsg(userId, moveUserId));
+	public JsonResult sendMoveCarMsg(Integer userId,Integer moveUserId,String vehicleNo){
+		return new JsonResult(msgService.sendMoveCarMsg(userId, moveUserId, vehicleNo));
 	}
 	
 	@ExceptionHandler(PhoneException.class)

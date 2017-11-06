@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.jyb.dao.CoachDao;
+import cn.jyb.dao.SchoolDao;
+import cn.jyb.dao.TeachFieldMapper;
 import cn.jyb.dao.TeachRecordDao;
 import cn.jyb.dao.UserDao;
 import cn.jyb.entity.Coach;
@@ -36,6 +38,12 @@ public class CoachServiceImpl implements CoachService {
 
 	@Resource
 	private TeachRecordDao teachRecordDao;
+	
+	@Resource
+	private SchoolDao schoolDao;
+	
+	@Resource
+	private TeachFieldMapper teachFieldMapper;
 	
 	public List<Map<String, Object>> findCoachByName(String coach_name,String coach_area) {
 		coach_name = "%"+coach_name+"%";
@@ -298,7 +306,7 @@ public class CoachServiceImpl implements CoachService {
 	}
 
 	/**
-	 * 获得教练头像，约教数，评价数
+	 * 获得教练头像，约教数，评价数，训练场地以及教练的个人信息
 	 * @param coachs
 	 * @return
 	 */
@@ -310,15 +318,20 @@ public class CoachServiceImpl implements CoachService {
 			int user_id = coach.getUser_id();
 			User user = userDao.findById(user_id);
 			String headImg = user.getImgpath();
-			int coach_id = coach.getCoach_id();
 			//获取约教数
+			int coach_id = coach.getCoach_id();
 			int teachNum = teachRecordDao.findTeachRecordNumber(coach_id);
 			//获取评价数
 			int evalNum = teachRecordDao.findTeachEvaluationNumber(coach_id);
+			//获得教练所在驾校的训练场地
+			String schoolName = coach.getSchool_name();
+			Integer schoolId = schoolDao.findSchoolByName(schoolName).getSchool_id();
+			List<Map<String,Object>> fields = teachFieldMapper.findBySchoolId(schoolId);
 			map.put("headImg", headImg);
 			map.put("teachNum", teachNum);
 			map.put("evalNum", evalNum);
 			map.put("coach", coach);
+			map.put("teachFields", fields);
 			result.add(map);
 		}
 		return result;
@@ -396,7 +409,7 @@ public class CoachServiceImpl implements CoachService {
 					Double.parseDouble(lon2), Double.parseDouble(lat2));
 			int coach_id = coach.getCoach_id();
 			int i = coachDao.updateDistance(coach_id, distance);
-			if(i!=1){
+			if(i != 1){
 				throw new DataBaseException("距离更新失败");
 			}
 		}

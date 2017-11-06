@@ -180,4 +180,10 @@
   	from vehicle_license
   	where vehicle_license_status = #{vehicleLicenseStatus,jdbcType=INTEGER}
   </select>
+  
+  <select id="findByVehicleNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	from vehicle_license
+  	where vehicle_no = #{vehicleNo}
+  </select>
 </mapper>
