@@ -1,0 +1,53 @@
+.ske_mainBox{
+    background-color: #ffffff;
+    font-size: 1.6rem;
+    color: #333333;
+    padding: 0 1.2rem;
+}
+.ske_mainBox>div{
+    padding: 2.5rem 0;
+    border-bottom: 1px #dddddd solid;
+    display: flex;
+    justify-content: space-between;
+}
+.ske_mainBox>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.ske_type>span{
+    margin-left: 1rem;
+}
+.ske_price{
+    margin-top: 2rem;
+}
+.ske_price>input{
+    border-bottom: 1px #333333 solid;
+    width: 3rem;
+    text-align: center;
+    margin: 0 1rem;
+}
+.ske_bool{
+    font-size: 2rem;
+    color: #dddddd;
+    margin-top: 2rem;
+}
+.ske_booltrue{
+    color: #ff9212;
+}
+.ske_fanweibox .ske_bool,
+.ske_fanweibox .ske_price{
+    margin-top: 0;
+}
+.ske_btnBox{
+    margin-top: 2.5rem;
+}
+.ske_btnBox>div{
+    width: 25rem;
+    height: 4rem;
+    border-radius: 5px;
+    background-color: #ff9212;
+    color: #ffffff;
+    font-size: 1.8rem;
+    text-align: center;
+    line-height: 4rem;
+    margin: 0 auto;
+}

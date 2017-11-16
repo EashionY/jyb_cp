@@ -1,0 +1,24 @@
+$(function(){
+    $.ajax({
+        url:"http://api.drivingyeepay.com/jyb_cp/coach/findByUserId",
+        data:{user_id:getCookieValue("user_id")},
+        type:"get",
+        dataType:"json",
+        success:function(data){
+            $("#zgzimg").attr("src",data.data.coach_qualification);
+            $("#schoolimg").attr("src",data.data.school_imgpath);
+            $("#sfzimg").attr("src",data.data.coach_idcardfront);
+            $("#sfzbimg").attr("src",data.data.coach_idcardback);
+            $("#cname").html(data.data.coach_name);
+            $("#csex").html(data.data.coach_sex);
+            $("#cbirth").html(data.data.coach_birthday);
+            $("#sname").html(data.data.school_name);
+            $("#license").html(data.data.coach_license);
+            $("#area").html(data.data.coach_area);
+        }
+    });
+});
+//微信浏览器返回到指定前一页
+$(function(){
+    to("index2.html")
+});

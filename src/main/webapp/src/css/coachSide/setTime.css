@@ -1,0 +1,39 @@
+.sti_tipdiv{
+    background-color: #ffffff;
+    padding: 1.5rem 1.2rem;
+    font-size: 1.6rem;
+    color: #999999;
+    position: relative;
+}
+.sti_tipdiv>span:nth-of-type(1){
+    position: absolute;
+    top: 1.25rem;
+    left: 1rem;
+    color: #ff9212;
+    font-size: 3rem;
+}
+.sti_tipdiv>span:nth-of-type(2){
+    margin-left: 2.5rem;
+}
+.sti_btnBox{
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.2rem;
+}
+.sti_btnBox>div{
+    width: 50%;
+    height: 4rem;
+    border-radius: 5px;
+    background-color: #dddddd;
+    font-size: 1.8rem;
+    text-align: center;
+    line-height: 4rem;
+    color: #333333;
+}
+.sti_surebtn{
+    background-color: #ff9212 !important;
+    color: #ffffff !important;
+    margin-left: 1rem;
+}

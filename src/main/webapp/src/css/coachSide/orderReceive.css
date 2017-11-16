@@ -1,0 +1,81 @@
+.orre_mainBox{
+    background-color: #ffffff;
+    padding: 0 1.2rem;
+    margin-top: 1rem;
+}
+.orre_list>.orre_mainBox:nth-of-type(1){
+    margin-top: 0;
+}
+.orre_mainbox{
+    border-bottom: 1px #dddddd solid;
+    padding-bottom: 1.5rem;
+}
+.orre_mainBox>.orre_mainbox:nth-last-child(2){
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.orre_mainbox>div{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+}
+.orre_mainbox>div>div:nth-of-type(1){
+    font-size: 1.6rem;
+    color: #010101;
+    flex-shrink: 0;
+}
+.orre_mainbox>div>div:nth-of-type(2){
+    font-size: 1.5rem;
+    color: #999999;
+    width: 100%;
+    text-align: left;
+    margin-left: 1rem;
+}
+
+.f4{
+     text-align: center;
+     width: 4em;
+}
+.f2{
+    letter-spacing:2em;
+    margin-right:-2em;
+}
+.orre_btnBox{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+}
+.orre_btnBox>div{
+    width: 50%;
+    height: 4rem;
+    background-color: #dddddd;
+    font-size: 1.8rem;
+    color: #333333;
+    text-align: center;
+    line-height: 4rem;
+    border-radius: 5px;
+}
+.orre_btnBox>div:nth-of-type(1){
+    background-color: #ff9212;
+    color: #ffffff;
+    margin-right: 1rem;
+}
+.orde_btn{
+    padding-bottom: 1.5rem;
+    text-align: center;
+}
+.orde_btn>span{
+    display: inline-block;
+    width: 20rem;
+    height: 4rem;
+    line-height: 4rem;
+    font-size: 1.8rem;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #ff9212;
+}
+.orde_state0{
+    color: #888888;
+}

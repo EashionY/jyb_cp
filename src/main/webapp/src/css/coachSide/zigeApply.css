@@ -1,0 +1,180 @@
+body {
+    background-color: #F2F2F2 !important;
+    padding-bottom: 0 !important;
+}
+.zg_topdiv{
+    background-color: #ffffff;
+    padding: 1rem 1.2rem;
+    padding-left: 1rem;
+    display: flex;
+}
+.zg_topdiv>div:nth-of-type(1){
+    margin-right: .75rem;
+    font-size: 2rem;
+    color: #FE0001;
+    margin-top: 1.2rem;
+}
+.zg_topdiv>div:nth-of-type(2){
+    font-size: 1.6rem;
+    color: #999999;
+    line-height: 2.5rem;
+}
+.zg_mainBox{
+    background-color: #ffffff;
+    margin-top: 1rem;
+    position: relative;
+}
+.zg_mainBox>div{
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 1.2rem;
+    border-bottom: 1px #dddddd solid;
+}
+.zg_mainBox>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.zg_left{
+    display: flex;
+}
+.zg_left>div:nth-of-type(1){
+    font-size: 2rem;
+    margin-right: 1.5rem;
+    margin-top: -4px;
+}
+.zg_left>div:nth-of-type(2){
+    font-size: 1.5rem;
+    color: #000000;
+    flex-shrink: 0;
+}
+.zg_right{
+    color: #888888;
+    font-size: 1.5rem;
+    /*border: 1px black solid;*/
+    white-space: nowrap;
+}
+.zg_right>span{
+    margin-left: 1rem;
+}
+#sex{
+    color: #A9A9A9;
+}
+.bluefont{
+    color: #0E9FCE;
+}
+.yefont{
+    color: #ff9212;
+}
+.zg_right>input{
+    text-align: right;
+    height: 100%;
+    /*border: 1px red solid;*/
+    color: #888888;
+    font-size: 1.5rem;
+}
+@media screen and (max-width: 320px){
+    .zg_topdiv>div:nth-of-type(1){
+        margin-top: 2.4rem;
+    }
+}
+.zg_imgBox{
+    background-color: #ffffff;
+    margin-top: 1rem;
+    padding: 0 1.2rem;
+}
+.zg_imgBox>form>div,.zg_imgBoxDiv{
+    display: flex;
+    padding-top: 1.5rem;
+}
+.zg_imgBox>form>div:nth-last-of-type(1),
+.zg_imgBox>.zg_imgBoxDiv:nth-last-of-type(1){
+    padding-bottom: 1.5rem;
+}
+
+
+.zg_imgleft{
+    color: #ff9212;
+    font-size: 2rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+    margin-top: -4px;
+}
+.zg_imgright{
+    font-size: 1.6rem;
+    color: #333333;
+    width: 79%;
+}
+.zg_imgright>div:nth-of-type(1)>span{
+    margin-left: 1.5rem;
+    color: #6f6f6f;
+}
+.zg_imgfile{
+    margin-top: 1.5rem;
+    width: 100%;
+    height: 16rem;
+    background-color: #B7B7B7;
+    position: relative;
+}
+.zg_imgfile:before{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    content: "";
+    background-color: #999999;
+    width: .5rem;
+    height: 6.5rem;
+    border-radius: 10px;
+    margin-top: -3.25rem;
+    margin-left: -.25rem;
+}
+.zg_imgfile:after{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    content: "";
+    background-color: #999999;
+    height: .5rem;
+    width: 6.5rem;
+    border-radius: 10px;
+    margin-top: -.25rem;
+    margin-left: -3.25rem;
+}
+
+/*模拟file*/
+.imgitem {
+    display: inline-block;
+    border: 1px #d5d4d4 dotted;
+    text-align: center;
+    position: relative;
+}
+.u-fileInput{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    z-index: 100;
+}
+.imgcontainer>img{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 50;
+}
+
+.zgfi_img{
+    position: absolute;
+    top: 6rem;
+    left: 50%;
+    width: 16.5rem;
+    height: 16.5rem;
+    margin-left: -8.5rem;
+    border-bottom: none !important;
+}
+.zgfi_img>img{
+    width: 100%;
+    height: 100%;
+    opacity: .8;
+}

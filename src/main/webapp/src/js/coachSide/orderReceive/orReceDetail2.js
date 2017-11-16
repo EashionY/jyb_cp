@@ -1,0 +1,3 @@
+$(function(){
+    VarStates("-1")
+});

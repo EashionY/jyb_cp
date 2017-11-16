@@ -1,0 +1,87 @@
+body{
+    padding-bottom: 0 !important;
+}
+.coti_head{
+    margin-top: -1rem;
+}
+.coti_right{
+    width: 100%;
+}
+.coti_topright{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.coti_teldiv{
+    width: 2.5rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    border-radius: 50%;
+    background-color: #F4F4F6;
+    color: #ff9212;
+    text-align: center;
+    font-size: 2rem;
+    margin-top: .5rem;
+}
+.coti_titlediv{
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 1.6rem;
+    padding: 0 1.2rem;
+    margin-top: 1rem;
+}
+.coti_titlediv>div{
+    padding: 1.5rem 0;
+}
+.coti_titlediv>div:nth-last-of-type(1){
+    font-size: 1.5rem;
+    color: #ff9212;
+    padding-left: 2rem;
+}
+.coti_mainBox{
+    background-color: #ffffff;
+    padding: 0 1.2rem;
+    margin-top: 1rem;
+}
+.coti_mainBox table{
+    width: 100%;
+}
+.coti_mainBox table tr{
+    width: 100%;
+    border-bottom: 1px #dddddd solid;
+    text-align: center;
+}
+.t_td1{
+    text-align: left;
+}
+
+.coti_mainBox table tr:nth-last-of-type(1){
+    border-bottom: none;
+}
+.d1{
+    /*border: 1px red solid;*/
+}
+.coti_mainBox table tr td{
+    padding: 1.5rem 0;
+    color: #ff9212;
+    font-size: 1.5rem;
+}
+.coti_mainBox table tr:nth-of-type(1) td{
+    color: #000000 !important;
+}
+.coti_mainBox table tr:nth-of-type(1) td:nth-of-type(1){
+    font-size: 1.5rem !important;
+}
+.coti_mainBox table tr td:nth-of-type(1){
+    font-size: 1.4rem !important;
+    color: #000000 !important;
+}
+.coti_mainBox table .iconfont{
+    color: #37C039 !important;
+    font-size: 2rem !important;
+    display: inline-block;
+    margin-top: -.5rem;
+}
+

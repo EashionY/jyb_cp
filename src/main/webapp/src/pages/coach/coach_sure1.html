@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="../../css/reset.css"/>
+    <link rel="stylesheet" href="../../css/iconfont.css"/>
+    <link rel="stylesheet" href="../../css/footer.css"/>
+    <link rel="stylesheet" href="../../css/tanchuang.css"/>
+    <link rel="stylesheet" href="../../css/order/order_detail.css"/>
+    <link rel="stylesheet" href="../../css/coach/coach_sure1.css"/>
+</head>
+<body>
+<div id="od_header" class="cosu1_head">
+    <div>
+        <div id="od_sname"></div>
+        <div id="od_address"></div>
+    </div>
+</div>
+<div id="od_down">
+    <div>
+        <div class="od_tiems">
+            <div><span class="iconfont ye_font">&#xe60d;</span><span>预约教练：</span></div>
+            <div class="od_input" id="cName"></div>
+        </div>
+    </div>
+    <div>
+        <div class="od_tiems">
+            <div><span class="iconfont bl_font">&#xe656;</span><span>预约时间：</span></div>
+            <div class="od_input" id="time"></div>
+        </div>
+    </div>
+    <div>
+        <div class="od_tiems">
+            <div><span class="iconfont ye_font">&#xe65e;</span><span>训练项目：</span></div>
+            <div class="od_input" id="subject"></div>
+        </div>
+    </div>
+    <div>
+        <div class="od_tiems" id="fieldDiv">
+            <div><span class="iconfont ye_font">&#xe6eb;</span><span>训练地点：</span></div>
+            <div class="od_input"><input id="trainAddre" type="text" placeholder="请选择" readonly onfocus="this.blur();"/></div>
+        </div>
+    </div>
+    <div>
+        <div class="od_tiems">
+            <div><span class="iconfont bl_font">&#xe6de;</span><span>是否需要接送：</span></div>
+            <div class="od_input">
+                <input id="od_input_ra1" name="bool" type="radio" value="1" />是
+                <input name="bool" type="radio" value="0" checked/>否
+            </div>
+        </div>
+    </div>
+    <div class="none">
+        <div class="od_tiems">
+            <div><span class="iconfont bl_font">&#xe60e;</span><span>接送时间：</span></div>
+            <div class="od_input"><input id="jstime" type="text" placeholder="请选择"/></div>
+        </div>
+    </div>
+    <div class="none">
+        <div class="od_tiems">
+            <div><span class="iconfont ye_font">&#xe6cc;</span><span>接送地点：</span></div>
+            <div class="od_input"><input id="jsaddre" type="text" placeholder="请输入"/></div>
+        </div>
+    </div>
+    <div>
+        <div class="od_tiems">
+            <div><span class="iconfont ye_font">&#xe604;</span><span>其他留言：</span></div>
+            <div class="od_input"><textarea name="" id="tips" cols="30" rows="5"></textarea></div>
+        </div>
+    </div>
+</div>
+<div id="od_xieyi">
+    <span class="iconfont ye_font">&#xe673;</span><span>我已阅读并同意报名协议</span>
+</div>
+<div class="od_footer">
+    <div class="od_fo1"><span class="iconfont ">&#xe7a2;</span><span>电话咨询</span></div>
+    <div class="od_fo2" id="cosu1_commit"><span>确认预约</span></div>
+</div>
+
+    <!--训练地点弹窗-->
+    <div class="bg" id="fieldbg">
+        <div class="box">
+            <div class="title">训练地点</div>
+            <div class="itemBox"></div>
+        </div>
+    </div>
+
+</body>
+<script src="../../plug/jquery-1.10.1.min.js"></script>
+<script src="../../js/tanchuang.js"></script>
+<script src="../../plug/layer/layer.js"></script>
+<script src="../../plug/cookie.js"></script>
+<script src="../../js/coach/coach_sure1.js"></script>
+</html>

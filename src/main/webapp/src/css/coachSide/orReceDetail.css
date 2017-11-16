@@ -1,0 +1,69 @@
+.orde_mhead{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    color: #999999;
+}
+.orde_mhead>div:nth-of-type(1){
+    margin-top: .2rem;
+}
+.orde_state1{
+    color: #ff9212;
+}
+.orde_btnBox{
+    padding-top: 1.5rem;
+}
+
+/*滚动水平导航栏 start*/
+.lr_nb{
+    /*border-bottom:1px solid #E8E8E8;*/
+    /*border-top:1px solid #E8E8E8;*/
+    height:5rem;
+    line-height:5rem;
+    width:100%;
+    position:relative;
+    background:#fff;
+    box-sizing:border-box;
+    z-index:1;
+    max-width:1080px;
+    opacity:1;
+    top:0;
+    -webkit-transition:.3s all;
+    transition:.3s all
+}
+.lr_nb .slider_wrap.line{
+    overflow:hidden;
+    overflow-x:scroll;
+    width:100%;
+    -webkit-overflow-scrolling:touch;
+}
+.lr_nb .slider_wrap.line .item_cell{
+    display:inline-block;
+    overflow:hidden;
+    position:relative;
+}
+.lr_nb .slider_wrap.box{
+    overflow:hidden;
+    width:100%
+}
+.lr_nb .slider_wrap::-webkit-scrollbar{display:none}
+.lr_nb .wx_items{white-space:nowrap}
+.lr_nb .wx_items span{
+    color:#666;
+    font-size: 1.5rem;
+    white-space:nowrap;
+    display:block;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    text-align:center;
+    cursor:pointer;
+    padding: 0 1rem;
+}
+.lr_nb .wx_items .current span,
+.lr_nb .wx_items .current a:visited,
+.lr_nb .wx_items .current a:link,
+.lr_nb .wx_items .current a:hover,
+.lr_nb .wx_items .current a:focus{
+    color:#ff9212;
+    border-bottom: 1px #ff9212 solid;
+}
+/*滚动水平导航栏 end*/

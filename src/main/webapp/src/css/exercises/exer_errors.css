@@ -1,0 +1,23 @@
+.err_divBox1{
+    background-color: #ffffff;
+    padding: 0 1.2rem;
+}
+.err_boxdiv{
+    padding: 1.5rem;
+    border-bottom: 1px #dddddd solid;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.err_divBox1>.err_boxdiv:nth-last-of-type(1){
+    border-bottom: none;
+}
+.err_boxdiv>div:nth-of-type(1){
+    color: #333333;
+}
+.err_boxdiv>div:nth-of-type(2){
+    color: #888888;
+}
+.err_divBox2{
+    margin-top: 1rem;
+}

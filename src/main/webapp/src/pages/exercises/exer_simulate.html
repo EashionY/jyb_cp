@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="../../css/reset.css"/>
+    <link rel="stylesheet" href="../../css/iconfont.css"/>
+    <link rel="stylesheet" href="../../css/footer.css"/>
+    <link rel="stylesheet" href="../../css/exercises/exer_simulate.css"/>
+</head>
+<body>
+    <div class="simu_top">
+        <div><span class="iconfont ye_color">&#xe60e;</span><span>倒计时：</span><span class="ye_color" id="timediv"></span></div>
+        <div><span id="pageNum">1</span>/<span id="maxnum">100</span></div>
+    </div>
+    <div class="simu_mainbox">
+        <div class="simu_text"><span class="simu_type"></span><span id="simu_ques"></span></div>
+        <div class="simu_imgdiv"><img src="" alt="图片"/></div>
+        <div class="simu_booldiv"> </div>
+        <div class="duo_btn">确认答案</div>
+    </div>
+    <div class="od_footer simu_footer">
+        <div class="od_fo1"><span class="simu_fotrue">正确<span id="Tnum">0</span></span><span class="simu_fotrue">错误<span id="Fnum">0</span></span></div>
+        <div class="od_fo2" id="simu_commit"><span>提交</span></div>
+    </div>
+</body>
+<script src="../../plug/jquery-1.10.1.min.js"></script>
+<script src="../../plug/cookie.js"></script>
+<script src="../../plug/layer/layer.js"></script>
+<script src="../../plug/storage/myStorage.js"></script>
+<script src="../../plug/storage/json2.js"></script>
+<script src="../../plug/storage/localDB.js"></script>
+<script src="../../js/exercise/exer_commen.js"></script>
+<script src="../../js/exercise/exer_com2.js"></script>
+<script src="../../js/exercise/exer_simulate.js"></script>
+</html>

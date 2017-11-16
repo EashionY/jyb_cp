@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+            text-align: center;
+        }
+        label{
+            font-size: 3rem;
+        }
+        body>div:nth-of-type(1){
+            margin-top: 100px;
+        }
+        body>div{
+            margin-bottom: 50px;
+        }
+        input{
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label for="">手机号</label>
+    <input type="text" id="tel" placeholder="输入账号"/>
+</div>
+<div>
+    <label for="">密码</label>
+    <input type="text" id="psd" placeholder="输入账号"/>
+</div>
+<div>
+    <label for="">角色</label>
+    <input name="rool" type="radio" value="0" checked/>学员
+    <input name="rool" type="radio" value="1" />教练
+    <input name="rool" type="radio" value="2"/>车主
+</div>
+<div>
+    <label for="">验证码</label>
+    <input id="code" type="text" placeholder="验证码"/>
+    <input type="button" value="获取" onclick="getCode()"/>
+</div>
+<div>
+    <input type="button" value="去登录" onclick="tolog()"/>
+    <input type="button" value="注册" onclick="reg()"/>
+</div>
+</body>
+<script src="../plug/jquery-1.10.1.min.js"></script>
+<script>
+    function reg(){
+        var tel=$("#tel").val();
+        var psd=$("#psd").val();
+        var rool=$('input[name=rool]:checked').val();
+        var code=$("#code").val();
+        $.ajax({
+            url:"http://api.drivingyeepay.com/jyb_cp/account/regist",
+            data:{phone:tel,password:psd,role:rool,verCode:code},
+            type:"post",
+            dataType:"json",
+            success:function(data){
+                alert(data.message)
+            }
+        })
+    }
+    function tolog(){
+        window.location.href="../../log.html"
+    }
+    function getCode(){
+        var tel=$("#tel").val();
+        $.ajax({
+            url:"http://api.drivingyeepay.com/jyb_cp/message/sendRegCode",
+            data:{phone:tel},
+            type:"get",
+            dataType:"json",
+            success:function(data){
+                alert(data.message)
+            }
+        })
+    }
+</script>
+</html>

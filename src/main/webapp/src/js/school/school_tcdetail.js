@@ -1,0 +1,24 @@
+$(function(){
+    var id=CryptoJS.AES.decrypt(GetQueryString("id"),'套餐id').toString(CryptoJS.enc.Utf8);
+    $.ajax({
+        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        type:"get",
+        dataType:"json",
+        data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:getCookieValue("school_id")},
+        success:function(data){
+            $("#scd_sName").html(data.data.school_name);
+            if(data.data.packages.length>0){
+                $.each(data.data.packages,function(k,v){
+                    if(v.package_id==id){
+                        //console.log(v)
+                        $("#scd_tcname").html(v.package_name);
+                        $("#scd_tctype").html(v.package_type);
+                        $(".scd_tcpri").html(v.package_price);
+                        $("#scd_intro").html(v.package_intro);
+                        $(".scd_fwdiv>p").html(v.package_content);
+                    }
+                })
+            }
+        }
+    })
+});

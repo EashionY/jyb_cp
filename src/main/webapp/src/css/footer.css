@@ -1,0 +1,48 @@
+.od_footer{
+    display: flex;
+    background-color: #ffffff;
+    height: 4rem;
+    line-height: 4rem;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+}
+.od_fo1{
+    width: 60%;
+    padding: 0 0 0 12px;
+    font-size: 1.2rem;
+    color: #ff9212;
+}
+.od_fo2{
+    background-color: #FF9212;
+    color: #ffffff;
+    font-size: 1.5rem;
+    width: 40%;
+    text-align: center;
+    float: right;
+}
+.od_fo1 .iconfont{
+    margin-right: 10px;
+}
+.fo_text{
+    color: #333333;
+    margin-right: .5rem;
+}
+.fo_price{
+    color: #FE0000;
+}
+
+/*提交按钮*/
+.coti_buttondiv{
+    width: 25rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    background-color: #ff9212;
+    color: #ffffff;
+    font-size: 1.8rem;
+    border-radius: 10px;
+    margin: 1.5rem auto;
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>身份证实名认证测试页</title>
+</head>
+<body>
+	<form name="Form2" action="http://localhost:8080/jyb_cp/idCard/addIdCard" method="post" enctype="multipart/form-data">
+		<h1>身份证实名认证测试页</h1>
+		userId，idcardNo，realname，sex，address<br/>
+		userId:<input type="text" name="userId"><br/>
+		idcardNo:<input type="text" name="idcardNo"><br/>
+		realname:<input type="text" name="realname"><br/>
+		sex:<input type="text" name="sex"><br/>
+		address:<input type="text" name="address"><br/>
+		<input type="file" name="pic"><br/>
+		<input type="submit" value="upload"/>
+	</form>
+</body>
+</html>

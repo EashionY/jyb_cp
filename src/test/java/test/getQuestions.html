@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+	var appkey = '2485934808878226';
+	var subject = '1';
+	var pagesize = '10';
+	var pagenum = 1;
+	function getQuestion(){
+		$.post("http://api.jisuapi.com/driverexam/query",
+			   {appkey:appkey,subject:subject,pagesize:pagesize,pagenum:pagenum},
+			   function(data){
+				   console.log(data);
+			       if(data.status==0){
+			    	   var list = data.list;
+			    	   var i = 1;
+			    	   $.each(list,function(index,element){
+			    		   $.post("http://192.168.0.104:8080/jyb_cp/questions/addQuestsion",
+			    				   {question:list[index].question,
+			    			        option1:list[index].option1,
+			    			        option2:list[index].option2,
+			    			        option3:list[index].option3,
+			    			        option4:list[index].option4,
+			    			        answer:list[index].answer,
+			    			        explain:list[index].explain,
+			    			        pic:list[index].pic,
+			    			        type:list[index].type,
+			    			        chapter:list[index].chapter,
+			    			        subject:subject},
+			    			       function(result){
+			    			        	if(result.state==1){
+			    			        		console.log(i);
+			    			        		i++;
+			    			        	}
+			    			        },'json');
+			    	   });
+			       }
+		       },
+		'json');
+	}
+</script>
+</head>
+<body>
+	<input type="button" value="获取考题" onclick="getQuestion()"/>
+</body>
+</html>

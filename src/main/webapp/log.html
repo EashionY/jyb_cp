@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录驾易宝</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        label{
+            font-size: 3rem;
+        }
+        body>div:nth-of-type(1){
+            margin-top: 100px;
+        }
+        body>div{
+            margin-bottom: 50px;
+        }
+        input{
+            font-size: 3rem;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label for="">账号:</label>
+    <input type="text" id="tel" placeholder="输入账号"/>
+</div>
+<div>
+    <label for="">密码:</label>
+    <input type="text" id="psd" placeholder="输入密码"/>
+</div>
+<div>
+    <input type="button" value="登录" onclick="log()"/>
+    <input type="button" value="去注册" onclick="toreg()"/>
+</div>
+</body>
+<script src="src/plug/jquery-1.10.1.min.js"></script>
+<script src="src/plug/cookie.js"></script>
+<script>
+    $(function(){
+//        deleteCookie("user_id","/");
+//        deleteCookie("student_id","/");
+    });
+    function log(){
+        var tel=$("#tel").val();
+        var psd=$("#psd").val();
+        $.ajax({
+            url:"http://api.drivingyeepay.com/jyb_cp/account/login",
+            data:{phone:tel,password:psd},
+            type:"post",
+            dataType:"json",
+            success:function(data){
+                if(data.state==1){
+//                    console.log(data);
+                    addCookie("user_id",data.data.id,1,"/");
+                    if(data.data.role=="0"){//学员
+                        addCookie("student_id",data.data.student_id,1,"/");
+//                        window.location.href="src/pages/index.html"
+                        window.location.href="src/pages/coach/coach_sure2.html"
+                    }else if(data.data.role=="1"){
+                        window.location.href="src/pages/coachSide/index2.html"
+                    }
+                }else{
+                    alert(data.message)
+                }
+            }
+        })
+    }
+    function toreg(){
+        window.location.href="src/pages/reg.html"
+    }
+
+    //微信浏览器返回到指定前一页
+    $(function(){
+        pushHistory(window.location.href);
+        window.addEventListener("popstate", function(e) {
+            WeixinJSBridge.call('closeWindow');
+        }, false);
+    });
+    function pushHistory(url) {
+        var state = {
+            title: "myCenter",
+            url: url
+        };
+        window.history.pushState(state, state.title, state.url);
+    }
+
+
+</script>
+</html>

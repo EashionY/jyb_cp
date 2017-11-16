@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="../../css/reset.css"/>
+    <link rel="stylesheet" href="../../css/iconfont.css"/>
+    <link rel="stylesheet" href="../../css/coachSide/setKemu.css"/>
+</head>
+<body>
+    <div class="ske_mainBox">
+        <div>
+            <div>
+                <div class="ske_type">执教科目：<span>科目二</span></div>
+                <div class="ske_price">教学费用：<input id="two" type="text" maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"/>元/小时</div>
+            </div>
+            <div class="ske_bool"><span class="iconfont">&#xe673;</span></div>
+        </div>
+        <div>
+            <div>
+                <div class="ske_type">执教科目：<span>科目三</span></div>
+                <div class="ske_price">教学费用：<input id="three" type="text" maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"/>元/小时</div>
+            </div>
+            <div class="ske_bool"><span class="iconfont">&#xe673;</span></div>
+        </div>
+        <div class="ske_fanweibox">
+            <div>
+                <div class="ske_price">免费接送范围：<input id="juli" type="text" maxlength="4" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"/>km</div>
+            </div>
+            <div class="ske_bool"><span class="iconfont">&#xe673;</span></div>
+        </div>
+    </div>
+    <div class="ske_btnBox">
+        <!--<div>下一步</div>-->
+        <div>确定</div>
+    </div>
+</body>
+<script src="../../plug/jquery-1.10.1.min.js"></script>
+<script src="../../plug/layer/layer.js"></script>
+<script src="../../plug/cookie.js"></script>
+<script src="../../js/appCom.js"></script>
+<script src="../../js/coachSide/history.js"></script>
+<script src="../../js/coachSide/setKemu.js"></script>
+</html>
