@@ -25,4 +25,6 @@ public interface DrivingLicenseMapper {
     List<DrivingLicense> listAll();
     
     List<DrivingLicense> listAllByStatus(@Param("drivingLicenseStatus")Integer drivingLicenseStatus);
+    
+    DrivingLicense findByLicNo(String licenseNo);
 }

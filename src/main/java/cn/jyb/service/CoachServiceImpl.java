@@ -95,13 +95,12 @@ public class CoachServiceImpl implements CoachService {
 
 	public void insertCoach(int user_id,String phone,String coach_name,String coach_sex,
 			String coach_birthday,String school_name, String school_address,
-			String train_field,String field_jingdu,String field_weidu,
 			String coach_license, String coach_car, String coach_area, HttpServletRequest request) throws IOException{
 		request.setCharacterEncoding("UTF-8");
 		Coach coach = coachDao.findByUserId(user_id);
 		String folder = "qualification";
 		List<String> paths = Upload.uploadImg(request, phone, folder);
-		if(coach!=null){
+		if(coach != null){
 			//若教练已存在，则为修改教练审核资料
 			if(!paths.isEmpty() && paths.size()==4){
 				coach.setCoach_qualification(paths.get(0));
@@ -115,9 +114,6 @@ public class CoachServiceImpl implements CoachService {
 			coach.setCoach_birthday(coach_birthday);
 			coach.setSchool_name(school_name);
 			coach.setSchool_address(school_address);
-			coach.setTrain_field(train_field);
-			coach.setField_jingdu(field_jingdu);
-			coach.setField_weidu(field_weidu);
 			coach.setCoach_license(coach_license);
 			coach.setCoach_car(coach_car);
 			coach.setCoach_area(coach_area);
@@ -143,13 +139,12 @@ public class CoachServiceImpl implements CoachService {
 			coach.setCoach_birthday(coach_birthday);
 			coach.setSchool_name(school_name);
 			coach.setSchool_address(school_address);
-			coach.setTrain_field(train_field);
-			coach.setField_jingdu(field_jingdu);
-			coach.setField_weidu(field_weidu);
 			coach.setCoach_license(coach_license);
 			coach.setCoach_car(coach_car);
 			coach.setCoach_area(coach_area);
 			coach.setCoach_status("0");
+			//教练评分 ，默认为0
+			coach.setCoach_score(0);
 			try {
 				coachDao.insertCoach(coach);
 			} catch (Exception e) {

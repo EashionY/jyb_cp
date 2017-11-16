@@ -21,7 +21,7 @@ public interface TeachRecordDao {
 	 * @param teachId
 	 * @return
 	 */
-	public TeachRecord findByTeachId(int teach_id);
+	public TeachRecord findByTeachId(String teach_id);
 	
 	/**
 	 * 通过学员id查找所有约教记录数
@@ -31,7 +31,7 @@ public interface TeachRecordDao {
 	public Integer findStudyRecordNumber(int student_id);
 	
 	/**
-	 * 通过教练id查找所有教学记录数
+	 * 通过教练id查找所有教学记录数(支付状态必须为支付成功--1)
 	 * @param coach_id
 	 * @return
 	 */
@@ -42,14 +42,27 @@ public interface TeachRecordDao {
 	 * @param studentId
 	 * @return
 	 */
-	public List<TeachRecord> findStudyRecords(int student_id,int offset,int pageSize);
+	public List<TeachRecord> findStudyRecords(@Param("student_id")int student_id,@Param("offset")int offset,@Param("pageSize")int pageSize);
 	
 	/**
-	 * 通过教练id查找所有教学记录
+	 * 通过教练id查找所有教学记录(支付状态必须为支付成功--1)
 	 * @param coachId
+	 * @param teach_state
+	 * @param offset
+	 * @param pageSize
 	 * @return
 	 */
-	public List<TeachRecord> findTeachRecords(int coach_id,int offset,int pageSize);
+	public List<TeachRecord> findTeachRecords(@Param("coach_id")int coach_id,@Param("teach_state")String teach_state,
+			@Param("offset")int offset,@Param("pageSize")int pageSize);
+	
+	/**
+	 * 查看教练处理过的全部订单（即不包括等待确认、学员已取消订单状态以外的订单）
+	 * @param coach_id
+	 * @param offset
+	 * @param pageSize
+	 * @return
+	 */
+	public List<TeachRecord> listDealedRecord(@Param("coach_id")int coach_id,@Param("offset")int offset,@Param("pageSize")int pageSize);
 	
 	/**
 	 * 添加评价,添加完成后,状态teach_state变为3
@@ -57,7 +70,7 @@ public interface TeachRecordDao {
 	 * @param evaluation
 	 * @return
 	 */
-	public int addEvaluation(int teach_id,String evaluation,int evaltype,int evalstar);
+	public int addEvaluation(@Param("teach_id")String teach_id,@Param("evaluation")String evaluation,@Param("evaltype")int evaltype,@Param("evalstar")int evalstar);
 	
 	/**
 	 * 学员做出的所有评价数
@@ -80,7 +93,7 @@ public interface TeachRecordDao {
 	 * @offset 当前页码对应的偏移量
 	 * @return
 	 */
-	public List<TeachRecord> findStudyEvaluation(int student_id,int offset,int pageSize);
+	public List<TeachRecord> findStudyEvaluation(@Param("student_id")int student_id,@Param("offset")int offset,@Param("pageSize")int pageSize);
 	
 	/**
 	 * 教练收到的所有评价数
@@ -114,32 +127,16 @@ public interface TeachRecordDao {
 			@Param("evaltype")int evaltype,@Param("offset")int offset,@Param("pageSize")int pageSize);
 	
 	/**
+	 * 变更约教记录的状态
 	 * 教练接受约教请求(teach_state=1)
+	 * 学员完成训练(teach_state=2)
+	 * 教练拒绝约教请求(teach_state=-1)
+	 * 学员取消约教请求(teach_state=-2)
 	 * @param teach_id
+	 * @param teach_state
 	 * @return
 	 */
-	public int acceptTeach(int teach_id);
-	
-	/**
-	 * 学员完成训练(teach_id=2)
-	 * @param teach_id
-	 * @return
-	 */
-	public int finishTeach(int teach_id);
-	
-	/**
-	 * 教练拒绝约教请求(teach_id=-1)
-	 * @param teach_id
-	 * @return
-	 */
-	public int refuseTeach(int teach_id);
-	
-	/**
-	 * 学员取消约教请求(teach_id=-2)
-	 * @param teach_id
-	 * @return
-	 */
-	public int cancelTeach(int teach_id);
+	public int updateTeachState(@Param("teach_id")String teach_id,@Param("teach_state")String teach_state);
 
 	/**
 	 * 获得教练的评分
@@ -189,4 +186,12 @@ public interface TeachRecordDao {
 	 * @return
 	 */
 	public List<Map<String,Object>> findRecordBySubject(String teach_subject);
+
+	/**
+	 * 修改约教记录的支付状态（0->未支付，1->支付成功）
+	 * @param teach_id
+	 * @param payStatus
+	 * @return
+	 */
+	public int updatePayStatus(@Param("teach_id")String teach_id,@Param("payStatus")int payStatus);
 }

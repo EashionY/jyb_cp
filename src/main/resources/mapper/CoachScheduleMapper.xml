@@ -1,54 +1,192 @@
-<?xml version="1.0" encoding="UTF-8" ?>  
-<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
- "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-
-<mapper namespace="cn.jyb.dao.CoachScheduleDao">
-	
-	<!-- 保存教练信息 -->
-	<insert id="saveCoachSchedule" useGeneratedKeys="true" keyProperty="id"
-		parameterType="cn.jyb.entity.CoachSchedule">
-		INSERT INTO coach_schedule(
-			coach_id, 
-			appoint_time, 
-			time1, 
-			time2, 
-			time3, 
-			time4, 
-			time5, 
-			time6, 
-			time7, 
-			time8, 
-			time9, 
-			time10)
-		VALUES(
-			#{coach_id}, 
-			#{appoint_time}, 
-			#{time1}, 
-			#{time2}, 
-			#{time3}, 
-			#{time4}, 
-			#{time5}, 
-			#{time6}, 
-			#{time7}, 
-			#{time8}, 
-			#{time9}, 
-			#{time10})
-	</insert>
-
-	<update id="updateCoachSchedule" parameterType="cn.jyb.entity.CoachSchedule">
-		UPDATE coach_schedule SET
-			time1=#{time1},
-			time2=#{time2},
-			time3=#{time3},
-			time4=#{time4},
-			time5=#{time5},
-			time6=#{time6},
-			time7=#{time7},
-			time8=#{time8},
-			time9=#{time9},
-			time10=#{time10}
-		WHERE coach_id=#{coach_id} AND appoint_time=#{appoint_time}
-	</update>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.CoachScheduleMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.CoachSchedule">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="coach_id" jdbcType="INTEGER" property="coachId" />
+    <result column="appoint_time" jdbcType="VARCHAR" property="appointTime" />
+    <result column="time1" jdbcType="VARCHAR" property="time1" />
+    <result column="time2" jdbcType="VARCHAR" property="time2" />
+    <result column="time3" jdbcType="VARCHAR" property="time3" />
+    <result column="time4" jdbcType="VARCHAR" property="time4" />
+    <result column="time5" jdbcType="VARCHAR" property="time5" />
+    <result column="time6" jdbcType="VARCHAR" property="time6" />
+    <result column="time7" jdbcType="VARCHAR" property="time7" />
+    <result column="time8" jdbcType="VARCHAR" property="time8" />
+    <result column="time9" jdbcType="VARCHAR" property="time9" />
+    <result column="time10" jdbcType="VARCHAR" property="time10" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coach_id, appoint_time, time1, time2, time3, time4, time5, time6, time7, time8, 
+    time9, time10
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from coach_schedule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from coach_schedule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.CoachSchedule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coach_schedule (id, coach_id, appoint_time, 
+      time1, time2, time3, 
+      time4, time5, time6, 
+      time7, time8, time9, 
+      time10)
+    values (#{id,jdbcType=INTEGER}, #{coachId,jdbcType=INTEGER}, #{appointTime,jdbcType=VARCHAR}, 
+      #{time1,jdbcType=VARCHAR}, #{time2,jdbcType=VARCHAR}, #{time3,jdbcType=VARCHAR}, 
+      #{time4,jdbcType=VARCHAR}, #{time5,jdbcType=VARCHAR}, #{time6,jdbcType=VARCHAR}, 
+      #{time7,jdbcType=VARCHAR}, #{time8,jdbcType=VARCHAR}, #{time9,jdbcType=VARCHAR}, 
+      #{time10,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.CoachSchedule">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into coach_schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="coachId != null">
+        coach_id,
+      </if>
+      <if test="appointTime != null">
+        appoint_time,
+      </if>
+      <if test="time1 != null">
+        time1,
+      </if>
+      <if test="time2 != null">
+        time2,
+      </if>
+      <if test="time3 != null">
+        time3,
+      </if>
+      <if test="time4 != null">
+        time4,
+      </if>
+      <if test="time5 != null">
+        time5,
+      </if>
+      <if test="time6 != null">
+        time6,
+      </if>
+      <if test="time7 != null">
+        time7,
+      </if>
+      <if test="time8 != null">
+        time8,
+      </if>
+      <if test="time9 != null">
+        time9,
+      </if>
+      <if test="time10 != null">
+        time10,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="coachId != null">
+        #{coachId,jdbcType=INTEGER},
+      </if>
+      <if test="appointTime != null">
+        #{appointTime,jdbcType=VARCHAR},
+      </if>
+      <if test="time1 != null">
+        #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null">
+        #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null">
+        #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="time4 != null">
+        #{time4,jdbcType=VARCHAR},
+      </if>
+      <if test="time5 != null">
+        #{time5,jdbcType=VARCHAR},
+      </if>
+      <if test="time6 != null">
+        #{time6,jdbcType=VARCHAR},
+      </if>
+      <if test="time7 != null">
+        #{time7,jdbcType=VARCHAR},
+      </if>
+      <if test="time8 != null">
+        #{time8,jdbcType=VARCHAR},
+      </if>
+      <if test="time9 != null">
+        #{time9,jdbcType=VARCHAR},
+      </if>
+      <if test="time10 != null">
+        #{time10,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.CoachSchedule">
+    update coach_schedule
+    <set>
+      <if test="coachId != null">
+        coach_id = #{coachId,jdbcType=INTEGER},
+      </if>
+      <if test="appointTime != null">
+        appoint_time = #{appointTime,jdbcType=VARCHAR},
+      </if>
+      <if test="time1 != null">
+        time1 = #{time1,jdbcType=VARCHAR},
+      </if>
+      <if test="time2 != null">
+        time2 = #{time2,jdbcType=VARCHAR},
+      </if>
+      <if test="time3 != null">
+        time3 = #{time3,jdbcType=VARCHAR},
+      </if>
+      <if test="time4 != null">
+        time4 = #{time4,jdbcType=VARCHAR},
+      </if>
+      <if test="time5 != null">
+        time5 = #{time5,jdbcType=VARCHAR},
+      </if>
+      <if test="time6 != null">
+        time6 = #{time6,jdbcType=VARCHAR},
+      </if>
+      <if test="time7 != null">
+        time7 = #{time7,jdbcType=VARCHAR},
+      </if>
+      <if test="time8 != null">
+        time8 = #{time8,jdbcType=VARCHAR},
+      </if>
+      <if test="time9 != null">
+        time9 = #{time9,jdbcType=VARCHAR},
+      </if>
+      <if test="time10 != null">
+        time10 = #{time10,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.CoachSchedule">
+    update coach_schedule
+    set coach_id = #{coachId,jdbcType=INTEGER},
+      appoint_time = #{appointTime,jdbcType=VARCHAR},
+      time1 = #{time1,jdbcType=VARCHAR},
+      time2 = #{time2,jdbcType=VARCHAR},
+      time3 = #{time3,jdbcType=VARCHAR},
+      time4 = #{time4,jdbcType=VARCHAR},
+      time5 = #{time5,jdbcType=VARCHAR},
+      time6 = #{time6,jdbcType=VARCHAR},
+      time7 = #{time7,jdbcType=VARCHAR},
+      time8 = #{time8,jdbcType=VARCHAR},
+      time9 = #{time9,jdbcType=VARCHAR},
+      time10 = #{time10,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
 	<select id="findSchedule" resultType="cn.jyb.entity.CoachSchedule">
 		SELECT * FROM coach_schedule WHERE appoint_time=#{0} AND coach_id=#{1}
@@ -78,12 +216,3 @@
 		WHERE cs.coach_id=c.coach_id AND cs.appoint_time LIKE #{appoint_time}
 	</select>
 </mapper>
-
-
-
-
-
-
-
-
-

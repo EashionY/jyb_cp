@@ -15,18 +15,18 @@ public interface ScheduleService {
 	public boolean setCoachSchedule(String data);
 	
 	/**
-	 * 列出教练最近三天的日程表
+	 * 列出教练最近三天的日程表供学员查看
 	 * @param data
 	 * @throws ParseException
 	 */
 	public List<Map<String,String>> listCoachSchedule(String data);
-
+	
 	/**
-	 * 保存学员三天的日程安排
+	 * 教练查看自己最近三天的日程安排
 	 * @param data
 	 * @return
 	 */
-	public boolean saveStudentSchedule(String data);
+	public List<Map<String,String>> checkCoachSchedule(String data);
 	
 	/**
 	 * 获取全部教练的日程(后台)

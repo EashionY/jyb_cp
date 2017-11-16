@@ -39,5 +39,5 @@ public interface StudentScheduleDao {
 	 * @param appoint_time
 	 * @return
 	 */
-	public Map<String,Integer> listTimeCount(@Param("coach_id")int coach_id,@Param("appoint_time")String appoint_time);
+	public Map<String, Double> listTimeCount(@Param("coach_id")int coach_id,@Param("appoint_time")String appoint_time);
 }

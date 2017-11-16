@@ -32,9 +32,6 @@ public interface CoachService {
 	 * @param coach_brithday
 	 * @param school_name
 	 * @param school_address
-	 * @param train_field
-	 * @param field_jingdu
-	 * @param field_weidu
 	 * @param coach_license
 	 * @param request
 	 * @return coach
@@ -42,7 +39,6 @@ public interface CoachService {
 	 */
 	public void insertCoach(int user_id,String phone,String coach_name,String coach_sex,
 			String coach_birthday,String school_name, String school_address,
-			String train_field,String field_jingdu,String field_weidu,
 			String coach_license,String coach_car,String coach_area,HttpServletRequest request) throws IOException;
 	
 	/**

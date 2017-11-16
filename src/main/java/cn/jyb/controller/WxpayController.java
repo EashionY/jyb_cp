@@ -31,6 +31,13 @@ public class WxpayController extends ExceptionController {
 		return new JsonResult(result);
 	}
 	
+	@RequestMapping("/webPrepay")
+	@ResponseBody
+	public JsonResult webPrepay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+		SortedMap<Object, Object> result = wxpayService.wxPrePay(request, response);
+		return new JsonResult(result);
+	}
+	
 	@RequestMapping("/notify")
 	public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException{
 		String resXml = wxpayService.wxNotify(request, response);

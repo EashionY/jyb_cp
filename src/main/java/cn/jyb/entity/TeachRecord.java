@@ -7,8 +7,8 @@ public class TeachRecord implements Serializable {
 
 	private static final long serialVersionUID = -5451508181981234214L;
 	
-	//约教记录id
-	private int teach_id;
+	//约教记录id（即订单号）
+	private String teach_id;
 	//学员id
 	private int student_id;
 	//教练id
@@ -41,38 +41,14 @@ public class TeachRecord implements Serializable {
 	private Timestamp creatime;
 	//完成训练时间
 	private Timestamp finishtime;
-	
-	public TeachRecord() {}
+	//约教记录支付状态
+	private int payStatus;
 
-	public TeachRecord(int teach_id, int student_id, int coach_id, String teach_subject, String teach_time,
-			String teach_field, String shuttle, String shuttle_time, String shuttle_place, String teach_state,
-			String tips, String evaluation, Timestamp evaltime, int evaltype, int evalstar, Timestamp creatime,
-			Timestamp finishtime) {
-		super();
-		this.teach_id = teach_id;
-		this.student_id = student_id;
-		this.coach_id = coach_id;
-		this.teach_subject = teach_subject;
-		this.teach_time = teach_time;
-		this.teach_field = teach_field;
-		this.shuttle = shuttle;
-		this.shuttle_time = shuttle_time;
-		this.shuttle_place = shuttle_place;
-		this.teach_state = teach_state;
-		this.tips = tips;
-		this.evaluation = evaluation;
-		this.evaltime = evaltime;
-		this.evaltype = evaltype;
-		this.evalstar = evalstar;
-		this.creatime = creatime;
-		this.finishtime = finishtime;
-	}
-
-	public int getTeach_id() {
+	public String getTeach_id() {
 		return teach_id;
 	}
 
-	public void setTeach_id(int teach_id) {
+	public void setTeach_id(String teach_id) {
 		this.teach_id = teach_id;
 	}
 
@@ -204,6 +180,14 @@ public class TeachRecord implements Serializable {
 		this.finishtime = finishtime;
 	}
 
+	public int getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(int payStatus) {
+		this.payStatus = payStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "TeachRecord [teach_id=" + teach_id + ", student_id=" + student_id + ", coach_id=" + coach_id
@@ -211,29 +195,7 @@ public class TeachRecord implements Serializable {
 				+ ", shuttle=" + shuttle + ", shuttle_time=" + shuttle_time + ", shuttle_place=" + shuttle_place
 				+ ", teach_state=" + teach_state + ", tips=" + tips + ", evaluation=" + evaluation + ", evaltime="
 				+ evaltime + ", evaltype=" + evaltype + ", evalstar=" + evalstar + ", creatime=" + creatime
-				+ ", finishtime=" + finishtime + "]";
+				+ ", finishtime=" + finishtime + ", payStatus=" + payStatus + "]";
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + teach_id;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TeachRecord other = (TeachRecord) obj;
-		if (teach_id != other.teach_id)
-			return false;
-		return true;
-	}
-	
 }

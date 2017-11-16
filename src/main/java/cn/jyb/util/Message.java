@@ -58,9 +58,9 @@ public class Message {
 	}
 	
 	/**
-	 * 发送通知短信(学员取消约教，教练拒绝约教，教练确认约教请求)
-	 * @param phone
-	 * @param name
+	 * 发送通知短信(学员预约教练，学员取消约教，教练拒绝约教，教练确认约教请求)
+	 * @param phone 收件人电话
+	 * @param name 
 	 * @param templateCode 短信模板id
 	 * @return boolean
 	 */

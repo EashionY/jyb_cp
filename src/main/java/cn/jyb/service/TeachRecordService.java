@@ -4,10 +4,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
+import cn.jyb.entity.TeachRecord;
+
 public interface TeachRecordService {
 
 	/**
-	 * 增加约教记录
+	 * 增加约教记录(学员预约教练时，将对应时段的状态改为1)
 	 * @param student_id
 	 * @param coach_id
 	 * @param coach_name
@@ -22,8 +24,8 @@ public interface TeachRecordService {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public boolean addTeachRecord(int student_id, int coach_id, String teach_subject, String teach_time,
-			String teach_field, String shuttle, String shuttle_time, String shuttle_place, String tips) throws UnsupportedEncodingException;
+	public TeachRecord addTeachRecord(int student_id, int coach_id, String teach_subject, String teach_time,
+			String teach_field, String shuttle, String shuttle_time, String shuttle_place, String tips);
 	
 	/**
 	 * 学员的约教记录条数
@@ -37,7 +39,7 @@ public interface TeachRecordService {
 	 * @param student_id
 	 * @return
 	 */
-	public List<Map<String, String>> findStudyRecords(int student_id,int page,int pageSize);
+	public List<Map<String, Object>> findStudyRecords(int student_id,int page,int pageSize);
 	
 	/**
 	 * 教练的所有教学记录条数
@@ -49,9 +51,21 @@ public interface TeachRecordService {
 	/**
 	 * 教练的所有教学记录
 	 * @param coach_id
+	 * @param teach_state 教学状态
+	 * @param page 页码
+	 * @param pageSize 每页显示条数
 	 * @return
 	 */
-	public List<Map<String, String>> findTeachRecords(int coach_id,int page,int pageSize);
+	public List<Map<String, Object>> findTeachRecords(int coach_id,String teach_state,int page,int pageSize);
+	
+	/**
+	 * 查看教练处理过的所有约教记录
+	 * @param coach_id
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<String, Object>> listDealedRecord(int coach_id,int page,int pageSize);
 	
 	/**
 	 * 为已完成的训练添加评价
@@ -62,7 +76,7 @@ public interface TeachRecordService {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	public boolean addEvaluation(int teach_id,String evaluation,int evaltype,int evalstar) throws UnsupportedEncodingException;
+	public boolean addEvaluation(String teach_id,String evaluation,int evaltype,int evalstar) throws UnsupportedEncodingException;
 	
 	/**
 	 * 查找学员给出的所有评价数量
@@ -92,33 +106,34 @@ public interface TeachRecordService {
 	 * @return
 	 */
 	public List<Map<String, String>> findTeachEvaluations(int coach_id,int evaltype,int page,int pageSize);
+	
 	/**
 	 * 教练接受约教请求
 	 * @param coach_id
 	 * @return
 	 */
-	public boolean acceptTeach(int teach_id);
+	public boolean acceptTeach(String teach_id);
 	
 	/**
 	 * 学员完成约教训练
 	 * @param teach_id
 	 * @return
 	 */
-	public boolean finishTeach(int teach_id);
+	public boolean finishTeach(String teach_id);
 	
 	/**
 	 * 教练拒绝约教请求
 	 * @param teach_id
 	 * @return
 	 */
-	public boolean refuseTeach(int teach_id);
+	public boolean refuseTeach(String teach_id);
 	
 	/**
 	 * 学员取消约教请求
 	 * @param teach_id
 	 * @return
 	 */
-	public boolean cancelTeach(int teach_id);
+	public boolean cancelTeach(String teach_id);
 	
 	/**
 	 * 列出所有约教记录(后台)

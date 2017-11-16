@@ -9,9 +9,9 @@
 		where teach_id=#{teach_id}
 	</select>
 	<!-- 保存约教记录 -->
-	<insert id="saveTeachRecord" useGeneratedKeys="true"
-		keyProperty="teach_id" parameterType="cn.jyb.entity.TeachRecord">
+	<insert id="saveTeachRecord" parameterType="cn.jyb.entity.TeachRecord">
 		INSERT INTO teach_record(
+		teach_id,
 		student_id,
 		coach_id,
 		teach_subject,
@@ -20,8 +20,10 @@
 		shuttle,
 		shuttle_time,
 		shuttle_place,
-		tips)
+		tips,
+		pay_status)
 		VALUES(
+		#{teach_id},
 		#{student_id},
 		#{coach_id},
 		#{teach_subject},
@@ -30,7 +32,8 @@
 		#{shuttle},
 		#{shuttle_time},
 		#{shuttle_place},
-		#{tips})
+		#{tips},
+		#{payStatus})
 	</insert>
 
 	<!-- 查找学员约教记录数 -->
@@ -42,30 +45,41 @@
 	<!-- 查找教练教学记录数 -->
 	<select id="findTeachRecordNumber" resultType="Integer">
 		SELECT COUNT(*) FROM teach_record 
-		WHERE coach_id=#{coach_id}
+		WHERE coach_id=#{coach_id} AND pay_status=1
 	</select>
 
 	<!-- 查找学员约教记录 -->
 	<select id="findStudyRecords" resultType="cn.jyb.entity.TeachRecord">
 		SELECT * FROM teach_record 
-		WHERE student_id=#{0}
+		WHERE student_id=#{student_id}
 		ORDER BY creatime DESC
-		LIMIT #{1},#{2}
+		LIMIT #{offset},#{pageSize}
 	</select>
 
 	<!-- 查找教练教学记录 -->
 	<select id="findTeachRecords" resultType="cn.jyb.entity.TeachRecord">
 		SELECT * FROM teach_record 
-		WHERE coach_id=#{0}
+		WHERE coach_id=#{coach_id} AND pay_status=1
+		<if test="teach_state != null and '' != teach_state">
+		AND teach_state=#{teach_state}
+		</if>
 		ORDER BY creatime DESC
-		LIMIT #{1},#{2}
+		LIMIT #{offset},#{pageSize}
+	</select>
+	
+	<!-- 查看教练处理过的所有教学记录 -->
+	<select id="listDealedRecord" resultType="cn.jyb.entity.TeachRecord">
+	    SELECT * FROM teach_record 
+		WHERE coach_id=#{coach_id} AND pay_status=1
+		AND teach_state IN ('-1','1','2','3')
+		ORDER BY creatime DESC LIMIT #{offset},#{pageSize}
 	</select>
 
-	<!-- 添加评价,添加后,teach_state='3' -->
+	<!-- 添加评价:添加后,teach_state='3' -->
 	<update id="addEvaluation">
 		UPDATE teach_record SET
-		evaluation=#{1},teach_state='3',evaltime=CURRENT_TIMESTAMP,evaltype=#{2},evalstar=#{3}
-		WHERE teach_id=#{0}
+		evaluation=#{evaluation},teach_state='3',evaltime=CURRENT_TIMESTAMP,evaltype=#{evaltype},evalstar=#{evalstar}
+		WHERE teach_id=#{teach_id}
 	</update>
 
 	<!-- 查找学员做出的所有评价数 -->
@@ -83,9 +97,9 @@
 	<!-- 查找学员给出的所有评价，状态teach_state必须是3 -->
 	<select id="findStudyEvaluation" resultType="cn.jyb.entity.TeachRecord">
 		SELECT * FROM
-		teach_record WHERE student_id=#{0} AND teach_state='3' AND evaluation!=''
+		teach_record WHERE student_id=#{student_id} AND teach_state='3' AND evaluation!=''
 		ORDER BY evaltime DESC
-		LIMIT #{1},#{2}
+		LIMIT #{offset},#{pageSize}
 	</select>
 	
 	<!-- 查找教练收到的所有评价数 -->
@@ -115,30 +129,17 @@
 		ORDER BY evaltime DESC
 		LIMIT #{offset},#{pageSize}
 	</select>
-
-	<!-- 教练接受约教请求 -->
-	<update id="acceptTeach">
-		UPDATE teach_record SET teach_state='1' WHERE
-		teach_id=#{teach_id}
-	</update>
-
-	<!-- 学员完成约教训练 -->
-	<update id="finishTeach">
-		UPDATE teach_record SET
-		teach_state='2',finishtime=CURRENT_TIMESTAMP WHERE
-		teach_id=#{teach_id}
-	</update>
-
-	<!-- 教练拒绝约教请求 -->
-	<update id="refuseTeach">
-		UPDATE teach_record SET teach_state='-1' WHERE
-		teach_id=#{teach_id}
-	</update>
-
-	<!-- 学员取消约教请求 -->
-	<update id="cancelTeach">
-		UPDATE teach_record SET teach_state='-2' WHERE
-		teach_id=#{teach_id}
+	
+	<!-- 变更约教记录的状态 -->
+	<update id="updateTeachState">
+		UPDATE teach_record
+		<set>
+		  teach_state=#{teach_state},
+		  <if test="teach_state = '2'">
+		  finishtime=CURRENT_TIMESTAMP
+		  </if>
+		</set>
+		WHERE teach_id=#{teach_id}
 	</update>
 	
 	<select id="getCoachScore" resultType="double">
@@ -163,26 +164,35 @@
 	<select id="findRecordByCoachName" resultType="map">
 		SELECT c.coach_name,s.student_name,t.*
 		FROM teach_record t,coach c,student s
-		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND c.coach_name LIKE #{coach_name}
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id 
+		AND c.coach_name LIKE #{coach_name}
 	</select>
 	
 	<select id="findRecordByStudentName" resultType="map">
 		SELECT c.coach_name,s.student_name,t.*
 		FROM teach_record t,coach c,student s
-		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND s.student_name LIKE #{student_name}
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id 
+		AND s.student_name LIKE #{student_name}
 	</select>
 	
 	<select id="findRecordByTeachTime" resultType="map">
 		SELECT c.coach_name,s.student_name,t.*
 		FROM teach_record t,coach c,student s
-		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND t.teach_time LIKE #{teach_time}
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id 
+		AND t.teach_time LIKE #{teach_time}
 	</select>
 	
 	<select id="findRecordBySubject" resultType="map">
 		SELECT c.coach_name,s.student_name,t.*
 		FROM teach_record t,coach c,student s
-		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id AND t.teach_subject=#{teach_subject}
+		WHERE t.coach_id=c.coach_id AND t.student_id=s.student_id 
+		AND t.teach_subject=#{teach_subject}
 	</select>
+	
+	<update id="updatePayStatus">
+	    UPDATE teach_record SET pay_status=#{payStatus}
+	    WHERE teach_id=#{teach_id}
+	</update>
 </mapper>
 
 

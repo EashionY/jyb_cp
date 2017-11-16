@@ -30,7 +30,6 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 	public boolean saveDrivingLicense(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		Integer userId = Integer.parseInt(request.getParameter("userId"));
-		DrivingLicense license = drivingLicenseMapper.findByUserId(userId);
 		List<String> path;
 		try {
 			path = Upload.uploadImg(request, ""+userId, "drivingLicense");
@@ -52,6 +51,7 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 		if(!idcard.getIdcardRealname().equals(driverName)){
 			throw new IdCardException("驾驶证姓名与身份证姓名不匹配");
 		}
+		DrivingLicense license = drivingLicenseMapper.findByUserId(userId);
 		if(license == null){//初次认证
 			license = new DrivingLicense();
 			license.setUserId(userId);

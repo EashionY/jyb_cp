@@ -2,7 +2,6 @@ package cn.jyb.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +20,43 @@ public class AlipayController extends ExceptionController {
 
 	@Resource
 	private AlipayService alipayService;
-	
+	/**
+	 * 支付宝APP支付信息签名
+	 * @param out_trade_no
+	 * @param subject
+	 * @param body
+	 * @param total_amount
+	 * @param payer_id
+	 * @param receiver_id
+	 * @param address
+	 * @param orderType
+	 * @return
+	 */
 	@RequestMapping("/sign")
 	@ResponseBody
-	public JsonResult sign(String subject,String body,String total_amount,String payer_id,String receiver_id) throws UnsupportedEncodingException{
-		String result = alipayService.sign(subject,body,total_amount,payer_id,receiver_id);
+	public JsonResult sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType) {
+		String result = alipayService.sign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType);
 		return new JsonResult(result);
+	}
+	/**
+	 * 支付宝WEB支付信息签名
+	 * @param out_trade_no
+	 * @param subject
+	 * @param body
+	 * @param total_amount
+	 * @param payer_id
+	 * @param receiver_id
+	 * @param address
+	 * @param orderType
+	 * @return
+	 */
+	@RequestMapping("/webSign")
+	public void webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType,HttpServletResponse response) throws IOException {
+		String form = alipayService.webSign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().write(form);
+		response.getWriter().flush();
+		response.getWriter().close();
 	}
 	
 	@RequestMapping("/notify")

@@ -14,6 +14,7 @@ import cn.jyb.dao.VehicleLicenseMapper;
 import cn.jyb.entity.VehicleLicense;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.ImgpathException;
+import cn.jyb.exception.VehicleLicenseException;
 import cn.jyb.util.Upload;
 @Service("vehicleLicenseService")
 public class VehicleLicenseServiceImpl implements VehicleLicenseService {
@@ -24,7 +25,15 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 	public boolean saveVehicleLicense(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
 		Integer userId = Integer.parseInt(request.getParameter("userId"));
-		VehicleLicense license = vehicleLicenseMapper.findByUserId(userId);
+		//车牌号
+		String vehicleNo = request.getParameter("vehicleNo");
+		//防止同一行驶证重复认证
+		List<VehicleLicense> list = vehicleLicenseMapper.findByVehicleNo(vehicleNo);
+		for(VehicleLicense lic : list){
+			if(lic.getVehicleLicenseStatus() == 1){
+				throw new VehicleLicenseException("该行驶证已在本平台认证");
+			}
+		}
 		List<String> path;
 		try {
 			path = Upload.uploadImg(request, ""+userId, "vehicleLicense");
@@ -37,11 +46,12 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 		if(path != null && path.size() > 0){
 			pic = path.get(0);
 		}
+		VehicleLicense license = vehicleLicenseMapper.findByUserId(userId);
 		if(license == null){//初次认证
 			license = new VehicleLicense();
 			license.setUserId(userId);
 			license.setVehicleLicensePic(pic);
-			license.setVehicleNo(request.getParameter("vehicleNo"));
+			license.setVehicleNo(vehicleNo);
 			license.setVehicleOwner(request.getParameter("vehicleOwner"));
 			license.setVehicleBrand(request.getParameter("vehicleBrand"));
 			license.setVehicleVin(request.getParameter("vehicleVin"));
@@ -53,9 +63,9 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 				e.printStackTrace();
 				throw new DataBaseException("数据库异常");
 			}
-		}else {//二次认证
+		}else{
 			license.setVehicleLicensePic(pic);
-			license.setVehicleNo(request.getParameter("vehicleNo"));
+			license.setVehicleNo(vehicleNo);
 			license.setVehicleOwner(request.getParameter("vehicleOwner"));
 			license.setVehicleBrand(request.getParameter("vehicleBrand"));
 			license.setVehicleVin(request.getParameter("vehicleVin"));
@@ -71,11 +81,18 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 	}
 
 	public Integer dealVehicleLicense(Integer id, Integer vehicleLicenseStatus) {
-		VehicleLicense license = new VehicleLicense();
-		license.setId(id);
+		VehicleLicense license = vehicleLicenseMapper.selectByPrimaryKey(id);
+		//取得车牌号
+		String vehicleNo = license.getVehicleNo();
 		license.setVehicleLicenseStatus(vehicleLicenseStatus);
 		if(vehicleLicenseStatus == 1){
 			license.setPasstime(new Date());
+			List<VehicleLicense> list = vehicleLicenseMapper.findByVehicleNo(vehicleNo);
+			for(VehicleLicense lic : list){
+				if(lic.getVehicleLicenseStatus() == 1){
+					throw new VehicleLicenseException("该行驶证已在本平台认证");
+				}
+			}
 		}
 		try {
 			vehicleLicenseMapper.updateByPrimaryKeySelective(license);

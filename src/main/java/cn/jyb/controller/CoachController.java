@@ -33,12 +33,10 @@ public class CoachController extends ExceptionController {
 	@RequestMapping("/insertCoach")
 	@ResponseBody
 	public JsonResult insertCoach(String user_id,String phone,String coach_name,String coach_sex,
-			String coach_birthday,String school_name, String school_address,String train_field,
-			String field_jingdu,String field_weidu,String coach_license,String coach_car,
+			String coach_birthday,String school_name, String school_address,String coach_license,String coach_car,
 			String coach_area,HttpServletRequest request) throws NumberFormatException, IOException{
-		coachService.insertCoach(Integer.parseInt(user_id), phone, coach_name, coach_sex,
-				coach_birthday, school_name, school_address, train_field, field_jingdu, field_weidu,
-				coach_license,coach_car,coach_area, request);
+		coachService.insertCoach(Integer.parseInt(user_id), phone, coach_name, coach_sex, coach_birthday,
+				school_name, school_address, coach_license, coach_car, coach_area, request);
 		return new JsonResult("");
 	}
 	

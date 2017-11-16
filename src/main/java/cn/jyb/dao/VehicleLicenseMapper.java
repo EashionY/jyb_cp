@@ -26,5 +26,5 @@ public interface VehicleLicenseMapper {
     
     List<VehicleLicense> listAllByStatus(@Param("vehicleLicenseStatus")Integer vehicleLicenseStatus);
 
-	VehicleLicense findByVehicleNo(String vehicleNo);
+    List<VehicleLicense> findByVehicleNo(String vehicleNo);
 }

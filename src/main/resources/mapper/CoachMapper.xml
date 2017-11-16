@@ -87,14 +87,12 @@
 			coach_license, 
 			coach_car, 
 			school_address, 
-			train_field, 
-			field_jingdu,
-			field_weidu, 
 			school_imgpath,
 			coach_sex,
 			coach_birthday,
 			coach_area,
-			coach_status)
+			coach_status,
+			coach_score)
 		VALUES(
 			#{user_id},
 			#{coach_name}, 
@@ -105,14 +103,12 @@
 			#{coach_license}, 
 			#{coach_car}, 
 			#{school_address}, 
-			#{train_field}, 
-			#{field_jingdu}, 
-			#{field_weidu}, 
 			#{school_imgpath},
 			#{coach_sex},
 			#{coach_birthday},
 			#{coach_area},
-			#{coach_status})
+			#{coach_status},
+			#{coach_score})
 	</insert>
 	
 	<!-- 教学设置 -->

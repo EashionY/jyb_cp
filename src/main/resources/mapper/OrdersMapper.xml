@@ -15,7 +15,9 @@
 			trade_status,
 			payer_id,
 			receiver_id,
-			pay_method)
+			pay_method,
+			address,
+			order_type)
 		VALUES(
 			#{out_trade_no},
 			#{subject},
@@ -26,7 +28,9 @@
 			#{trade_status},
 			#{payer_id},
 			#{receiver_id},
-			#{pay_method})
+			#{pay_method},
+			#{address},
+			#{orderType})
 	</insert>
 	
 	<delete id="delete" parameterType="String">
@@ -45,6 +49,19 @@
 		UPDATE orders SET finishtime=CURRENT_TIMESTAMP WHERE out_trade_no=#{out_trade_no}
 	</update>
 
+    <select id="listOrders" resultType="java.util.Map">
+        SELECT (select count(*) from orders 
+                where order_type=#{orderType}
+                <if test="tradeStatus != null and '' != tradeStatus">
+                  and trade_status = #{tradeStatus}
+                </if>)as totalNum,orders.* 
+        FROM orders
+        WHERE order_type = #{orderType}
+        <if test="tradeStatus != null and '' != tradeStatus">
+        AND trade_status = #{tradeStatus}
+        </if>
+        LIMIT #{offset},#{pageSize}
+    </select>
 </mapper>
 
 

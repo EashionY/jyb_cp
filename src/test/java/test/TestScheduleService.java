@@ -69,16 +69,23 @@ public class TestScheduleService extends TestBase {
 		map3.put("time9","-1");
 		map3.put("time10","-1");
 		params.add(map3);
-		String data = "[{\"coach_id\":\"21\",\"appoint_time\":\"2017-05-11\","
+		String data = "[{\"coach_id\":\"5\",\"appoint_time\":\"2017-11-10\","
 				+ "\"time1\":\"-1\",\"time2\":\"-1\",\"time3\":\"0\",\"time4\":\"0\",\"time5\":\"-1\","
 				+ "\"time6\":\"0\",\"time7\":\"0\",\"time8\":\"-1\",\"time9\":\"-1\",\"time10\":\"-1\"},"
-				+ "{\"coach_id\":\"21\",\"appoint_time\":\"2017-05-12\","
+				+ "{\"coach_id\":\"5\",\"appoint_time\":\"2017-11-11\","
 				+ "\"time1\":\"-1\",\"time2\":\"-1\",\"time3\":\"0\",\"time4\":\"0\",\"time5\":\"-1\","
 				+ "\"time6\":\"0\",\"time7\":\"0\",\"time8\":\"-1\",\"time9\":\"-1\",\"time10\":\"-1\"},"
-				+ "{\"coach_id\":\"21\",\"appoint_time\":\"2017-05-13\","
+				+ "{\"coach_id\":\"5\",\"appoint_time\":\"2017-11-12\","
 				+ "\"time1\":\"-1\",\"time2\":\"-1\",\"time3\":\"0\",\"time4\":\"0\",\"time5\":\"-1\","
 				+ "\"time6\":\"0\",\"time7\":\"0\",\"time8\":\"-1\",\"time9\":\"-1\",\"time10\":\"-1\"}]";
 		boolean tf = scheduleService.setCoachSchedule(data);
 		System.out.println(tf);
+	}
+	
+	@Test
+	public void testListCoachSchedule(){
+		String data = "{\"student_id\":\"8\",\"coach_id\":\"5\",\"date1\":\"2017-11-7\",\"date2\":\"2017-11-8\",\"date3\":\"2017-11-9\",\"subtype\":\"¿ÆÄ¿¶þ\"}";
+		List<Map<String,String>> result = scheduleService.listCoachSchedule(data);
+		System.out.println(result);
 	}
 }

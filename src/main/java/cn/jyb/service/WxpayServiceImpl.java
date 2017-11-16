@@ -23,10 +23,13 @@ import org.springframework.stereotype.Service;
 
 import cn.jyb.dao.OrdersDao;
 import cn.jyb.dao.StudentDao;
+import cn.jyb.dao.TeachRecordDao;
+import cn.jyb.dao.UserDao;
 import cn.jyb.entity.Orders;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.WxpayException;
 import cn.jyb.util.DateUtil;
+import cn.jyb.util.Message;
 import cn.jyb.util.WxpayConfig;
 import cn.jyb.util.WxpayUtil;
 import cn.jyb.util.XMLUtil;
@@ -40,6 +43,12 @@ public class WxpayServiceImpl implements WxpayService {
 	
 	@Resource
 	private StudentDao studentDao;
+	
+	@Resource
+	private TeachRecordDao teachRecordDao;
+	
+	@Resource
+	private UserDao userDao;
 	
 	public SortedMap<Object, Object> wxPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
@@ -56,15 +65,17 @@ public class WxpayServiceImpl implements WxpayService {
 		String body = request.getParameter("body");
 		logger.info("body:"+body);
 		System.out.println("body:"+body);
-		//生成订单号
-		String out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
+		//获取订单号
+		String out_trade_no = request.getParameter("out_trade_no");
+		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
+			out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
+		}
 		//下单的终端IP
 		String spbill_create_ip = WxpayUtil.getIPAddr(request);
 		logger.info("spbill_create_ip:"+spbill_create_ip);
 		System.out.println("spbill_create_ip:"+spbill_create_ip);
 		//微信服务器异步通知地址
 		String notify_url = "http://api.drivingyeepay.com/jyb_cp/wxpay/notify";
-		
 		//生成请求参数
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
 		parameters.put("appid", WxpayConfig.APPID);
@@ -114,10 +125,95 @@ public class WxpayServiceImpl implements WxpayService {
 		orders.setReceiver_id(Integer.parseInt(request.getParameter("receiver_id")));
 		orders.setTotal_amount(total_fee);
 		orders.setTrade_status("WAIT_BUYER_PAY");
+		orders.setAddress(request.getParameter("address"));
+		orders.setOrderType(request.getParameter("orderType"));
 		ordersDao.save(orders);
 		return parameterMap2;
 	}
 
+	public SortedMap<Object, Object> wxWebPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		//获得商品的价格
+		String total_fee = request.getParameter("total_fee");
+		//转换为单位为分的价格
+		int price100 = new BigDecimal(total_fee).multiply(new BigDecimal(100)).intValue();
+		if(price100 <= 0){
+			throw new WxpayException("付款金额错误");
+		}
+		logger.info("price100:"+price100);
+		System.out.println("price100:"+price100);
+		//商品描述(格式为：驾易宝-xx驾校报名)
+		String body = request.getParameter("body");
+		logger.info("body:"+body);
+		System.out.println("body:"+body);
+		//获取订单号
+		String out_trade_no = request.getParameter("out_trade_no");
+		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
+			out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
+		}
+		//下单的终端IP
+		String spbill_create_ip = WxpayUtil.getIPAddr(request);
+		logger.info("spbill_create_ip:"+spbill_create_ip);
+		System.out.println("spbill_create_ip:"+spbill_create_ip);
+		//微信服务器异步通知地址
+		String notify_url = "http://api.drivingyeepay.com/jyb_cp/wxpay/notify";
+		//生成请求参数
+		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
+		parameters.put("appid", WxpayConfig.APPID);
+		parameters.put("mch_id", WxpayConfig.MCH_ID);
+		parameters.put("nonce_str", WxpayUtil.CreateNoncestr());
+		parameters.put("body", body);
+		parameters.put("out_trade_no", out_trade_no);
+		parameters.put("fee_type", "CNY");
+		parameters.put("total_fee", String.valueOf(price100));
+		parameters.put("spbill_create_ip", WxpayUtil.getIPAddr(request));
+		parameters.put("notify_url", notify_url);
+		parameters.put("trade_type", "MWEB");
+		String scene_info = "{\"h5_info\":{\"type\":\"Wap\",\"wap_url\":\"http://www.drivingyeepay.com\",\"wap_name\":\"驾易宝\"}}";
+		parameters.put("scene_info", scene_info);
+		//设置签名
+		String sign = WxpayUtil.createSign("UTF-8", parameters);
+		parameters.put("sign", sign);
+		//封装请求参数为xml
+		String requestXML = WxpayUtil.getRequestXml(parameters);
+		System.out.println("requestXML:"+requestXML);
+		//调用统一下单接口
+		String result = WxpayUtil.httpsRequest(WxpayConfig.UNIFIED_ORDER_URL, "POST", requestXML);
+		System.out.println("result:\n"+result);
+		
+		SortedMap<Object, Object> parameterMap2 = new TreeMap<Object, Object>();
+		try {
+			//统一下单接口返回正常的prepay_id,再按签名规范重新生成签名后，将数据传输给APP
+			Map<String, String> map = XMLUtil.doXMLParse(result);
+			//参与签名的字段名为appId，partnerId，prepayId，nonceStr，timeStamp，package
+			parameterMap2.put("appid", WxpayConfig.APPID);
+			parameterMap2.put("partnerid", WxpayConfig.MCH_ID);
+			parameterMap2.put("prepayid", map.get("prepay_id"));
+			parameterMap2.put("package", "Sign=WXPay");
+			parameterMap2.put("noncestr", WxpayUtil.CreateNoncestr());
+			//本来获得的时间戳为13位，但是微信要求10位，故截取了最后三位
+			parameterMap2.put("timestamp", String.valueOf(System.currentTimeMillis()).toString().substring(0, 10));
+			String sign2 = WxpayUtil.createSign("UTF-8", parameterMap2);
+			parameterMap2.put("sign", sign2);
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Orders orders = new Orders();
+		orders.setBody(body);
+		orders.setOut_trade_no(out_trade_no);
+		orders.setPay_method("WxPay");
+		orders.setPayer_id(Integer.parseInt(request.getParameter("payer_id")));
+		orders.setReceiver_id(Integer.parseInt(request.getParameter("receiver_id")));
+		orders.setTotal_amount(total_fee);
+		orders.setTrade_status("WAIT_BUYER_PAY");
+		orders.setAddress(request.getParameter("address"));
+		orders.setOrderType(request.getParameter("orderType"));
+		ordersDao.save(orders);
+		return parameterMap2;
+	}
+	
 	public String wxNotify(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException {
 		//读取参数
 		InputStream inputStream;
@@ -182,11 +278,19 @@ public class WxpayServiceImpl implements WxpayService {
 						//获得接收方(教练或者学校)的id
 						int receiver_id = orders.getReceiver_id();
 						//判断接收方为学校id
-						if(receiver_id<1000000){
+						if(receiver_id > 0 && receiver_id < 1000000){
 							Student student = studentDao.findStudent(user_id, receiver_id);
 							//更新学员的状态为付款成功
 							student.setPay_status(1);
 							studentDao.updateByPrimaryKeySelective(student);
+						}else if(receiver_id > 1000000){//学员约教练（接收方id为教练的用户id）
+							//更新约教记录状态为付款成功
+							teachRecordDao.updatePayStatus(out_trade_no,1);
+							//发送短信通知教练有预约
+							String phone = userDao.findById(receiver_id).getPhone();//教练的电话号码
+							String name = studentDao.findByUserId(user_id).getStudent_name();//学员姓名
+							String templateCode = "SMS_110245059";//阿里大于短信模板号
+							Message.sendNotifyMsg(phone, name, templateCode);
 						}
 						resXML = "<xml>"
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"

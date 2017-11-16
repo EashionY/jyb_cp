@@ -35,29 +35,11 @@ public class Orders implements Serializable {
 	private int receiver_id;
 	//付款方式
 	private String pay_method;
+	//收货地址
+	private String address;
+	//订单类型（1-驾校订单，2-教练订单，3-二维码订单）
+	private String orderType;
 	
-	public Orders(){}
-	
-	public Orders(String out_trade_no, String subject, String body, String total_amount) {
-		super();
-		this.out_trade_no = out_trade_no;
-		this.subject = subject;
-		this.body = body;
-		this.total_amount = total_amount;
-	}
-
-	public Orders(String out_trade_no, String subject, String body, String total_amount, Timestamp creatime,
-			Timestamp finishtime, String trade_status) {
-		super();
-		this.out_trade_no = out_trade_no;
-		this.subject = subject;
-		this.body = body;
-		this.total_amount = total_amount;
-		this.creatime = creatime;
-		this.finishtime = finishtime;
-		this.trade_status = trade_status;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -154,12 +136,29 @@ public class Orders implements Serializable {
 		this.pay_method = pay_method;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
 	@Override
 	public String toString() {
 		return "Orders [id=" + id + ", out_trade_no=" + out_trade_no + ", subject=" + subject + ", body=" + body
 				+ ", total_amount=" + total_amount + ", seller_id=" + seller_id + ", creatime=" + creatime
 				+ ", finishtime=" + finishtime + ", trade_status=" + trade_status + ", payer_id=" + payer_id
-				+ ", receiver_id=" + receiver_id + ", pay_method=" + pay_method + "]";
+				+ ", receiver_id=" + receiver_id + ", pay_method=" + pay_method + ", address=" + address
+				+ ", orderType=" + orderType + "]";
 	}
 
 	@Override

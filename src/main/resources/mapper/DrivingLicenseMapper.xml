@@ -170,4 +170,9 @@
   	where driving_license_status = #{drivingLicenseStatus,jdbcType=INTEGER}
   </select>
   
+  <select id="findByLicNo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+  	from driving_license
+  	where license_no = #{licenseNo,jdbcType=VARCHAR}
+  </select>
 </mapper>
