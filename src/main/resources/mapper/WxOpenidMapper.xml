@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.WxOpenidMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.WxOpenid">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_login" jdbcType="VARCHAR" property="isLogin" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, openid, user_id, is_login
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from wx_openid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from wx_openid
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.WxOpenid">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_openid (id, openid, user_id, 
+      is_login)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{isLogin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.WxOpenid">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into wx_openid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="isLogin != null">
+        is_login,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isLogin != null">
+        #{isLogin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.WxOpenid">
+    update wx_openid
+    <set>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isLogin != null">
+        is_login = #{isLogin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.WxOpenid">
+    update wx_openid
+    set openid = #{openid,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      is_login = #{isLogin,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findByOpenid" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from wx_openid
+    where openid=#{openid}
+  </select>
+  
+  <select id="findByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from wx_openid
+    where user_id=#{userId}
+  </select>
+</mapper>

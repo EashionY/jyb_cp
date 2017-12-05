@@ -6,7 +6,7 @@ $(function(){
     var num=CryptoJS.AES.decrypt(GetQueryString("num"),'总条数').toString(CryptoJS.enc.Utf8);
     creatStorage("Question");//保存题
     creatStorage("ErrorQue");//保存错题
-    var url="http://api.drivingyeepay.com/jyb_cp/question/getQuestionsByChapter";
+    var url="http://api.drivingyeepay.com/jyb/question/getQuestionsByChapter";
     var obj1={chapter:getCookieValue("chapter"),pageSize:1};
     getQueNext(page,url,obj1,num);
     //左右滑动

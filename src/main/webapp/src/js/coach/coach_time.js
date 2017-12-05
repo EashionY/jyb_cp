@@ -14,7 +14,7 @@ function loadDom(type){
     var sId=getCookieValue("student_id");
     var mydata='{"student_id":"'+sId+'","coach_id":"'+getCookieValue("coach_id")+'","subtype":"'+getCookieValue("subtype")+'","date1":"'+date1+'","date2":"'+date2+'","date3":"'+date3+'"}';
     $.ajax({
-        url:'http://api.drivingyeepay.com/jyb_cp/drivingTest/listCoachSchedule',
+        url:'http://api.drivingyeepay.com/jyb/drivingTest/listCoachSchedule',
         type:'get',
         async:true,
         data:{data:mydata},
@@ -38,9 +38,9 @@ function loadDom(type){
                     title:'提示',
                     btn: ['确认','取消'] //按钮
                 }, function(){
-                    window.location.href='coach_detail.html'
+                    window.location.href='/jyb/src/pages/coach/coach_detail.html'
                 }, function(){
-                    window.location.href='coach_detail.html'
+                    window.location.href='/jyb/src/pages/coach/coach_detail.html'
                 });
             }
         }
@@ -119,8 +119,8 @@ $(".coti_buttondiv").on("click",function(){
     });
     //选了时间段才可提交
     if(bool==true){
-        addCookie("time",mytime, 1, "/src/pages/coach");
-        window.location.href="coach_sure1.html";
+        addCookie("time",mytime, 1, "/jyb/src/pages/coach");
+        window.location.href="/jyb/src/pages/coach/coach_sure1.html";
     }else{
         layer.msg("没有选择任何时间段")
     }
@@ -133,7 +133,7 @@ $("#coti_rebtn").on("click",function(){
 //咨询
 $(".coti_teldiv").on("click",function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findPhoneById",
+        url:"http://api.drivingyeepay.com/jyb/drivingTest/findPhoneById",
         data:{user_id:getCookieValue("cUser_id")},
         dataType:"json",
         type:"get",

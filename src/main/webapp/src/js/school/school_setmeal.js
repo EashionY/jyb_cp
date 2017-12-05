@@ -3,7 +3,7 @@
  */
 $(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         type:"get",
         dataType:"json",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:getCookieValue("school_id")},
@@ -22,7 +22,7 @@ $(function(){
                 $(".scd_tc").on("click",function(){
                     //var id=$(this).children().eq(0).val();
                     var id=CryptoJS.AES.encrypt($(this).children().eq(0).val(),"套餐id");
-                    window.location.href="school_tcdetail.html?id="+id+"";
+                    window.location.href="/jyb/src/pages/school/school_tcdetail.html?id="+id+"";
                 })
             }
         }

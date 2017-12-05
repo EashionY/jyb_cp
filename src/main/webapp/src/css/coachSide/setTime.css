@@ -7,7 +7,7 @@
 }
 .sti_tipdiv>span:nth-of-type(1){
     position: absolute;
-    top: 1.25rem;
+    top: 0.9rem;
     left: 1rem;
     color: #ff9212;
     font-size: 3rem;

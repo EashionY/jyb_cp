@@ -1,6 +1,7 @@
 package cn.jyb.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -22,9 +23,9 @@ public interface DrivingLicenseMapper {
     
     DrivingLicense findByUserId(Integer userId);
     
-    List<DrivingLicense> listAll();
+    List<Map<String,Object>> listAll(@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
     
-    List<DrivingLicense> listAllByStatus(@Param("drivingLicenseStatus")Integer drivingLicenseStatus);
+    List<Map<String,Object>> listAllByStatus(@Param("drivingLicenseStatus")Integer drivingLicenseStatus,@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
     
     DrivingLicense findByLicNo(String licenseNo);
 }

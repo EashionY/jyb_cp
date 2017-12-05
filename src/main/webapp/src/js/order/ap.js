@@ -22,6 +22,7 @@
             throw a.makeDOMException()
         }return c
     };
+    //解码方法
     a.decode=function(f){
         f=""+f;var j=a.getbyte64;
         var h,e,g;var d=f.length;
@@ -40,13 +41,17 @@
         }switch(h){
             case 1:g=(j(f,e)<<18)|(j(f,e+1)<<12)|(j(f,e+2)<<6);c.push(String.fromCharCode(g>>16,(g>>8)&255));break;
             case 2:g=(j(f,e)<<18)|(j(f,e+1)<<12);c.push(String.fromCharCode(g>>16));break
-        }return c.join("")
+        }
+        return c.join("")
     };
     a.getbyte=function(e,d){
-        var c=e.charCodeAt(d);if(c>255){
+        var c=e.charCodeAt(d);
+        if(c>255){
             throw a.makeDOMException()
-        }return c
+        }
+        return c
     };
+    //编码方法
     a.encode=function(f){
         if(arguments.length!==1){
             throw new SyntaxError("Not enough arguments")
@@ -66,12 +71,14 @@
         return c.join("")
     };
     b.pay=function(d){
-        //console.log(d)
         var c=encodeURIComponent(a.encode(d));
-        location.href="../order/pay.htm?goto="+c
+        location.href="/jyb/src/pages/order/pay.htm?goto="+c
     };
     b.decode=function(c){
         return a.decode(decodeURIComponent(c))
+    };
+    b.encode=function(m){
+        return encodeURIComponent(a.encode(m));
     };
     window._AP=b
 })();

@@ -159,15 +159,17 @@
   	where user_id=#{userId}
   </select>
   
-  <select id="listAll" resultMap="BaseResultMap">
-  	select <include refid="Base_Column_List"/>
+  <select id="listAll" resultType="java.util.Map">
+  	select (select count(*)	from driving_license) as totalNum,<include refid="Base_Column_List"/>
   	from driving_license
+  	limit #{offset},#{pageSize}
   </select>
   
-  <select id="listAllByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	select <include refid="Base_Column_List"/>
+  <select id="listAllByStatus" resultType="java.util.Map">
+  	select (select count(*)	from driving_license where driving_license_status=#{drivingLicenseStatus}) as totalNum,<include refid="Base_Column_List"/>
   	from driving_license
-  	where driving_license_status = #{drivingLicenseStatus,jdbcType=INTEGER}
+  	where driving_license_status = #{drivingLicenseStatus}
+  	limit #{offset},#{pageSize}
   </select>
   
   <select id="findByLicNo" resultMap="BaseResultMap">

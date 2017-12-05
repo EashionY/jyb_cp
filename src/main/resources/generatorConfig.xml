@@ -18,7 +18,7 @@
     <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
     <!-- 生成Dao类存放位置 -->
     <javaClientGenerator targetPackage="cn.jyb.dao" targetProject="src/main/java" type="XMLMAPPER" />
-    <table schema="jyb" tableName="coach_schedule" domainObjectName="CoachSchedule" enableCountByExample="false" 
+    <table schema="jyb" tableName="wx_openid" domainObjectName="WxOpenid" enableCountByExample="false" 
     	enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
     	 selectByExampleQueryId="false">
       <generatedKey column="id" sqlStatement="Mysql"/>

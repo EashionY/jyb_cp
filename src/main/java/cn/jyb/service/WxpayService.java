@@ -28,6 +28,14 @@ public interface WxpayService {
 	 */
 	public SortedMap<Object, Object> wxWebPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
 	/**
+	 * 微信公众号支付统一下单接口
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public SortedMap<Object, Object> wxJSPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
+	/**
 	 * 微信异步通知接口
 	 * @param request
 	 * @param response
@@ -36,4 +44,13 @@ public interface WxpayService {
 	 * @throws JDOMException 
 	 */
 	public String wxNotify(HttpServletRequest request,HttpServletResponse response) throws IOException, JDOMException;
+	/**
+	 * 微信公众号支付异步通知接口
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException
+	 * @throws JDOMException
+	 */
+	public String wxJsNotify(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException;
 }

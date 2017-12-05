@@ -31,7 +31,7 @@ public class TestUserDao extends TestBase{
 		String phoneRegex = "^1[3|4|5|7|8][0-9]{9}$";
 		String phone = "18408229155";
 		System.out.println(phone.matches(phoneRegex));
-		String path = "apache-tomcat-7.0.67\\wtpwebapps\\jyb_cp\\upload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.p";
+		String path = "apache-tomcat-7.0.67\\wtpwebapps\\jyb\\upload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.pngupload\\cover_image.p";
 		System.out.println(path.length());
 		System.out.println(System.currentTimeMillis());
 	}

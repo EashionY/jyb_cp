@@ -1,0 +1,33 @@
+body .demo-class .layui-layer-title{color: #FFFFFF;background-color: #ff9212;}
+body .demo-class .layui-layer-btn{
+    font-size:1.6rem;
+    padding: 0 ;
+}
+body .demo-class .layui-layer-btn a{
+    padding: 5px 40px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    background-color: #ff9212;
+    color: #ffffff;
+}
+body .demo-class .layui-layer-ico {
+    background: url("/jyb/src/imgs/log_reg/login_close.png") no-repeat;
+    background-size:15px 15px;
+}
+.imgDiv{
+    margin: 0 auto;
+    margin-top: 1rem;
+    width: 80px;
+    height: 80px;
+}
+.imgDiv>img{
+    width: 100%;
+    height: 100%;
+}
+.textDiv{
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 1.2rem;
+    font-size: 1.5rem;
+    color: #000000;
+}

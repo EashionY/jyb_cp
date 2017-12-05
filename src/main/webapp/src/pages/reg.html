@@ -2,81 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
-    <style>
-        body{
-            text-align: center;
-        }
-        label{
-            font-size: 3rem;
-        }
-        body>div:nth-of-type(1){
-            margin-top: 100px;
-        }
-        body>div{
-            margin-bottom: 50px;
-        }
-        input{
-            font-size: 3rem;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>注册驾易宝</title>
+    <link rel="stylesheet" href="/jyb/src/css/reset.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/log_reg/com.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/log_reg/reg.css"/>
 </head>
-<body>
-<div>
-    <label for="">手机号</label>
-    <input type="text" id="tel" placeholder="输入账号"/>
-</div>
-<div>
-    <label for="">密码</label>
-    <input type="text" id="psd" placeholder="输入账号"/>
-</div>
-<div>
-    <label for="">角色</label>
-    <input name="rool" type="radio" value="0" checked/>学员
-    <input name="rool" type="radio" value="1" />教练
-    <input name="rool" type="radio" value="2"/>车主
-</div>
-<div>
-    <label for="">验证码</label>
-    <input id="code" type="text" placeholder="验证码"/>
-    <input type="button" value="获取" onclick="getCode()"/>
-</div>
-<div>
-    <input type="button" value="去登录" onclick="tolog()"/>
-    <input type="button" value="注册" onclick="reg()"/>
-</div>
+<body class="regBody">
+    <div class="regMain">
+        <div>
+            <div class="mylabel"><span class="w3">手机号</span></div>
+            <div>：</div>
+            <div><input type="text" placeholder="请输入手机号码" maxlength="11" id="tel"/></div>
+        </div>
+        <div>
+            <div class="mylabel"><span class="w2">密码</span></div>
+            <div>：</div>
+            <div><input type="text" placeholder="请输入密码" id="psd"/></div>
+        </div>
+        <div>
+            <div class="mylabel"><span>注册类型</span></div>
+            <div>：</div>
+            <div id="radioDiv">
+                <input name="rool" type="radio" value="0" checked/>学员
+                <input name="rool" type="radio" value="1" />教练
+                <input name="rool" type="radio" value="2"/>车主
+            </div>
+        </div>
+        <div>
+            <div class="mylabel"><span class="w3">验证码</span></div>
+            <div>：</div>
+            <div class="yzmDiv">
+                <input type="text" placeholder="请输入验证码" id="code"/>
+                <span id="getCode">获取验证码</span>
+            </div>
+        </div>
+    </div>
+    <div id="regBtn" onclick="reg()">注册</div>
 </body>
-<script src="../plug/jquery-1.10.1.min.js"></script>
-<script>
-    function reg(){
-        var tel=$("#tel").val();
-        var psd=$("#psd").val();
-        var rool=$('input[name=rool]:checked').val();
-        var code=$("#code").val();
-        $.ajax({
-            url:"http://api.drivingyeepay.com/jyb_cp/account/regist",
-            data:{phone:tel,password:psd,role:rool,verCode:code},
-            type:"post",
-            dataType:"json",
-            success:function(data){
-                alert(data.message)
-            }
-        })
-    }
-    function tolog(){
-        window.location.href="../../log.html"
-    }
-    function getCode(){
-        var tel=$("#tel").val();
-        $.ajax({
-            url:"http://api.drivingyeepay.com/jyb_cp/message/sendRegCode",
-            data:{phone:tel},
-            type:"get",
-            dataType:"json",
-            success:function(data){
-                alert(data.message)
-            }
-        })
-    }
-</script>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="/jyb/src/js/log_reg/reg.js"></script>
 </html>

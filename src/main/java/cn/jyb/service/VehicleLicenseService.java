@@ -2,10 +2,9 @@ package cn.jyb.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import cn.jyb.entity.VehicleLicense;
 
 public interface VehicleLicenseService {
 
@@ -13,6 +12,6 @@ public interface VehicleLicenseService {
 	
 	public Integer dealVehicleLicense(Integer id,Integer vehicleLicenseStatus);
 	
-	public List<VehicleLicense> listAll(Integer vehicleLicenseStatus);
+	public List<Map<String,Object>> listAll(Integer vehicleLicenseStatus, Integer page, Integer pageSize);
 	
 }

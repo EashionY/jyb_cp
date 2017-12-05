@@ -57,9 +57,9 @@ public class DrivingLicenseController extends ExceptionController {
 	 */
 	@RequestMapping("/listAll")
 	@ResponseBody
-	public JsonResult listAll(HttpServletResponse resp, Integer status){
+	public JsonResult listAll(HttpServletResponse resp, Integer status, Integer page, Integer pageSize){
 		resp.setHeader("Access-Control-Allow-Origin", "*");
-		return new JsonResult(drivingLicenseService.listAll(status));
+		return new JsonResult(drivingLicenseService.listAll(status, page, pageSize));
 	}
 	
 	

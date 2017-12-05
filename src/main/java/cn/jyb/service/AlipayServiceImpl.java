@@ -1,6 +1,7 @@
 package cn.jyb.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -107,7 +108,7 @@ public class AlipayServiceImpl implements AlipayService {
 				"\"out_trade_no\":\""+out_trade_no+"\""+"}";
 		request.setBizContent(signInfo);
 		//服务器回调地址
-		request.setNotifyUrl("http://api.drivingyeepay.com/jyb_cp/alipay/notify");
+		request.setNotifyUrl("http://api.drivingyeepay.com/jyb/alipay/notify");
 		AlipayTradeAppPayResponse response = null;
 		try {
 			response = alipayClient.sdkExecute(request);
@@ -163,7 +164,7 @@ public class AlipayServiceImpl implements AlipayService {
 				"\"out_trade_no\":\""+out_trade_no+"\""+"}";
 		alipayRequest.setBizContent(signInfo);
 		//服务器回调地址
-		alipayRequest.setNotifyUrl("http://api.drivingyeepay.com/jyb_cp/alipay/notify");
+		alipayRequest.setNotifyUrl("http://api.drivingyeepay.com/jyb/alipay/notify");
 		String form = "";
 		try {
 			form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
@@ -264,13 +265,13 @@ public class AlipayServiceImpl implements AlipayService {
 					int user_id = orders.getPayer_id();
 					//获得接收方(教练或者学校)的id
 					int receiver_id = orders.getReceiver_id();
-					//收款方为驾校id，则为学员报名驾校
-					if(receiver_id > 0 && receiver_id < 1000000){
+					if("1".equals(orders.getOrderType())){//驾校订单，学员报名驾校
 						Student student = studentDao.findStudent(user_id, receiver_id);
 						//付款成功
 						student.setPay_status(1);
+						student.setSignup_time(new Date());
 						studentDao.updateByPrimaryKeySelective(student);
-					}else if(receiver_id > 1000000){//收款方为教练用户id，则为学员预约教练
+					}else if("2".equals(orders.getOrderType())){//教练订单，学员预约教练
 						//更新约教记录状态为付款成功
 						teachRecordDao.updatePayStatus(out_trade_no,1);
 						//发送短信通知教练有预约

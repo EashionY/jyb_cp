@@ -18,7 +18,7 @@ $(function(){
         loadUpFn : function(me){
             page=1;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findTeachRecords",
+                url:"http://api.drivingyeepay.com/jyb/drivingTest/findTeachRecords",
                 type:"get",
                 data:{page:page,pageSize:num,teach_state:"0",coach_id:getCookieValue("coach_id")},
                 dataType:"json",
@@ -41,7 +41,7 @@ $(function(){
         loadDownFn : function(me){
             page++;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findTeachRecords",
+                url:"http://api.drivingyeepay.com/jyb/drivingTest/findTeachRecords",
                 type:"get",
                 data:{page:page,pageSize:num,teach_state:"0",coach_id:getCookieValue("coach_id")},
                 dataType:"json",
@@ -97,7 +97,7 @@ function toDeal(){
         //console.log($(this).prev().val());
         var teachid=$(this).prev().val();
         $.ajax({
-            url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/acceptTeach",
+            url:"http://api.drivingyeepay.com/jyb/drivingTest/acceptTeach",
             data:{teach_id:teachid},
             type:"get",
             dataType:"json",
@@ -115,7 +115,7 @@ function toDeal(){
     $(".refuse").click(function(){
         var teachid=$(this).prev().prev().val();
         $.ajax({
-            url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/refuseTeach",
+            url:"http://api.drivingyeepay.com/jyb/drivingTest/refuseTeach",
             data:{teach_id:teachid},
             type:"get",
             dataType:"json",
@@ -132,5 +132,5 @@ function toDeal(){
     })
 }
 $(function(){
-    to("index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

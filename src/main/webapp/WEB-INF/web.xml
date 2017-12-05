@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>jyb_cp</display-name>
+  <display-name>jyb</display-name>
   <servlet>
   	<servlet-name>dispatcher</servlet-name>
   	<servlet-class>
@@ -13,17 +13,23 @@
   </servlet>
   <servlet-mapping>     
     <servlet-name>default</servlet-name>    
-    <url-pattern>*.png</url-pattern>       
+    <url-pattern>*.jpg</url-pattern>
+    <url-pattern>*.png</url-pattern>
+    <url-pattern>*.gif</url-pattern>
+    <url-pattern>*.bmp</url-pattern>
+    <url-pattern>*.txt</url-pattern>       
   </servlet-mapping>
   <servlet-mapping>     
     <servlet-name>default</servlet-name>    
     <url-pattern>*.html</url-pattern>
-    <url-pattern>*.htm</url-pattern>        
+    <url-pattern>*.htm</url-pattern>
+    <url-pattern>*.jsp</url-pattern>
   </servlet-mapping>
   <servlet-mapping>     
     <servlet-name>default</servlet-name>    
     <url-pattern>*.js</url-pattern> 
-    <url-pattern>*.css</url-pattern>       
+    <url-pattern>*.css</url-pattern>
+    <url-pattern>*.map</url-pattern>       
   </servlet-mapping>
   <servlet-mapping>     
     <servlet-name>default</servlet-name>    

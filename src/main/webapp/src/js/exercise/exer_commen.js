@@ -48,7 +48,7 @@ function setComDom(result){
 function saveErro(qid){
     //console.log(typeof qid);
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/answer/saveWrong",
+        url:"http://api.drivingyeepay.com/jyb/answer/saveWrong",
         data:{userId:parseInt(getCookieValue("user_id")),questionId:qid,subject:parseInt(getCookieValue("subject"))},
         type:"get",
         dataType:"json",

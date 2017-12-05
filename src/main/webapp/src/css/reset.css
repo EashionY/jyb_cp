@@ -2,9 +2,7 @@
 img{border:none;max-width:100%;vertical-align:middle;}
 body,p,form,input,button,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6{margin:0;padding:0;list-style:none;overflow-x:hidden}
 h1,h2,h3,h4,h5,h6{font-size:100%;}
-input[type='text'],textarea{-webkit-user-select:text;-ms-user-select:text;user-select:text;-webkit-appearance:none;font-size:1em;line-height:1.5em;}
 table{border-collapse:collapse;}
-input,select,textarea{outline:none;border:none;background:none;}
 a{outline:0;cursor:pointer;*star:expression(this.onbanner=this.blur());}
 a:link,a:active{text-decoration:none;color: #ffffff}
 a:visited{text-decoration:none;}
@@ -34,4 +32,19 @@ body{ margin:0 auto;max-width:640px; min-width:320px;color:#555; padding-bottom:
     border-color: #ff9212 !important;
     background-color: #ff9212 !important;
     color: #fff;
+}
+
+input[type='text'],textarea,input[type='password']{
+    -webkit-user-select:text;
+    -ms-user-select:text;
+    user-select:text;
+    -webkit-appearance:none;
+    border-radius: 0;
+    outline: none;
+    border: none;
+}
+
+input[type="button"], input[type="submit"], input[type="reset"] {
+    -webkit-appearance: none;
+    border-radius: 0;
 }

@@ -1,6 +1,6 @@
 $(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         type:"get",
         dataType:"json",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:getCookieValue("school_id")},

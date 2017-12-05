@@ -39,8 +39,8 @@ public class UserController extends ExceptionController{
 	 */
 	@RequestMapping("/login")
 	@ResponseBody
-	public JsonResult login(String phone,String password){
-		Map<String, Object> result = userService.login(phone, password);
+	public JsonResult login(HttpServletRequest request,String phone,String password,String openid){
+		Map<String, Object> result = userService.login(request, phone, password, openid);
 		return new JsonResult(result);
 	}
 	
@@ -183,7 +183,6 @@ public class UserController extends ExceptionController{
 	public JsonResult regist2Easemob(){
 		return new JsonResult(userService.regist2Easemob());
 	}
-	
 	/**
 	 * 查看用户的三证认证状态
 	 * @param userId
@@ -194,5 +193,14 @@ public class UserController extends ExceptionController{
 	public JsonResult checkCertStatus(Integer userId){
 		return new JsonResult(userService.checkCertStatus(userId));
 	}
-	
+	/**
+	 * 从session中获取userId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getUserId")
+	@ResponseBody
+	public JsonResult getUserId(HttpServletRequest request){
+		return new JsonResult(userService.getUserId(request));
+	}
 }

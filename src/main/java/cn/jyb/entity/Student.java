@@ -1,7 +1,7 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Student implements Serializable {
 
@@ -20,8 +20,8 @@ public class Student implements Serializable {
 	private String student_recommend;
 	//学员电话
 	private String student_tel;
-	//报名时间
-	private Timestamp signup_time;
+	//缴费时间/报名时间
+	private Date signup_time;
 	//支付状态
 	private Integer pay_status;
 	//所报名驾校的套餐
@@ -91,11 +91,11 @@ public class Student implements Serializable {
 		this.student_tel = student_tel;
 	}
 	
-	public Timestamp getSignup_time() {
+	public Date getSignup_time() {
 		return signup_time;
 	}
 
-	public void setSignup_time(Timestamp signup_time) {
+	public void setSignup_time(Date signup_time) {
 		this.signup_time = signup_time;
 	}
 

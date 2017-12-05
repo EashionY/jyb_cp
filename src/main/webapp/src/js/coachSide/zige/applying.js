@@ -1,6 +1,6 @@
 $(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/findByUserId",
+        url:"http://api.drivingyeepay.com/jyb/coach/findByUserId",
         data:{user_id:getCookieValue("user_id")},
         type:"get",
         dataType:"json",
@@ -20,5 +20,5 @@ $(function(){
 });
 //微信浏览器返回到指定前一页
 $(function(){
-    to("index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.HLBOrderMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.HLBOrder">
+    <id column="hlb_order_no" jdbcType="VARCHAR" property="hlbOrderNo" />
+    <result column="car_type" jdbcType="VARCHAR" property="carType" />
+    <result column="departure" jdbcType="VARCHAR" property="departure" />
+    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="fare" jdbcType="DECIMAL" property="fare" />
+    <result column="pay_status" jdbcType="VARCHAR" property="payStatus" />
+    <result column="order_type" jdbcType="TINYINT" property="orderType" />
+    <result column="depart_time" jdbcType="TIMESTAMP" property="departTime" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="contact_phone" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="publish_id" jdbcType="INTEGER" property="publishId" />
+    <result column="receipt_id" jdbcType="INTEGER" property="receiptId" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="receipt_time" jdbcType="TIMESTAMP" property="receiptTime" />
+    <result column="carry" jdbcType="VARCHAR" property="carry" />
+    <result column="backhaul" jdbcType="VARCHAR" property="backhaul" />
+    <result column="invoice" jdbcType="VARCHAR" property="invoice" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="driver_eval" jdbcType="TINYINT" property="driverEval" />
+    <result column="passenger_eval" jdbcType="TINYINT" property="passengerEval" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    hlb_order_no, car_type, departure, destination, fare, pay_status, order_type, depart_time, 
+    contact, contact_phone, remark, publish_id, receipt_id, order_status, publish_time, 
+    receipt_time, carry, backhaul, invoice, finish_time, driver_eval, passenger_eval
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hlb_order
+    where hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from hlb_order
+    where hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.HLBOrder">
+    insert into hlb_order (hlb_order_no, car_type, departure, 
+      destination, fare, pay_status, 
+      order_type, depart_time, contact, 
+      contact_phone, remark, publish_id, 
+      receipt_id, order_status, publish_time, 
+      receipt_time, carry, backhaul, 
+      invoice, finish_time, driver_eval, passenger_eval
+      )
+    values (#{hlbOrderNo,jdbcType=VARCHAR}, #{carType,jdbcType=VARCHAR}, #{departure,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{fare,jdbcType=DECIMAL}, #{payStatus,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=TINYINT}, #{departTime,jdbcType=TIMESTAMP}, #{contact,jdbcType=VARCHAR}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{publishId,jdbcType=INTEGER}, 
+      #{receiptId,jdbcType=INTEGER}, #{orderStatus,jdbcType=TINYINT}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{receiptTime,jdbcType=TIMESTAMP}, #{carry,jdbcType=VARCHAR}, #{backhaul,jdbcType=VARCHAR}, 
+      #{invoice,jdbcType=VARCHAR}, #{finishTime,jdbcType=TIMESTAMP}, #{driverEval,jdbcType=TINYINT},
+      #{passengerEval,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.HLBOrder">
+    insert into hlb_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="hlbOrderNo != null">
+        hlb_order_no,
+      </if>
+      <if test="carType != null">
+        car_type,
+      </if>
+      <if test="departure != null">
+        departure,
+      </if>
+      <if test="destination != null">
+        destination,
+      </if>
+      <if test="fare != null">
+        fare,
+      </if>
+      <if test="payStatus != null">
+        pay_status,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="departTime != null">
+        depart_time,
+      </if>
+      <if test="contact != null">
+        contact,
+      </if>
+      <if test="contactPhone != null">
+        contact_phone,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="publishId != null">
+        publish_id,
+      </if>
+      <if test="receiptId != null">
+        receipt_id,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="receiptTime != null">
+        receipt_time,
+      </if>
+      <if test="carry != null">
+        carry,
+      </if>
+      <if test="backhaul != null">
+        backhaul,
+      </if>
+      <if test="invoice != null">
+        invoice,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="driverEval != null">
+        driver_eval,
+      </if>
+      <if test="passengerEval != null">
+        passenger_eval,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="hlbOrderNo != null">
+        #{hlbOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null">
+        #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="fare != null">
+        #{fare,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null">
+        #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=TINYINT},
+      </if>
+      <if test="departTime != null">
+        #{departTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        #{publishId,jdbcType=INTEGER},
+      </if>
+      <if test="receiptId != null">
+        #{receiptId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiptTime != null">
+        #{receiptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carry != null">
+        #{carry,jdbcType=VARCHAR},
+      </if>
+      <if test="backhaul != null">
+        #{backhaul,jdbcType=VARCHAR},
+      </if>
+      <if test="invoice != null">
+        #{invoice,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverEval != null">
+        #{driverEval,jdbcType=TINYINT},
+      </if>
+      <if test="passengerEval != null">
+        #{passengerEval,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.HLBOrder">
+    update hlb_order
+    <set>
+      <if test="carType != null">
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null">
+        departure = #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null">
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="fare != null">
+        fare = #{fare,jdbcType=DECIMAL},
+      </if>
+      <if test="payStatus != null">
+        pay_status = #{payStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=TINYINT},
+      </if>
+      <if test="departTime != null">
+        depart_time = #{departTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contact != null">
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null">
+        publish_id = #{publishId,jdbcType=INTEGER},
+      </if>
+      <if test="receiptId != null">
+        receipt_id = #{receiptId,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiptTime != null">
+        receipt_time = #{receiptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carry != null">
+        carry = #{carry,jdbcType=VARCHAR},
+      </if>
+      <if test="backhaul != null">
+        backhaul = #{backhaul,jdbcType=VARCHAR},
+      </if>
+      <if test="invoice != null">
+        invoice = #{invoice,jdbcType=VARCHAR},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverEval != null">
+        driver_eval = #{driverEval,jdbcType=TINYINT},
+      </if>
+      <if test="passengerEval != null">
+        passenger_eval = #{passengerEval,jdbcType=TINYINT},
+      </if>
+    </set>
+    where hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.HLBOrder">
+    update hlb_order
+    set car_type = #{carType,jdbcType=VARCHAR},
+      departure = #{departure,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      fare = #{fare,jdbcType=DECIMAL},
+      pay_status = #{payStatus,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=TINYINT},
+      depart_time = #{departTime,jdbcType=TIMESTAMP},
+      contact = #{contact,jdbcType=VARCHAR},
+      contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      publish_id = #{publishId,jdbcType=INTEGER},
+      receipt_id = #{receiptId,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      receipt_time = #{receiptTime,jdbcType=TIMESTAMP},
+      carry = #{carry,jdbcType=VARCHAR},
+      backhaul = #{backhaul,jdbcType=VARCHAR},
+      invoice = #{invoice,jdbcType=VARCHAR},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      driver_eval = #{driverEval,jdbcType=TINYINT},
+      passenger_eval = #{passengerEval,jdbcType=TINYINT}
+    where hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="listBookOrders" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from hlb_order
+    where receipt_id=#{receiptId} and order_type=2 and order_status=1
+    order by depart_time
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="getDriverScore" resultType="double">
+    SELECT AVG(driver_eval) FROM hlb_order WHERE receipt_id=#{receiptId}
+  </select>
+  
+  <select id="getDriverOrderNum" resultType="int">
+  	select count(*) from hlb_order where receipt_id=#{receiptId} and order_status=6
+  </select>
+  
+</mapper>

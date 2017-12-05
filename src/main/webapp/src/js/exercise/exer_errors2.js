@@ -46,12 +46,12 @@ $(function(){
 });
 //获取错题
 function getErrQues(chapter){
-    var mydata={userId:parseInt(getCookieValue("Uid")),subject:parseInt(getCookieValue("subject"))};
+    var mydata={userId:parseInt(getCookieValue("user_id")),subject:parseInt(getCookieValue("subject"))};
     if(chapter!=""){
         mydata= $.extend(mydata,{chapter:chapter});
     }
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/answer/viewWrong",
+        url:"http://api.drivingyeepay.com/jyb/answer/viewWrong",
         data:mydata,
         type:"get",
         dataType:"json",

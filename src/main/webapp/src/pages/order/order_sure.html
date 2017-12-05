@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>驾易宝</title>
-    <link rel="stylesheet" href="../../css/reset.css"/>
-    <link rel="stylesheet" href="../../css/iconfont.css"/>
-    <link rel="stylesheet" href="../../css/footer.css"/>
-    <link rel="stylesheet" href="../../css/order/order_sure.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/reset.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/iconfont.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/footer.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/order/order_sure.css"/>
 </head>
 <body>
     <div class="orsu_box">
@@ -31,7 +31,7 @@
     <div class="orsu_box">
         <div class="orsu_tybox">
             <div class="orsu_type">
-                <div class="orsu_typeimg"><img src="../../imgs/ic_zhifubao.png" alt="支付宝"/></div>
+                <div class="orsu_typeimg"><img src="/jyb/src/imgs/ic_zhifubao.png" alt="支付宝"/></div>
                 <div>
                     <div class="orsu_tname">支付宝</div>
                     <div class="orsu_ttip">推荐支付宝用户使用</div>
@@ -41,7 +41,7 @@
         </div>
         <div class="orsu_tybox">
             <div class="orsu_type">
-                <div class="orsu_typeimg"><img src="../../imgs/ic_weixin.png" alt="微信"/></div>
+                <div class="orsu_typeimg"><img src="/jyb/src/imgs/ic_weixin.png" alt="微信"/></div>
                 <div>
                     <div class="orsu_tname">微信</div>
                     <div class="orsu_ttip">推荐微信用户使用</div>
@@ -52,14 +52,21 @@
 
     </div>
 
-    <div class="od_footer">
-        <div class="od_fo1"><span class="fo_text">还需支付：</span><span class="fo_price">￥<span></span></span></div>
+    <div class="od_footer" id="weixin">
+        <div class="od_fo1"><span class="fo_text">还需支付(微信)：</span><span class="fo_price">￥<span></span></span></div>
         <div class="od_fo2" id="orsu_commit"><span>确认支付</span></div>
     </div>
+
+    <div class="od_footer" id="zfb">
+        <div class="od_fo1"><span class="fo_text">还需支付(支付宝)：</span><span class="fo_price">￥<span class="price2"></span></span></div>
+        <div class="od_fo2" id="orsu_commitzfb"><span>确认支付</span></div>
+    </div>
+
 </body>
-<script src="../../plug/jquery-1.10.1.min.js"></script>
-<script src="../../plug/layer/layer.js"></script>
-<script src="../../plug/cookie.js"></script>
-<script src="../../js/order/orderCom.js"></script>
-<script src="../../js/order/order_sure.js"></script>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="/jyb/src/plug/cookie.js"></script>
+<script src="/jyb/src/js/order/ap.js"></script>
+<script src="/jyb/src/js/order/orderCom.js"></script>
+<script src="/jyb/src/js/order/order_sure.js"></script>
 </html>

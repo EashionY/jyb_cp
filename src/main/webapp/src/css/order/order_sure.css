@@ -50,24 +50,32 @@
 .orsu_typeimg>img{
     width: 100%;
 }
+.text_div{
+    height: 5rem;
+}
 .orsu_tname{
     font-size: 1.5rem;
     color: #222222;
-    margin-top: .5rem;
+    height: 60%;
+    line-height: 3rem;
 }
 .orsu_ttip{
     font-size: 1.2rem;
     color: #666666;
-    margin-top: 1rem;
+    height: 40%;
+    line-height: 2rem;
 }
 .orsu_check{
-    line-height: 4.5rem;
+    height: 5rem;
+    line-height: 5.3rem;
     color: #FF9212;
 }
 .orsu_nocheck{
     display: none;
 }
-
+.orsu_box .iconfont{
+    font-size: 1.8rem !important;
+}
 /*教练订单*/
 .cosu_top{
     background-color: #ffffff;

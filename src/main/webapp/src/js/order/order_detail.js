@@ -2,7 +2,7 @@ var sid='';
 $(function(){
     sid=CryptoJS.AES.decrypt(GetQueryString("sid"),'驾校id').toString(CryptoJS.enc.Utf8);
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:sid},
         dataType:"json",
         type:"get",
@@ -10,8 +10,8 @@ $(function(){
             //console.log(data)
             $("#od_sname").html(data.data.school_name);
             $("#od_address").html(data.data.school_address);
-            addCookie("school_name",data.data.school_name,1,"/src/pages/order");
-            addCookie("school_id",sid,1,"/src/pages/order");
+            addCookie("school_name",data.data.school_name,1,"/jyb/src/pages/order");
+            addCookie("school_id",sid,1,"/jyb/src/pages/order");
         }
     })
 });
@@ -47,7 +47,7 @@ $("#lxbg").on("click",function(){
 //获取套餐
 function getTc(sid){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:sid},
         dataType:"json",
         type:"get",
@@ -90,7 +90,7 @@ function getTc(sid){
 //电话咨询
 $("#od_foot>.od_fo1").on("click",function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:sid},
         dataType:"json",
         type:"get",
@@ -138,16 +138,16 @@ $("#od_commit").click(function(){
             }
             //console.log(mydata)
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/student/enrollStudent",
+                url:"http://api.drivingyeepay.com/jyb/student/enrollStudent",
                 data:mydata,
                 type:"get",
                 dataType:"json",
                 success:function(data){
                     console.log(data)
                     if(data.state==1){
-                        addCookie("price",data.data,1,"/src/pages/order");
-                        addCookie("taocan",inputList[3],1,"/src/pages/order");
-                        window.location.href="order_sure.html";
+                        addCookie("price",data.data,1,"/jyb/src/pages/order");
+                        addCookie("taocan",inputList[3],1,"/jyb/src/pages/order");
+                        window.location.href="/jyb/src/pages/order/order_sure.html";
                     }else{
                         layer.msg(data.message);
                     }

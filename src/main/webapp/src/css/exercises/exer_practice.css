@@ -71,14 +71,17 @@
     margin-top: -5rem;
 }
 .expr_monidiv>div{
-    /*border: 1px red solid;*/
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -2.5rem;
-    margin-top: -2.5rem;
+    margin-left: -30px;
+    margin-top: -30px;
+    height: 60px;
+    width: 60px;
 }
 .moni_font{
-    font-size: 3rem;
     margin-bottom: .5rem;
+}
+.moni_font>.iconfont{
+    font-size: 3rem;
 }

@@ -3,7 +3,7 @@ function seleAppState(){
     //console.log(getCookieValue("user_id"))
     var state="";
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/findByUserId",
+        url:"http://api.drivingyeepay.com/jyb/coach/findByUserId",
         data:{user_id:getCookieValue("user_id")},
         type:"get",
         dataType:"json",

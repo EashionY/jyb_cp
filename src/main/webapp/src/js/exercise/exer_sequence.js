@@ -6,11 +6,12 @@ var Fnum=0;//错误数
 $(function(){
     creatStorage("Question");//保存题
     creatStorage("ErrorQue");//保存错题
-    var url="http://api.drivingyeepay.com/jyb_cp/question/getQuestions";
-    var obj1={subject:getCookieValue("subject"),pageSize:1,sort:getCookieValue("sort")};
+    var url="http://api.drivingyeepay.com/jyb/question/getQuestions";
+    var sub=parseInt(getCookieValue("subject"));
+    var obj1={subject:sub,pageSize:1,sort:getCookieValue("sort")};
     var totalNum="";
-    if(getCookieValue("subject")==1){totalNum="1311"}
-    else if(getCookieValue("subject")==4){totalNum="1121"}
+    if(sub==1){totalNum="1311"}
+    else if(sub==4){totalNum="1121"}
     getQueNext(page,url,obj1,totalNum);
     //左右滑动
     var windowHeight = $(window).height();

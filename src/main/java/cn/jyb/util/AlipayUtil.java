@@ -97,7 +97,7 @@ public class AlipayUtil {
 //				"\"body\":\"我是测试数据\","+
 //				"\"out_trade_no\":\"IQJZSRC1YMQB5HU\"");
 //		request.setBizContent(signInfo);
-		request.setNotifyUrl("http://api.drivingyeepay.com/jyb_cp/alipay/notify");
+		request.setNotifyUrl("http://api.drivingyeepay.com/jyb/alipay/notify");
 		System.out.println(request);
 		AlipayTradeAppPayResponse response = null;
 		try {

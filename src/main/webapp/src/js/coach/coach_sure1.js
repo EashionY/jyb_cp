@@ -35,7 +35,7 @@ $("#od_xieyi .iconfont").click(function(){
 //电话咨询
 $(".od_fo1").click(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findPhoneById",
+        url:"http://api.drivingyeepay.com/jyb/drivingTest/findPhoneById",
         data:{user_id:getCookieValue("cUser_id")},
         dataType:"json",
         type:"get",
@@ -82,7 +82,7 @@ function commit(mydata){
     if(xybool){
         var index="";
         $.ajax({
-            url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/saveTeachRecord",
+            url:"http://api.drivingyeepay.com/jyb/drivingTest/saveTeachRecord",
             data:mydata,
             type:"post",
             dataType:"json",
@@ -96,7 +96,7 @@ function commit(mydata){
                         icon: 1,
                         time: 2000
                     }, function(){
-                        window.location.href="coach_sure2.html"
+                        window.location.href="/jyb/src/pages/coach/coach_sure2.html"
                     });
                 }else{
                     console.log(data)

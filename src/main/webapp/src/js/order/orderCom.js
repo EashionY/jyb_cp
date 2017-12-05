@@ -19,34 +19,48 @@ $.each(typelist,function(k,v){
         })
     })
 });
-//支付   TO-DO
-function pay(url,mydata,typeNum){
-    //console.log(mydata);
+//支付   TO-DO(微信支付)
+function pay(url,mydata,typeNum,obj){
+    var bool=true;
+    var datatype="json";
+    if(typeNum==0){
+        bool=false;
+        datatype="html"
+    }
     $.ajax({
         url:url,
         data:mydata,
-        dataType:"json",
+        dataType:datatype,
         type:"get",
+        async:bool,
         success:function(data){
-            if(data.state==1){
-                if(typeNum==1){//微信
-                    onBridgeReady(data.data)
-                }else if(typeNum==0){
-                    console.log(mydata)
-                    console.log(data.data)
-                    //addCookie("zfbData",data.data,1,"/src/pages/order")
-                    //var str=data.data;
-                    //window.location.href='https://openapi.alipay.com/gateway.do?'+str;
-                    //window.location.href='../order/pay.htm';
+            console.log(data)
+            if(typeNum==0){//支付宝
+                var newForm=newForm=data.substr(0, data.indexOf('<script>document.forms[0].submit();</script>'));
+                $(obj).append(newForm);
+                var queryParam ='';
+                Array.prototype.slice.call(document.querySelectorAll("input[type=hidden]")).forEach(function (ele) {
+                    queryParam += ele.name + "=" + encodeURIComponent(ele.value);
+                });
+                var gotoUrl = $("form[name='punchout_form']").attr('action') + '&' + queryParam;
+                _AP.pay(gotoUrl);
+            }else if(typeNum==1){//微信
+                if(data.state==1){
+                    if (typeof WeixinJSBridge == "undefined"){//非微信内置浏览器
+                        wxh5pay(data.data);
+                    }else{//微信内置浏览器
+                        onBridgeReady(data.data)
+                    }
+                }else{
+                    console.log(data);
+                    layer.msg(data.message)
                 }
-            }else{
-                console.log(data);
-                layer.msg(data.message)
             }
         }
     })
 }
 
+//公众号支付 TO-DO
 function onBridgeReady(wxdata){
     console.log(wxdata)
     WeixinJSBridge.invoke(
@@ -59,8 +73,17 @@ function onBridgeReady(wxdata){
             "paySign":wxdata.sign //微信签名
         },
         function(res){
-            if(res.err_msg == "get_brand_wcpay_request:ok" ) {}     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+            if(res.err_msg === 'get_brand_wcpay_request:ok'){
+                layer.msg('支付成功，返回订单列表！');
+            }else if(res.err_msg === 'get_brand_wcpay_request:cancel'){
+                layer.msg('取消支付！');
+            }
         }
     );
 }
-
+//h5支付
+function wxh5pay(wxdata){
+    //console.log(wxdata);
+    //console.log(wxdata.mweb_url);
+    location.href=wxdata.mweb_url
+}

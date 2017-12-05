@@ -1,8 +1,8 @@
 function toSDetail(){
     $(".sc_list").click(function(){
         //console.log($(this).children().eq(0).val())
-        addCookie("school_id",$(this).children().eq(0).val(),1,"/src/pages/school");
-        window.location.href="school_detail.html"
+        addCookie("school_id",$(this).children().eq(0).val(),1,"/jyb/src/pages/school");
+        window.location.href="/jyb/src/pages/school/school_detail.html"
     });
 }
 $(function(){
@@ -25,7 +25,7 @@ $(function(){
         loadUpFn : function(me){
             page=1;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/school/findSchoolByBrowse",
+                url:"http://api.drivingyeepay.com/jyb/school/findSchoolByBrowse",
                 type:"get",
                 data:{page:page,pageSize:num,school_area:getCookieValue("city")},
                 dataType:"json",
@@ -48,7 +48,7 @@ $(function(){
         loadDownFn : function(me){
             page++;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/school/findSchoolByBrowse",
+                url:"http://api.drivingyeepay.com/jyb/school/findSchoolByBrowse",
                 type:"get",
                 data:{page:page,pageSize:num,school_area:getCookieValue("city")},
                 dataType:"json",

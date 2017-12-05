@@ -4,9 +4,9 @@ var Fnum=0;//错误数
 var spa_name="simuQues";
 $(function(){
     creatStorage(spa_name);
-    var sub=getCookieValue("subject");
+    var sub=parseInt(getCookieValue("subject"));
     var time="",maxnum=0;
-    if(parseInt(sub)==1){
+    if(sub==1){
         time=45;
         maxnum=100;
     }else{
@@ -15,7 +15,7 @@ $(function(){
     }
     $("#maxnum").html(maxnum);
     setTime(time,$("#timediv"));
-    getSimuQues(parseInt(sub));
+    getSimuQues(sub);
     getLocaQues(page.toString(),spa_name,$("#simu_ques"));
     //左右滑动
     var windowHeight = $(window).height();
@@ -57,7 +57,7 @@ function getSimuQues(sub){
     var pSize="";
     if(sub==1){pSize=100;}else{pSize=50;}
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/question/getQuestions",
+        url:"http://api.drivingyeepay.com/jyb/question/getQuestions",
         data:{subject:sub,pageSize:pSize,page:1,sort:"rand"},
         type:"get",
         dataType:"json",

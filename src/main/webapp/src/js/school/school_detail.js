@@ -1,7 +1,7 @@
 var sName='';
 $(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/school/schoolDetail",
+        url:"http://api.drivingyeepay.com/jyb/school/schoolDetail",
         type:"get",
         dataType:"json",
         data:{lon1:getCookieValue("lng"),lat1:getCookieValue("lat"),school_id:getCookieValue("school_id")},
@@ -48,7 +48,7 @@ $(function(){
             $(".scd_tcdiv").html(tcstr);
             $(".scd_tc").on("click",function(){
                 var id=CryptoJS.AES.encrypt($(this).children().eq(0).val(),"套餐id");
-                window.location.href="school_tcdetail.html?id="+id+"";
+                window.location.href="/jyb/src/pages/school/school_tcdetail.html?id="+id+"";
             });
 
             sName=data.data.school_name;
@@ -64,7 +64,7 @@ $(function(){
 
 function getCoach(sName){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/listRecomdCoach",
+        url:"http://api.drivingyeepay.com/jyb/coach/listRecomdCoach",
         type:"get",
         dataType:'json',
         data:{school_name:sName},
@@ -110,7 +110,7 @@ function getEval(sName,type){
             page++;
             //console.log(type)
             $.ajax({
-                url:'http://api.drivingyeepay.com/jyb_cp/school/listSchoolEval',
+                url:'http://api.drivingyeepay.com/jyb/school/listSchoolEval',
                 type:'get',
                 async:true,
                 data:{
@@ -164,7 +164,7 @@ $("#scd_sign").on("click",function(){
         layer.msg("已经报名驾校，不能重复报名！")
     }else{
         var schoolid=CryptoJS.AES.encrypt(getCookieValue("school_id"),"驾校id");
-        window.location.href="../order/order_detail.html?sid="+schoolid+"";
+        window.location.href="/jyb/src/pages/order/order_detail.html?sid="+schoolid+"";
     }
 });
 
@@ -177,16 +177,16 @@ $(".scd_pjfl>span").on("click",function(){
 
 $("#to_coache").click(function(){
     var sname=CryptoJS.AES.encrypt(sName,"驾校名");
-    window.location.href='school_coache.html?sname='+sname+'';
+    window.location.href='/jyb/src/pages/school/school_coache.html?sname='+sname+'';
 });
 $("#to_setmeal").click(function(){
-    window.location.href='school_setmeal.html'
+    window.location.href='/jyb/src/pages/school/school_setmeal.html'
 });
 $("#to_site").click(function(){
-    window.location.href='school_site.html'
+    window.location.href='/jyb/src/pages/school/school_site.html'
 });
 $("#to_envir").click(function(){
-    window.location.href='school_envir.html'
+    window.location.href='/jyb/src/pages/school/school_envir.html'
 });
 
 

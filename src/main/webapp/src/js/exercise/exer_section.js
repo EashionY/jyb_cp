@@ -1,7 +1,7 @@
 //console.log(getCookieValue("subject"));
 $(function(){
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/question/getChapter",
+        url:"http://api.drivingyeepay.com/jyb/question/getChapter",
         type:"get",
         dataType:"json",
         data:{subject:parseInt(getCookieValue("subject"))},
@@ -17,9 +17,9 @@ $(function(){
                     var mychapter=$(this).children().eq(0).children(".chapter").html();
                     //var num=$(this).children().eq(1).html();
                     var num=CryptoJS.AES.encrypt($(this).children().eq(1).html(),"总条数");
-                    addCookie("chapter",mychapter,1,"/src/pages/exercises");
-                    addCookie("sort","normal",1,"/src/pages/exercises");
-                    window.location.href="exer_sequence.html?num="+num;
+                    addCookie("chapter",mychapter,1,"/jyb/src/pages/exercises");
+                    addCookie("sort","normal",1,"/jyb/src/pages/exercises");
+                    window.location.href="/jyb/src/pages/exercises/exer_sequence.html?num="+num;
                 })
             }else{
                 layer.msg(data.message)

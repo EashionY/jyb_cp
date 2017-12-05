@@ -16,7 +16,7 @@ function addEval(id){
             layer.msg("请先输入您的评价")
         }else{
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/addEvaluation",
+                url:"http://api.drivingyeepay.com/jyb/drivingTest/addEvaluation",
                 data:{teach_id:id,evaluation:eval,evaltype:evaltype,evalstar:evalstar},
                 type:"get",
                 dataType:"json",
@@ -26,7 +26,7 @@ function addEval(id){
                             icon:1,
                             time:1000
                         },function(){
-                            window.location.href="coach_yuejiaojilu.html"
+                            window.location.href="/jyb/src/pages/coach/coach_yuejiaojilu.html"
                         })
                     }else{
                         layer.msg(data.message)

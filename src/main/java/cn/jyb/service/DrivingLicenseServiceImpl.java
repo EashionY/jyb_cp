@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -99,11 +100,12 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 		return drivingLicenseStatus;
 	}
 
-	public List<DrivingLicense> listAll(Integer drivingLicenseStatus) {
+	public List<Map<String, Object>> listAll(Integer drivingLicenseStatus, Integer page, Integer pageSize) {
+		Integer offset = (page - 1) * pageSize;
 		if(drivingLicenseStatus == null){
-			return drivingLicenseMapper.listAll();
+			return drivingLicenseMapper.listAll(offset, pageSize);
 		}else{
-			return drivingLicenseMapper.listAllByStatus(drivingLicenseStatus);
+			return drivingLicenseMapper.listAllByStatus(drivingLicenseStatus, offset, pageSize);
 		}
 	}
 

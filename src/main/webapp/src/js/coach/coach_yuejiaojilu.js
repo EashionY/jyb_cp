@@ -19,7 +19,7 @@ $(function(){
         loadUpFn : function(me){
             page=1;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findStudyRecords",
+                url:"http://api.drivingyeepay.com/jyb/drivingTest/findStudyRecords",
                 data:{student_id:sid,page:page,pageSize:num},
                 type:"get",
                 dataType:"json",
@@ -43,7 +43,7 @@ $(function(){
         loadDownFn : function(me){
             page++;
             $.ajax({
-                url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findStudyRecords",
+                url:"http://api.drivingyeepay.com/jyb/drivingTest/findStudyRecords",
                 data:{student_id:sid,page:page,pageSize:num},
                 type:"get",
                 dataType:"json",
@@ -128,7 +128,7 @@ function dealYjjl(){
     }
     $(".yjjl_quit").off("click").on("click",function(){
         var teachId=$(this).parent().prev().children("input").val();
-        var myurl="http://api.drivingyeepay.com/jyb_cp/drivingTest/cancelTeach";
+        var myurl="http://api.drivingyeepay.com/jyb/drivingTest/cancelTeach";
         var that=$(this);
         function fn(data){
             if(data.state==1){
@@ -143,7 +143,7 @@ function dealYjjl(){
     });
     $(".yjjl_finish").off("click").on("click",function(){
         var teachId=$(this).parent().prev().children("input").val();
-        var myurl="http://api.drivingyeepay.com/jyb_cp/drivingTest/finishTeach";
+        var myurl="http://api.drivingyeepay.com/jyb/drivingTest/finishTeach";
         var that=$(this);
         function fn(data){
             if(data.state==1){
@@ -158,7 +158,7 @@ function dealYjjl(){
     });
     $(".yjjl_btn2").off("click").on("click",function(){
         var teachId=CryptoJS.AES.encrypt($(this).parent().prev().children("input").val(),"约教记录id");
-        window.location.href="coach_evaluate.html?teachId="+teachId
+        window.location.href="/jyb/src/pages/coach/coach_evaluate.html?teachId="+teachId
     });
     $(".yjjl_seepj").off("click").on("click",function(){
         //TO-DO

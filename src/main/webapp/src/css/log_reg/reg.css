@@ -1,0 +1,82 @@
+.regBody{
+    background-color: #ffffff !important;
+    margin-top: .5rem;
+}
+.regMain>div{
+    display: flex;
+}
+.regMain>div,#regBtn{
+    width: 90%;
+    margin: 0 auto;
+    border: 1px #ff9212 solid;
+    border-radius: 10px;
+    height: 5rem;
+    line-height: 5rem;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+#regBtn{
+    background-color: #ff9212;
+    color: #ffffff;
+    font-size: 1.9rem;
+    text-align: center;
+    letter-spacing: 1px;
+    margin-top: 10rem;
+}
+.regMain>div>div:nth-of-type(1){
+    font-size: 1.7rem;
+    color: #000000;
+    margin-left: 1.7rem;
+    width: 4em;
+    flex-shrink: 0;
+}
+.regMain>div>div:nth-of-type(2){
+    font-size: 1.7rem;
+    color: #000000;
+}
+.mylabel>span{
+    display:block;
+}
+.w2{
+    letter-spacing:2em;
+    margin-right:-2em;
+}
+.w3{
+    letter-spacing:0.5em;
+    margin-right:-0.5em;
+}
+.regMain>div>div:nth-of-type(3)>input{
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    line-height: inherit;
+}
+.yzmDiv>input{
+    width: 50%;
+}
+.yzmDiv>span{
+    display: inline-block;
+    width: 7rem;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    background-color: #ff9212;
+    color: #ffffff;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+@media screen and (max-width: 320px){
+    .regMain>div>div:nth-of-type(1){
+        font-size: 1.5rem;
+        margin-left: 1rem;
+    }
+    .regMain>div>div:nth-of-type(3)>input{
+        margin-left: .5rem;
+        font-size: 1.2rem;
+    }
+    .yzmDiv>span{
+        width: 6.5rem;
+        height: 2rem;
+        line-height: 2rem;
+        font-size: 1rem;
+    }
+}

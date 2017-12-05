@@ -12,17 +12,17 @@ $(function(){
 $.each($(".menudiv"),function(k,v){
     $(v).click(function(){
         if(k==0){
-            window.location.href="coach/coach_list.html"
+            window.location.href="/jyb/src/pages/coach/coach_list.html"
         }else if(k==1){
-            window.location.href="school/school_list.html"
+            window.location.href="/jyb/src/pages/school/school_list.html"
         }else if(k==2){
-            window.location.href="exercises/exer_practice.html"
+            window.location.href="/jyb/src/pages/exercises/exer_practice.html"
         }else if(k==3){
             var pay_state=getCookieValue("pay_state");
             if(pay_state=="0"){
                 layer.msg("还未报名驾校")
             }else{
-                window.location.href="coach/coach_yuejiaojilu.html"
+                window.location.href="/jyb/src/pages/coach/coach_yuejiaojilu.html"
             }
         }
     })
@@ -31,7 +31,7 @@ $.each($(".menudiv"),function(k,v){
 function isSignUp(userid){
     var paySta="";
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/student/findStudentByUserId",
+        url:"http://api.drivingyeepay.com/jyb/student/findStudentByUserId",
         data:{user_id:userid},
         async:false,
         dataType:"json",

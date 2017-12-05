@@ -17,10 +17,11 @@ public interface UserService {
 	 * 用户登录方法
 	 * @param phone
 	 * @param password
+	 * @param openid 微信用户的openid
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Map<String, Object> login(String phone,String password) throws PhoneException,PwdException;
+	public Map<String, Object> login(HttpServletRequest request,String phone,String password,String openid) throws PhoneException,PwdException;
 	
 	/**
 	 * 用户注册方法
@@ -108,12 +109,16 @@ public interface UserService {
 	 * @return
 	 */
 	public List<String> regist2Easemob();
-	
 	/**
 	 * 查看用户的证件认证状态
 	 * @param 用户id
 	 * @return
 	 */
 	public List<Map<String,Object>> checkCertStatus(Integer userId);
-	
+	/**
+	 * 从session中获取userId
+	 * @param request
+	 * @return
+	 */
+	public Integer getUserId(HttpServletRequest request);
 }

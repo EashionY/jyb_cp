@@ -1,12 +1,12 @@
 $(function(){
     var state=seleAppState();
     if(state=="1"){
-        $(".zgfi_img>img").attr("src","../../imgs/ic_shehechenggong.png")
+        $(".zgfi_img>img").attr("src","/jyb/src/imgs/ic_shehechenggong.png")
     }else if(state=="2"){
-        $(".zgfi_img>img").attr("src","../../imgs/ic_shibai.png")
+        $(".zgfi_img>img").attr("src","/jyb/src/imgs/ic_shibai.png")
     }
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/findByUserId",
+        url:"http://api.drivingyeepay.com/jyb/coach/findByUserId",
         data:{user_id:getCookieValue("user_id")},
         type:"get",
         dataType:"json",
@@ -30,9 +30,9 @@ $(function(){
 $("#toModify").click(function(){
     var index=layer.confirm("修改资料后，需要重新认证！是否继续?",{icon: 3, title:'提示'},function(){
         layer.close(index);
-        window.location.href="zigeApply.html";
+        window.location.href="/jyb/src/pages/coachSide/zigeApply.html";
     })
 });
 $(function(){
-    to("index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

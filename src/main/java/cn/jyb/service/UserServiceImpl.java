@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +21,14 @@ import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.UserDao;
 import cn.jyb.dao.VehicleLicenseMapper;
 import cn.jyb.dao.VerCodeDao;
+import cn.jyb.dao.WxOpenidMapper;
 import cn.jyb.entity.DrivingLicense;
 import cn.jyb.entity.IdCard;
 import cn.jyb.entity.Student;
 import cn.jyb.entity.User;
 import cn.jyb.entity.VehicleLicense;
 import cn.jyb.entity.VerCode;
+import cn.jyb.entity.WxOpenid;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.ImgpathException;
 import cn.jyb.exception.NoPhoneFoundException;
@@ -54,13 +57,15 @@ public class UserServiceImpl implements UserService {
 	private DrivingLicenseMapper drLicenseMapper;
 	@Resource
 	private VehicleLicenseMapper veLicenseMapper;
+	@Resource
+	private WxOpenidMapper wxOpenidMapper;
 
 	// 密码的最小长度
 	private final static int PASSWORD_MIN_LENGTH = 6;
 	// 密码的最大长度
 	private final static int PASSWORD_MAX_LENGTH = 16;
 
-	public Map<String, Object> login(String phone, String password) throws PhoneException, PwdException {
+	public Map<String, Object> login(HttpServletRequest request, String phone, String password, String openid) throws PhoneException, PwdException {
 		Map<String, Object> result = new HashMap<String, Object>();
 		if (phone == null || phone.trim().isEmpty()) {
 			throw new PhoneException("手机号不能为空");
@@ -94,8 +99,7 @@ public class UserServiceImpl implements UserService {
 			result.put("height", user.getHeight());
 			result.put("id", user.getUser_Id());
 			// 如果头像路径为空，则替换为默认的logo
-			String headImg = user.getImgpath() == null ? "http://39.108.73.207/img/default/head.png"
-					: user.getImgpath();
+			String headImg = user.getImgpath() == null ? "http://39.108.73.207/img/default/head.png" : user.getImgpath();
 			result.put("imgpath", headImg);
 			result.put("interest", user.getInterest());
 			result.put("job", user.getJob());
@@ -110,6 +114,24 @@ public class UserServiceImpl implements UserService {
 			result.put("xingzuo", user.getXingzuo());
 			result.put("region", user.getRegion());
 			result.put("QRImg", "http://39.108.73.207/img/QRImg/QR_"+user_id+".png");
+			HttpSession session = request.getSession();
+			//将用户id放入session，记录登录状态
+			session.setAttribute("userId", user_id);
+			// 将系统用户与微信openid绑定起来
+			if(openid != null && !openid.trim().isEmpty()){
+				WxOpenid wxOpenid = wxOpenidMapper.findByOpenid(openid);
+				if(wxOpenid == null){
+					wxOpenid = new WxOpenid();
+					wxOpenid.setUserId(user_id);
+					wxOpenid.setOpenid(openid);
+					wxOpenid.setIsLogin("1");
+					wxOpenidMapper.insertSelective(wxOpenid);
+				}else{
+					wxOpenid.setOpenid(openid);
+					wxOpenid.setUserId(user_id);
+					wxOpenidMapper.updateByPrimaryKeySelective(wxOpenid);
+				}
+			}
 			return result;
 		} else {
 			throw new PwdException("密码错误");
@@ -386,6 +408,13 @@ public class UserServiceImpl implements UserService {
 		}
 		result.add(map3);
 		return result;
+	}
+
+	@Override
+	public Integer getUserId(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		Integer userId = (Integer) session.getAttribute("userId");
+		return userId;
 	}
  
 	

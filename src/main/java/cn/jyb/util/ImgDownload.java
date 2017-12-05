@@ -24,8 +24,8 @@ public class ImgDownload {
         // 输入流  
         InputStream is = con.getInputStream();  
       
-        // 1K的数据缓冲  
-        byte[] bs = new byte[1024];  
+        // 10K的数据缓冲  
+        byte[] bs = new byte[10240];  
         // 读取到的数据长度  
         int len;  
         // 输出的文件流  

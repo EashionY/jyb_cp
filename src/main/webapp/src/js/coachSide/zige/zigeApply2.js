@@ -21,7 +21,7 @@ function getziliao(){
     $(".none").css("display","block");
     $(".block").css("display","none");
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/findByUserId",
+        url:"http://api.drivingyeepay.com/jyb/coach/findByUserId",
         data:{user_id:getCookieValue("user_id")},
         type:"get",
         dataType:"json",
@@ -46,7 +46,7 @@ function getziliao(){
 function commit(type){
     var tel="";//电话
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/findPhoneById",
+        url:"http://api.drivingyeepay.com/jyb/drivingTest/findPhoneById",
         data:{user_id:getCookieValue("user_id")},
         type:"get",
         dataType:"json",
@@ -105,7 +105,7 @@ function postAjax(MyForm){
     var index="";
     //console.log("提交");
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/insertCoach",
+        url:"http://api.drivingyeepay.com/jyb/coach/insertCoach",
         data:MyForm,
         type:"post",
         contentType: false,
@@ -133,5 +133,5 @@ function postAjax(MyForm){
 }
 
 $(function(){
-    to("index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

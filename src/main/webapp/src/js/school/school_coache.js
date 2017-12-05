@@ -3,7 +3,7 @@ $(function(){
     //console.log(sname);
     $("#scd_sname").html(sname);
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/coach/listRecomdCoach",
+        url:"http://api.drivingyeepay.com/jyb/coach/listRecomdCoach",
         type:'get',
         async:true,
         data:{school_name:sname},

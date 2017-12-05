@@ -67,27 +67,30 @@ function getQuePrev(p){
             if(result.myanswer==result.answer){
                 $.each($(".an"),function(k,v){
                     if(result.answer.indexOf($(v).html().substring(0,1))>=0){
-                        $(v).before('<span class="iconfont true_font">&#xe657;</span>');
+                        $(v).parent(".simu_true").addClass("true_font")
                     }
                 })
             }else{
                 if(result.type==2){
                     $.each($(".an"),function(k,v){
                         if(result.answer.indexOf($(v).html().substring(0,1))>=0&&result.myanswer.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont true_font">&#xe657;</span>');
+                            $(v).parent(".simu_true").addClass("true_font")
+                            //$(v).before('<span class="iconfont true_font">&#xe657;</span>');
                         }else if(result.answer.indexOf($(v).html().substring(0,1))<0&&result.myanswer.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont false_font">&#xe631;</span>');
+                            $(v).parent(".simu_true").addClass("false_font")
+                            //$(v).before('<span class="iconfont false_font">&#xe631;</span>');
                         }else if(result.answer.indexOf($(v).html().substring(0,1))>=0&&result.myanswer.indexOf($(v).html().substring(0,1))<0){
-                            $(v).before('<span class="iconfont cho_font">&#xe657;</span>');
+                            $(v).parent(".simu_true").addClass("cho_font")
+                            //$(v).before('<span class="iconfont cho_font">&#xe657;</span>');
                         }
                     })
                 }else{
                     $.each($(".an"),function(k,v){
                         if(result.answer.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont true_font">&#xe657;</span>');
+                            $(v).parent(".simu_true").addClass("true_font")
                         }
                         if(result.myanswer.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont false_font">&#xe631;</span>');
+                            $(v).parent(".simu_true").addClass("false_font")
                         }
                     })
                 }
@@ -104,11 +107,11 @@ function duoAnswer(answer){
             if($(".cho_font").length>0){
                 var myans="";
                 $.each($(".cho_font"),function(k,v){
-                    myans+=$(v).siblings(".an").html().substring(0,1);
+                    myans+=$(v).children(".an").html().substring(0,1);
                 });
                 if(myans==answer){//正确
                     $.each($(".cho_font"),function(k,v){
-                        $(v).attr("class","iconfont true_font");
+                        $(v).attr("class","simu_true true_font");
                     });
                     Tnum++;
                 }else{//错误
@@ -116,11 +119,11 @@ function duoAnswer(answer){
                     //console.log(answer)
                     $.each($(".an"),function(k,v){
                         if(answer.indexOf($(v).html().substring(0,1))>=0&&myans.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont true_font">&#xe657;</span>');
+                            $(v).parent().attr("class","simu_true true_font");
                         }else if(answer.indexOf($(v).html().substring(0,1))<0&&myans.indexOf($(v).html().substring(0,1))>=0){
-                            $(v).before('<span class="iconfont false_font">&#xe631;</span>');
+                            $(v).parent().attr("class","simu_true false_font");
                         }else if(answer.indexOf($(v).html().substring(0,1))>=0&&myans.indexOf($(v).html().substring(0,1))<0){
-                            $(v).before('<span class="iconfont cho_font">&#xe657;</span>');
+                            $(v).parent().attr("class","simu_true cho_font");
                         }
                     });
                     saveErro($(".question").children("input").val());//保存错题
@@ -139,18 +142,18 @@ function Answer(answer){
         e.stopPropagation();
         if($(".true_font").length==0){//未作答，才可执行，已答就不执行
             if(answer.length>1){//多选
-                $(this).children().children().before('<span class="iconfont cho_font">&#xe657;</span>');
+                $(this).children().addClass("cho_font");
             }else{//单选
                 var myanswer=$(this).children().children(".an").html().substring(0,1);
                 if(myanswer==answer){//正确
-                    $(this).children().children().before('<span class="iconfont true_font">&#xe657;</span>');
+                    $(this).children(".simu_true").addClass("true_font")
                     Tnum++;
                 }else{//错误
-                    $(this).children().children().before('<span class="iconfont false_font">&#xe631;</span>');
+                    $(this).children(".simu_true").addClass("false_font")
                     $.each($(".simu_booldiv>div"),function(k,v){
-                        var  myan=$(v).children().children(".an").html().substring(0,1);
+                        var myan=$(v).children().children(".an").html().substring(0,1);
                         if(myan==answer){
-                            $(v).children().children().before('<span class="iconfont true_font">&#xe657;</span>')
+                            $(v).children(".simu_true").addClass("true_font");
                         }
                     });
                     saveErro($(".question").children("input").val());//保存错题
@@ -192,14 +195,14 @@ function saveStorage(myid,answer){
                 if(type==2){
                     var list=[];
                     $.each($(".true_font"),function(k,v){
-                        list.push($(v).siblings(".an").html().substring(0,1))
+                        list.push($(v).children(".an").html().substring(0,1))
                     });
                     $.each($(".false_font"),function(k,v){
-                        list.push($(v).siblings(".an").html().substring(0,1))
+                        list.push($(v).children(".an").html().substring(0,1))
                     });
                     myanswer=list.join("");
                 }else{
-                    myanswer=$(".false_font").next().html().substring(0,1);
+                    myanswer=$(".false_font").children().html().substring(0,1);
                 }
             }
         }
@@ -221,14 +224,14 @@ function saveStorage(myid,answer){
                     if(obj.type==2){
                         var list=[];
                         $.each($(".true_font"),function(k,v){
-                            list.push($(v).siblings(".an").html().substring(0,1))
+                            list.push($(v).children(".an").html().substring(0,1))
                         });
                         $.each($(".false_font"),function(k,v){
-                            list.push($(v).siblings(".an").html().substring(0,1))
+                            list.push($(v).children(".an").html().substring(0,1))
                         });
                         myanswer=list.join("");
                     }else{
-                        myanswer=$(".false_font").next().html().substring(0,1);
+                        myanswer=$(".false_font").children().html().substring(0,1);
                     }
                 }
             }

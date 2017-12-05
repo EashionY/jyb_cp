@@ -1,9 +1,9 @@
 function VarStates(type){
     var url='',mydata={coach_id:getCookieValue("coach_id"),page:1,pageSize:2};
     if(type=="0"){
-        url="http://api.drivingyeepay.com/jyb_cp/drivingTest/listDealedRecord";
+        url="http://api.drivingyeepay.com/jyb/drivingTest/listDealedRecord";
     }else{
-        url="http://api.drivingyeepay.com/jyb_cp/drivingTest/findTeachRecords";
+        url="http://api.drivingyeepay.com/jyb/drivingTest/findTeachRecords";
         mydata= $.extend(mydata,{teach_state:type});
     }
     loadd({window:1,url:url,ul:'.orre_Box',inners:'#orre_BoxDiv',data:mydata,getJiluDom:function(){},after:function(res){
@@ -60,15 +60,15 @@ function getJiluDom(data){
 
 $(".wx_items .item_cell").click(function(){
     if($(this).index()==1){
-        window.location.href="orReceDetail1.html"
+        window.location.href="/jyb/src/pages/coachSide/orReceDetail/orReceDetail1.html"
     }else if($(this).index()==2){
-        window.location.href="orReceDetail2.html";
+        window.location.href="/jyb/src/pages/coachSide/orReceDetail/orReceDetail2.html";
     }else if($(this).index()==3){
-        window.location.href="orReceDetail3.html";
+        window.location.href="/jyb/src/pages/coachSide/orReceDetail/orReceDetail3.html";
     }else if($(this).index()==4){
-        window.location.href="orReceDetail4.html";
+        window.location.href="/jyb/src/pages/coachSide/orReceDetail/orReceDetail4.html";
     }else{
-        window.location.href="orReceDetail.html";
+        window.location.href="/jyb/src/pages/coachSide/orReceDetail/orReceDetail.html";
     }
 });
 
@@ -88,5 +88,5 @@ $(".wx_items .item_cell").click(function(){
 //    window.history.pushState(state, state.title, state.url);
 //}
 $(function(){
-    to("../index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

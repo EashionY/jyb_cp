@@ -20,7 +20,7 @@ $(function(){
     $("#co_star").html(starStr0+starStr1);
     //查询评价条数
     $.ajax({
-        url:'http://api.drivingyeepay.com/jyb_cp/drivingTest/findTeachEvaluationNumber',
+        url:'http://api.drivingyeepay.com/jyb/drivingTest/findTeachEvaluationNumber',
         type:'get',
         async:true,
         data:{
@@ -55,7 +55,7 @@ function getPingjia(type){
         loadDownFn : function(me){
             page++;
             $.ajax({
-                url:'http://api.drivingyeepay.com/jyb_cp/drivingTest/findTeachEvaluations',
+                url:'http://api.drivingyeepay.com/jyb/drivingTest/findTeachEvaluations',
                 type:'get',
                 async:true,
                 data:{
@@ -100,9 +100,9 @@ $(".code_pingjia>span").on("click",function(){
 //页面跳转
 $(".code_footer>div").on("click",function(){
     if($(this).index()==0){
-        addCookie("subtype","科目二",1,"/src/pages/coach")
+        addCookie("subtype","科目二",1,"/jyb/src/pages/coach")
     }else{
-        addCookie("subtype","科目三",1,"/src/pages/coach")
+        addCookie("subtype","科目三",1,"/jyb/src/pages/coach")
     }
     //判断有没有报名（已报名才可进入预约时间）
     var paySta=getCookieValue("pay_state");
@@ -116,7 +116,7 @@ $(".code_footer>div").on("click",function(){
         layer.msg("请先报名驾校！")
     }else{
         $.ajax({
-            url:'http://api.drivingyeepay.com/jyb_cp/drivingTest/listCoachSchedule',
+            url:'http://api.drivingyeepay.com/jyb/drivingTest/listCoachSchedule',
             type:'get',
             async:true,
             data:{data:mydata},
@@ -124,7 +124,7 @@ $(".code_footer>div").on("click",function(){
             dataType:'json',
             success:function(data){
                 if(data.state==1){
-                    window.location.href="coach_time.html"
+                    window.location.href="/jyb/src/pages/coach/coach_time.html"
                 }else{
                     layer.msg(data.message)
                 }

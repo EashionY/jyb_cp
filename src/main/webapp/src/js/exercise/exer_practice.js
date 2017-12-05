@@ -11,24 +11,24 @@ function getSub(){
 $.each($(".expr_box>div"),function(k,v){
     $(v).click(function(){
         var subject=getSub();
-        addCookie("subject",subject,1,"/src/pages/exercises");
+        addCookie("subject",subject,1,"/jyb/src/pages/exercises");
         if(k==0){
-            addCookie("sort","normal",1,"/src/pages/exercises");
-            window.location.href="exer_sequence.html"
+            addCookie("sort","normal",1,"/jyb/src/pages/exercises");
+            window.location.href="/jyb/src/pages/exercises/exer_sequence.html"
         }else if(k==1){
-            addCookie("sort","rand",1,"/src/pages/exercises");
-            window.location.href="exer_sequence.html";
+            addCookie("sort","rand",1,"/jyb/src/pages/exercises");
+            window.location.href="/jyb/src/pages/exercises/exer_sequence.html";
         }else if(k==2){
-            window.location.href="exer_section.html"
+            window.location.href="/jyb/src/pages/exercises/exer_section.html"
         }else if(k==3){
-            window.location.href="exer_errors.html"
+            window.location.href="/jyb/src/pages/exercises/exer_errors.html"
         }
     })
 });
 $(".expr_monidiv>div").click(function(){
     var subject=getSub();
-    addCookie("subject",subject,1,"/src/pages/exercises");
-    window.location.href="exer_simulate.html"
+    addCookie("subject",subject,1,"/jyb/src/pages/exercises");
+    window.location.href="/jyb/src/pages/exercises/exer_simulate.html"
 });
 $(".expr_header>div").click(function(){
     $(this).addClass('expr_headactive');

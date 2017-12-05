@@ -15,22 +15,6 @@
 .ye_color{
     color: #ff9212;
 }
-.true_font{
-    color: #ff9212;
-    margin-top: -.15rem;
-    margin-left: 0;
-}
-.cho_font{
-    color: #dddddd;
-    margin-top: -.15rem;
-    margin-left: 0;
-}
-.false_font{
-    color: #F73939;
-    font-size: 2.65rem !important;
-    margin-left: .15rem;
-    margin-top: .08rem;
-}
 .simu_mainbox{
     padding: 0 1.2rem;
     font-size: 1.5rem;
@@ -68,32 +52,71 @@
 }
 .simu_booldiv{
     padding-bottom: 1rem;
-    /*border: 1px red solid;*/
 }
 .simu_booldiv>div{
     padding: 1rem 0;
     display: flex;
-    /*border: 1px black solid;*/
 }
 .simu_booldiv .iconfont{
     position: absolute;
-    top: -.6rem;
-    left: -3.2rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
     font-size: 3rem;
 }
 .simu_true{
     position: relative;
-    margin-left: 3rem;
+    width: 100%;
+}
+.simu_true>.an{
+    margin-left: 3.5rem;
+    width: 90%;
+    display: inline-block;
 }
 .simu_true:before{
-    content: "";
-    width: 2rem;
-    height: 2rem;
     position: absolute;
-    top: -.5rem;
-    left: -3rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
+
+    margin: auto;
+    content: "";
+    width: 24px;
+    height: 24px;
+    margin-top: -5px;
     border: 1px #dddddd solid;
     border-radius: 50%;
+}
+.true_font:before{
+    background-color: #ff9212;
+    content: "\e66f";
+    text-align: center;
+    line-height: 24px;
+    color: #ffffff;
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-weight: normal;
+}
+.false_font:before{
+    background-color: #F73939;
+    content: "\e692";
+    text-align: center;
+    line-height: 24px;
+    color: #ffffff;
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-weight: normal;
+}
+.cho_font:before{
+    background-color: #dddddd;
+    content: "\e66f";
+    text-align: center;
+    line-height: 24px;
+    color: #ffffff;
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-weight: normal;
 }
 .duo_btn{
     margin-bottom: 1.5rem;

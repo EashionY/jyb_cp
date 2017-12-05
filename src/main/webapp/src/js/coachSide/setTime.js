@@ -4,7 +4,7 @@ var date3=getDateStr(2);
 function selectTime(){
     var mydata='{"coach_id":"'+getCookieValue("coach_id")+'","date1":"'+date1+'","date2":"'+date2+'","date3":"'+date3+'"}';
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/checkCoachSchedule",
+        url:"http://api.drivingyeepay.com/jyb/drivingTest/checkCoachSchedule",
         data:{data:mydata},
         dataType:"json",
         type:"get",
@@ -37,7 +37,7 @@ function setTime2(k,i,m,obj){
         var times=day+" "+$(obj).parent().children().eq(0).html();
         if(m==0){
             if(times>nowtime){
-                $(obj).html('<span class="iconfont">&#xe60b;</span>')
+                $(obj).html('<span class="iconfont">&#xe66f;</span>')
             }else{
                 $(obj).html("");
             }
@@ -76,7 +76,7 @@ $(".dd").on("click",function(){
     var times=day+" "+$(this).parent().children().eq(0).html();
     if(times>nowtime){
         if($(this).html()==""){//未设置的
-            $(this).html('<span class="iconfont">&#xe60b;</span>');
+            $(this).html('<span class="iconfont">&#xe66f;</span>');
         }else if($(this).children().attr("class")=="iconfont"){//已设置(可预约)
             $(this).html("");
         }else if($(this).html()=="已约"){
@@ -105,7 +105,7 @@ $(".sti_surebtn").click(function(){
     var mydata3='{"coach_id":"'+cId+'", "appoint_time":"'+date3+'", "time1":"'+arr23[0]+'", "time2":"'+arr23[1]+'", "time3":"'+arr23[2]+'", "time4":"'+arr23[3]+'", "time5":"'+arr23[4]+'", "time6":"'+arr23[5]+'", "time7":"'+arr23[6]+'", "time8":"'+arr23[7]+'", "time9":"'+arr23[8]+'", "time10":"'+arr23[9]+'"}';
     var mydata='['+mydata1+','+mydata2+','+mydata3+']';
     $.ajax({
-        url:"http://api.drivingyeepay.com/jyb_cp/drivingTest/setCoachSchedule",
+        url:"http://api.drivingyeepay.com/jyb/drivingTest/setCoachSchedule",
         data:{data:mydata},
         type:"post",
         dataType:"json",
@@ -160,9 +160,9 @@ function getArr2(arr,arr0){
 }
 
 $(".sti_quitbtn").on("click",function(){
-    window.location.href="index2.html";
-    //window.location.href="setKemu.html"
+    window.location.href="/jyb/src/pages/coachSide/index2.html";
+    //window.location.href="/jyb/src/pages/coachSide/setKemu.html"
 });
 $(function(){
-    to("index2.html")
+    to("/jyb/src/pages/coachSide/index2.html")
 });

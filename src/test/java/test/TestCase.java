@@ -8,6 +8,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.jyb.util.DateUtil;
-import cn.jyb.util.IDCardUtil;
+import cn.jyb.util.WxpayUtil;
+import cn.jyb.util.WxpublicConfig;
 
 public class TestCase {
 
@@ -132,8 +134,8 @@ public class TestCase {
 	@Test
 	public void testIDCard(){
 		String certNo = "511025199006150202";
-		boolean tf = IDCardUtil.isIDCard(certNo);
-		System.out.println(tf);
+		String birthday = certNo.substring(6, 14);
+		System.out.println(birthday);
 	}
 	
 	@Test
@@ -155,4 +157,52 @@ public class TestCase {
 		System.out.println("输出完毕");
 	}
 
+	@Test
+	public void test15(){
+		String str = WxpayUtil.CreateNoncestr(32);
+		System.out.println(str);
+	}
+	
+	@Test
+	public void test16(){
+		Integer i = 1;
+		System.out.println(i == 1);
+	}
+	
+	@Test
+	public void test17(){
+		String str = null;
+		System.out.println(str==null);
+	}
+	
+	@Test
+	public void test18(){
+		Date date = new Date();
+		System.out.println(date);
+		System.out.println(date.getTime());
+	}
+	
+	@Test
+	public void test19(){
+		String str = "你好";
+		switch (str) {
+		case "hello":
+			System.out.println("Hello");
+			break;
+		case "你好":
+			System.out.println("你好");
+			break;
+		default:
+			System.out.println("default");
+			break;
+		}
+	}
+	
+	@Test
+	public void test20(){
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+		url = url.replace("APPID", WxpublicConfig.APPID).replace("SCOPE", "snsapi_base");
+		System.out.println(url);
+	}
+	
 }
