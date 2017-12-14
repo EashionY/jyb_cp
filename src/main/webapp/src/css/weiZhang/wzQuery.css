@@ -1,0 +1,57 @@
+.wzMain{
+    background-color: #FFFFFF;
+}
+.wzMain>div{
+    display: flex;
+    margin: 0 1.2rem;
+    border-bottom: 1px #dddddd solid;
+    line-height: 45px;
+    font-size: 1.5rem;
+    color: #333333;
+    overflow: hidden;
+}
+.wzMain>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.wzMain>div>div:nth-of-type(1){
+    font-size: 1.2rem;
+    margin-right: 2.5rem;
+    flex-shrink: 0;
+}
+.wzMain input{
+    font-size: 1.5rem;
+}
+.wzcpInput{
+    color: #FF9212;
+    white-space: nowrap;
+}
+.wzcpInput>.iconfont{
+    font-size: 1.5rem;
+}
+.wzcpInput>span{
+    margin-right: 1rem;
+}
+.wzcpInput>span:nth-last-of-type(1){
+    margin-right: 0;
+}
+.wzcityBox{
+    width: 100%;
+}
+.wzcityBox>.iconfont{
+    float: right;
+}
+#jcinput{
+    width: 25px;
+    color: #FF9212;
+}
+#cpinput{
+    width: 130px;
+}
+.wzBtn{
+    background-color: #FF9212;
+    margin-top: 2.5rem;
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    padding: 1rem 0;
+    text-align: center;
+}

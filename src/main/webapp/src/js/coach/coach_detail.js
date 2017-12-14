@@ -100,9 +100,9 @@ $(".code_pingjia>span").on("click",function(){
 //页面跳转
 $(".code_footer>div").on("click",function(){
     if($(this).index()==0){
-        addCookie("subtype","科目二",1,"/jyb/src/pages/coach")
+        addCookie("subtype","科目二",1,"/")
     }else{
-        addCookie("subtype","科目三",1,"/jyb/src/pages/coach")
+        addCookie("subtype","科目三",1,"/")
     }
     //判断有没有报名（已报名才可进入预约时间）
     var paySta=getCookieValue("pay_state");

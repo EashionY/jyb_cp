@@ -11,7 +11,7 @@ $.each(typelist,function(k,v){
                     $("#zfb").css("display","flex")
                 }else{
                     $("#zfb").css("display","none")
-                    $("#weixin").css("display","flex")
+                    $("#weixin").css("display","flex");
                 }
             }else{
                 $(val).children().eq(1).attr("class",'orsu_check orsu_nocheck');
@@ -19,7 +19,7 @@ $.each(typelist,function(k,v){
         })
     })
 });
-//支付   TO-DO(微信支付)
+//支付
 function pay(url,mydata,typeNum,obj){
     var bool=true;
     var datatype="json";
@@ -34,7 +34,7 @@ function pay(url,mydata,typeNum,obj){
         type:"get",
         async:bool,
         success:function(data){
-            console.log(data)
+            //console.log(data)
             if(typeNum==0){//支付宝
                 var newForm=newForm=data.substr(0, data.indexOf('<script>document.forms[0].submit();</script>'));
                 $(obj).append(newForm);
@@ -59,18 +59,17 @@ function pay(url,mydata,typeNum,obj){
         }
     })
 }
-
-//公众号支付 TO-DO
+//公众号支付
 function onBridgeReady(wxdata){
-    console.log(wxdata)
+    //console.log(wxdata)
     WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
-            "appId":wxdata.appid,     //公众号名称，由商户传入
-            "timeStamp":wxdata.timestamp,         //时间戳，自1970年以来的秒数
-            "nonceStr":wxdata.noncestr, //随机串
-            "package":"prepay_id="+wxdata.prepayid,
-            "signType":"MD5",         //微信签名方式：
-            "paySign":wxdata.sign //微信签名
+            "appId":wxdata.appId,     //公众号名称，由商户传入
+            "timeStamp":wxdata.timeStamp,         //时间戳，自1970年以来的秒数
+            "nonceStr":wxdata.nonceStr, //随机串
+            "package":wxdata.package,
+            "signType":wxdata.signType,         //微信签名方式：
+            "paySign":wxdata.paySign //微信签名
         },
         function(res){
             if(res.err_msg === 'get_brand_wcpay_request:ok'){
@@ -83,7 +82,5 @@ function onBridgeReady(wxdata){
 }
 //h5支付
 function wxh5pay(wxdata){
-    //console.log(wxdata);
-    //console.log(wxdata.mweb_url);
     location.href=wxdata.mweb_url
 }

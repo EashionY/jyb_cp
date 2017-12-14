@@ -21,7 +21,7 @@ function loadDom(type){
         timeout:5000,
         dataType:'json',
         success:function(data){
-            console.log(data.data)
+            //console.log(data.data)
             if(type==1){
                 layer.msg("已刷新")
             }
@@ -119,7 +119,7 @@ $(".coti_buttondiv").on("click",function(){
     });
     //选了时间段才可提交
     if(bool==true){
-        addCookie("time",mytime, 1, "/jyb/src/pages/coach");
+        addCookie("time",mytime, 1, "/");
         window.location.href="/jyb/src/pages/coach/coach_sure1.html";
     }else{
         layer.msg("没有选择任何时间段")

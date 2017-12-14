@@ -1,19 +1,19 @@
 //跳转到教练详情方法
 function toCoaDetail(){
     $(".scd_jl").off("click").on("click",function(){
-        addCookie("coach_id",$(this).children().eq(0).val(),1,"/jyb/src/pages/coach");
-        addCookie("cUser_id",$(this).children().eq(1).val(),1,"/jyb/src/pages/coach");
-        addCookie("school_img",$(this).children().eq(2).val(),1,"/jyb/src/pages/coach");
-        addCookie("coach_sex",$(this).children().eq(3).val(),1,"/jyb/src/pages/coach");
-        addCookie("coach_license",$(this).children().eq(4).val(),1,"/jyb/src/pages/coach");
-        addCookie("coach_two",$(this).children().eq(5).val()+'元',1,"/jyb/src/pages/coach");
-        addCookie("coach_three",$(this).children().eq(6).val()+'元',1,"/jyb/src/pages/coach");
-        addCookie("coach_car",$(this).children().eq(7).val(),1,"/jyb/src/pages/coach");
-        addCookie("school_addre",$(this).children().eq(8).val(),1,"/jyb/src/pages/coach");
-        addCookie("school_dist",'('+$(this).children().eq(9).val()+')',1,"/jyb/src/pages/coach")
-        addCookie("coach_img",$(this).children(".scd_jlimgdiv").children().attr("src"),1,"/jyb/src/pages/coach")
-        addCookie("coach_name",$(this).children().eq(11).children().eq(0).children().html(),1,"/jyb/src/pages/coach")
-        addCookie("coach_score",$(this).children().eq(11).children().eq(2).children().children().eq(1).html(),1,"/jyb/src/pages/coach")
+        addCookie("coach_id",$(this).children().eq(0).val(),1,"/");
+        addCookie("cUser_id",$(this).children().eq(1).val(),1,"/");
+        addCookie("school_img",$(this).children().eq(2).val(),1,"/");
+        addCookie("coach_sex",$(this).children().eq(3).val(),1,"/");
+        addCookie("coach_license",$(this).children().eq(4).val(),1,"/");
+        addCookie("coach_two",$(this).children().eq(5).val()+'元',1,"/");
+        addCookie("coach_three",$(this).children().eq(6).val()+'元',1,"/");
+        addCookie("coach_car",$(this).children().eq(7).val(),1,"/");
+        addCookie("school_addre",$(this).children().eq(8).val(),1,"/");
+        addCookie("school_dist",'('+$(this).children().eq(9).val()+')',1,"/")
+        addCookie("coach_img",$(this).children(".scd_jlimgdiv").children().attr("src"),1,"/")
+        addCookie("coach_name",$(this).children().eq(11).children().eq(0).children().html(),1,"/")
+        addCookie("coach_score",$(this).children().eq(11).children().eq(2).children().children().eq(1).html(),1,"/")
         //console.log($(this).children().eq(11).children().eq(0).children().html())//名字
         //console.log($(this).children().eq(11).children().eq(2).children().children().eq(1).html())//分数
         //console.log($(this).children().eq(0).val())

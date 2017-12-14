@@ -7,14 +7,12 @@ import org.apache.ibatis.annotations.Param;
 import cn.jyb.entity.User;
 
 public interface UserDao {
-
 	/**
 	 * 通过手机号查找用户
 	 * @param phone
 	 * @return
 	 */
 	public User findByPhone(String phone);
-	
 	/**
 	 * 保存用户信息
 	 * @param user
@@ -29,14 +27,12 @@ public interface UserDao {
 	 * @return
 	 */
 	public int modifyPassword(@Param("phone")String phone,@Param("newPassword")String newPassword);
-	
 	/**
 	 * 修改用户信息
 	 * @param user
 	 * @return
 	 */
 	public int modifyUserinfo(User user);
-	
 	/**
 	 * 通过用户id查找用户
 	 * @param user_id
@@ -50,7 +46,6 @@ public interface UserDao {
 	 * @return int
 	 */
 	public int updateHeadImg(String imgpath,String phone);
-	
 	/**
 	 * 切换客户端角色
 	 * @param user_id
@@ -58,7 +53,6 @@ public interface UserDao {
 	 * @return
 	 */
 	public int changeRole(@Param("user_id")Integer user_id,@Param("role")String role);
-	
 	/**
 	 * 用户更换手机号
 	 * @param user_id
@@ -66,10 +60,16 @@ public interface UserDao {
 	 * @return
 	 */
 	public int changePhone(@Param("user_id")Integer user_id,@Param("newPhone")String newPhone);
-	
 	/**
 	 * 查看所有用户
 	 * @return
 	 */
 	public List<User> listAll();
+	/**
+	 * 更新用户的二维码
+	 * @param user_id
+	 * @param qrImg
+	 * @return
+	 */
+	public int updateQrImg(@Param("user_id")Integer user_id,@Param("qrImg")String qrImg);
 }

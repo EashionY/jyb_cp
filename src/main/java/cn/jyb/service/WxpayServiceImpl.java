@@ -23,11 +23,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import cn.jyb.dao.OrdersDao;
+import cn.jyb.dao.QrOrderMapper;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.TeachRecordDao;
 import cn.jyb.dao.UserDao;
 import cn.jyb.dao.WxOpenidMapper;
 import cn.jyb.entity.Orders;
+import cn.jyb.entity.QrOrder;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.WxpayException;
 import cn.jyb.util.DateUtil;
@@ -51,6 +53,8 @@ public class WxpayServiceImpl implements WxpayService {
 	private UserDao userDao;
 	@Resource
 	private WxOpenidMapper wxOpenidMapper;
+	@Resource
+	private QrOrderMapper qrOrderMapper;
 	
 	public SortedMap<Object, Object> wxPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
@@ -127,9 +131,18 @@ public class WxpayServiceImpl implements WxpayService {
 		orders.setReceiver_id(Integer.parseInt(request.getParameter("receiver_id")));
 		orders.setTotal_amount(total_fee);
 		orders.setTrade_status("WAIT_BUYER_PAY");
-		orders.setAddress(request.getParameter("address"));
-		orders.setOrderType(request.getParameter("orderType"));
+		String orderType = request.getParameter("orderType");
+		orders.setOrderType(orderType);
 		ordersDao.save(orders);
+		if("3".equals(orderType)){//二维码订单
+			QrOrder qrOrder = new QrOrder();
+			qrOrder.setName(request.getParameter("name"));
+			qrOrder.setPhone(request.getParameter("phone"));
+			qrOrder.setQrAddress(request.getParameter("address"));
+			qrOrder.setQrOrderNo(out_trade_no);
+			qrOrder.setQrPayStatus(0);
+			qrOrderMapper.insert(qrOrder);//保存二维码订单
+		}
 		return parameterMap2;
 	}
 
@@ -210,9 +223,18 @@ public class WxpayServiceImpl implements WxpayService {
 		orders.setReceiver_id(Integer.parseInt(request.getParameter("receiver_id")));
 		orders.setTotal_amount(total_fee);
 		orders.setTrade_status("WAIT_BUYER_PAY");
-		orders.setAddress(request.getParameter("address"));
-		orders.setOrderType(request.getParameter("orderType"));
+		String orderType = request.getParameter("orderType");
+		orders.setOrderType(orderType);
 		ordersDao.save(orders);
+		if("3".equals(orderType)){//二维码订单
+			QrOrder qrOrder = new QrOrder();
+			qrOrder.setName(request.getParameter("name"));
+			qrOrder.setPhone(request.getParameter("phone"));
+			qrOrder.setQrAddress(request.getParameter("address"));
+			qrOrder.setQrOrderNo(out_trade_no);
+			qrOrder.setQrPayStatus(0);
+			qrOrderMapper.insert(qrOrder);//保存二维码订单
+		}
 		return parameterMap2;
 	}
 	
@@ -254,11 +276,11 @@ public class WxpayServiceImpl implements WxpayService {
 		parameters.put("out_trade_no", out_trade_no);
 		parameters.put("fee_type", "CNY");
 		parameters.put("total_fee", String.valueOf(price100));
-		parameters.put("spbill_create_ip", WxpayUtil.getIPAddr(request));
+		parameters.put("spbill_create_ip", spbill_create_ip);
 		parameters.put("notify_url", notify_url);
 		parameters.put("trade_type", "JSAPI");
 		parameters.put("openid", openid);
-		//设置签名
+		//设置签名（公众号支付与APP支付两个共用的一个API_KEY）
 		String sign = WxpayUtil.createSign("UTF-8", parameters);
 		parameters.put("sign", sign);
 		//封装请求参数为xml
@@ -273,7 +295,7 @@ public class WxpayServiceImpl implements WxpayService {
 			//统一下单接口返回正常的prepay_id,再按签名规范重新生成签名后，将数据传输给APP
 			Map<String, String> map = XMLUtil.doXMLParse(result);
 			//参与签名的字段名为appId，nonceStr，timeStamp，package，paySign
-			parameterMap2.put("appId", WxpayConfig.APPID);
+			parameterMap2.put("appId", WxpublicConfig.APPID);//微信公众号的appid
 			parameterMap2.put("package", "prepay_id=" + map.get("prepay_id"));
 			parameterMap2.put("nonceStr", WxpayUtil.CreateNoncestr());
 			//本来获得的时间戳为13位，但是微信要求10位，故截取了最后三位
@@ -294,9 +316,18 @@ public class WxpayServiceImpl implements WxpayService {
 		orders.setReceiver_id(Integer.parseInt(request.getParameter("receiver_id")));
 		orders.setTotal_amount(total_fee);
 		orders.setTrade_status("WAIT_BUYER_PAY");
-		orders.setAddress(request.getParameter("address"));
-		orders.setOrderType(request.getParameter("orderType"));
+		String orderType = request.getParameter("orderType");
+		orders.setOrderType(orderType);
 		ordersDao.save(orders);
+		if("3".equals(orderType)){//二维码订单
+			QrOrder qrOrder = new QrOrder();
+			qrOrder.setName(request.getParameter("name"));
+			qrOrder.setPhone(request.getParameter("phone"));
+			qrOrder.setQrAddress(request.getParameter("address"));
+			qrOrder.setQrOrderNo(out_trade_no);
+			qrOrder.setQrPayStatus(0);
+			qrOrderMapper.insert(qrOrder);//保存二维码订单
+		}
 		return parameterMap2;
 	}
 	
@@ -315,9 +346,9 @@ public class WxpayServiceImpl implements WxpayService {
 		//解析xml成为map
 		Map<String, String> map = new HashMap<String, String>();
 		map = XMLUtil.doXMLParse(sb.toString());
-		for(Object keyValue : map.keySet()){
-			logger.info(keyValue+"="+map.get(keyValue));
-		}
+//		for(Object keyValue : map.keySet()){
+//			logger.info(keyValue+"="+map.get(keyValue));
+//		}
 		//过滤空值null，设置TreeMap
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
 		Iterator it = map.keySet().iterator();
@@ -330,7 +361,6 @@ public class WxpayServiceImpl implements WxpayService {
 			}
 			packageParams.put(parameter, v);
 		}
-
 		//要返回的xml
 		String resXML = "";
 		//判断签名是否正确
@@ -377,6 +407,11 @@ public class WxpayServiceImpl implements WxpayService {
 							String name = studentDao.findByUserId(user_id).getStudent_name();//学员姓名
 							String templateCode = "SMS_110245059";//阿里大于短信模板号
 							Message.sendNotifyMsg(phone, name, templateCode);
+						}else if("3".equals(orders.getOrderType())){//二维码寄送订单
+							QrOrder qrOrder = new QrOrder();
+							qrOrder.setQrOrderNo(out_trade_no);
+							qrOrder.setQrPayStatus(1);
+							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
 						}
 						resXML = "<xml>"
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"
@@ -417,9 +452,9 @@ public class WxpayServiceImpl implements WxpayService {
 		//解析xml成为map
 		Map<String, String> map = new HashMap<String, String>();
 		map = XMLUtil.doXMLParse(sb.toString());
-		for(Object keyValue : map.keySet()){
-			logger.info(keyValue+"="+map.get(keyValue));
-		}
+//		for(Object keyValue : map.keySet()){
+//			logger.info(keyValue+"="+map.get(keyValue));
+//		}
 		//过滤空值null，设置TreeMap
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
 		Iterator it = map.keySet().iterator();
@@ -432,7 +467,6 @@ public class WxpayServiceImpl implements WxpayService {
 			}
 			packageParams.put(parameter, v);
 		}
-
 		//要返回的xml
 		String resXML = "";
 		//判断签名是否正确
@@ -479,6 +513,11 @@ public class WxpayServiceImpl implements WxpayService {
 							String name = studentDao.findByUserId(user_id).getStudent_name();//学员姓名
 							String templateCode = "SMS_110245059";//阿里大于短信模板号
 							Message.sendNotifyMsg(phone, name, templateCode);
+						}else if("3".equals(orders.getOrderType())){//二维码寄送订单
+							QrOrder qrOrder = new QrOrder();
+							qrOrder.setQrOrderNo(out_trade_no);
+							qrOrder.setQrPayStatus(1);
+							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
 						}
 						resXML = "<xml>"
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"

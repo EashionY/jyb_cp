@@ -7,7 +7,6 @@
 	<select id="findByPhone" parameterType="String" resultType="cn.jyb.entity.User">
 		select * from user where phone=#{phone}
 	</select>
-	
 	<!-- 用户注册 -->
 	<insert id="save" useGeneratedKeys="true" keyProperty="user_id"
 		parameterType="cn.jyb.entity.User">
@@ -27,7 +26,8 @@
 		job,
 		salary,
 		interest,
-		region)
+		region,
+		qr_img)
 		VALUES(
 		#{phone},
 		'需要完善',
@@ -44,14 +44,13 @@
 		'需要完善',
 		'需要完善',
 		'需要完善',
-		'需要完善')
+		'需要完善',
+		#{qrImg})
 	</insert>
-
 	<!-- 修改密码 -->
 	<update id="modifyPassword">
 		UPDATE user SET password=#{newPassword} WHERE phone=#{phone}
 	</update>
-
 	<!-- 修改用户个人资料 -->
 	<update id="modifyUserinfo" parameterType="cn.jyb.entity.User">
 		UPDATE user SET
@@ -69,37 +68,35 @@
 		region=#{region}
 		WHERE phone=#{phone}
 	</update>
-
 	<!-- 通过教练名查找教练(role=1) -->
 	<select id="findCoachByName" parameterType="String" resultType="cn.jyb.entity.User">
 		SELECT * FROM user WHERE username=#{username} AND role='1'
 	</select>
-
 	<!-- 通过用户id查找用户 -->
 	<select id="findById" resultType="cn.jyb.entity.User">
 		SELECT * FROM user
 		WHERE user_id=#{user_id}
 	</select>
-	
 	<!-- 上传头像成功后更新头像路径 -->
 	<update id="updateHeadImg">
 		UPDATE user SET imgpath=#{0} WHERE phone=#{1}
 	</update>
-	
 	<!-- 切换用户的角色 -->
 	<update id="changeRole">
 	    UPDATE user SET role=#{role} WHERE user_id=#{user_id}
 	</update>
-	
 	<!-- 用户更换手机号 -->
 	<update id="changePhone">
 	    UPDATE user SET phone=#{newPhone} WHERE user_id=#{user_id}
 	</update>
-	
 	<!-- 查看所有用户 -->
 	<select id="listAll" resultType="cn.jyb.entity.User">
 	  select * from user
 	</select>
+	<!-- 更新用户二维码 -->
+	<update id="updateQrImg">
+	  update user set qr_img=#{qrImg} where user_id=#{user_id}
+	</update>
 </mapper>
 
 

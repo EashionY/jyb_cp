@@ -40,6 +40,7 @@ public class UserController extends ExceptionController{
 	@RequestMapping("/login")
 	@ResponseBody
 	public JsonResult login(HttpServletRequest request,String phone,String password,String openid){
+		logger.error("openid="+openid);
 		Map<String, Object> result = userService.login(request, phone, password, openid);
 		return new JsonResult(result);
 	}

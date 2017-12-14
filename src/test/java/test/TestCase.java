@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cn.jyb.util.DateUtil;
 import cn.jyb.util.WxpayUtil;
 import cn.jyb.util.WxpublicConfig;
+import cn.jyb.util.WxpublicUtil;
+import net.sf.json.JSONObject;
 
 public class TestCase {
 
@@ -204,5 +206,42 @@ public class TestCase {
 		url = url.replace("APPID", WxpublicConfig.APPID).replace("SCOPE", "snsapi_base");
 		System.out.println(url);
 	}
-	
+	/**
+	 * 测试map转换为JSONObject
+	 */
+	@Test
+	public void test21(){
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("touser", "oUPCPxDxgyquGYS-vbL1cpXd1LiY");
+		param.put("template_id", "0C5sq_PGYYrwVOwccWT9EFBiUr4szbeFUREPkbJHtBE");
+		param.put("url", "");
+//		param.put("topcolor", "#FF9212");
+		Map<String,Object> data = new HashMap<String,Object>();
+		Map<String,Object> first = new HashMap<String,Object>();
+		first.put("value", "您好，你有一条挪车提醒");
+		first.put("color", "#000000");
+		data.put("first", first);
+		Map<String,Object> keyword1 = new HashMap<String,Object>();
+		keyword1.put("value", "驾易宝-一键挪车");
+		keyword1.put("color", "#173177");
+		data.put("keyword1", keyword1);
+		Map<String,Object> keyword2 = new HashMap<String,Object>();
+		keyword2.put("value", "您的爱车挡住路啦，麻烦您给挪一下呗");
+		keyword2.put("color", "#173177");
+		data.put("keyword2", keyword2);
+		Map<String,Object> remark = new HashMap<String,Object>();
+		remark.put("value", "如有疑问，请联系客服");
+		remark.put("color", "#000000");
+		data.put("remark", remark);
+		param.put("data", data);
+		JSONObject json = JSONObject.fromObject(param);
+		System.out.println(json.toString());
+		String accessToken = WxpublicUtil.getFromCache();
+		if(accessToken == null){
+			accessToken = WxpublicUtil.getNew();
+		}
+		String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
+		String result = WxpayUtil.httpsRequest(requestUrl, "POST", json.toString());
+		System.out.println("result:"+result);
+	}
 }

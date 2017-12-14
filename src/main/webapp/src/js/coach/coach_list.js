@@ -81,24 +81,24 @@ $(function(){
 });
 function toCDetail(){
     $(".co_div1").off("click").on("click",function(){
-        addCookie("coach_id",$(this).children().eq(0).val(),1,"/jyb/src/pages/coach");
-        addCookie("cUser_id",$(this).children().eq(1).val(),1,"/jyb/src/pages/coach");
-        addCookie("school_img",$(this).children().eq(2).val(),1,"/jyb/src/pages/coach");
-        addCookie("coach_img",$(this).children().eq(3).children().attr("src"),1,"/jyb/src/pages/coach");
-        addCookie("coach_name",$(this).children().eq(4).children().eq(0).children().eq(0).html(),1,"/jyb/src/pages/coach");
-        addCookie("coach_score",$(this).children().eq(4).children().eq(0).children().eq(2).html(),1,"/jyb/src/pages/coach");
-        addCookie("coach_sex",$(this).children().eq(4).children().eq(1).children().eq(0).html(),1,"/jyb/src/pages/coach");
-        addCookie("coach_license",$(this).children().eq(4).children().eq(1).children().eq(1).html(),1,"/jyb/src/pages/coach");
-        addCookie("coach_two",$(this).children().eq(4).children().eq(2).children().eq(0).children().html(),1,"/jyb/src/pages/coach")
-        addCookie("coach_three",$(this).children().eq(4).children().eq(2).children().eq(1).children().html(),1,"/jyb/src/pages/coach")
-        addCookie("coach_car",$(this).next().children().eq(0).children().eq(1).html(),1,"/jyb/src/pages/coach");
-        addCookie("school_addre",$(this).next().children().eq(1).children().eq(1).html(),1,"/jyb/src/pages/coach");
-        addCookie("school_dist",$(this).next().children().eq(1).children().eq(2).html(),1,"/jyb/src/pages/coach");
-        addCookie("school_name",$(this).next().children().eq(1).children().eq(3).html(),1,"/jyb/src/pages/coach");
+        addCookie("coach_id",$(this).children().eq(0).val(),1,"/");
+        addCookie("cUser_id",$(this).children().eq(1).val(),1,"/");
+        addCookie("school_img",$(this).children().eq(2).val(),1,"/");
+        addCookie("coach_img",$(this).children().eq(3).children().attr("src"),1,"/");
+        addCookie("coach_name",$(this).children().eq(4).children().eq(0).children().eq(0).html(),1,"/");
+        addCookie("coach_score",$(this).children().eq(4).children().eq(0).children().eq(2).html(),1,"/");
+        addCookie("coach_sex",$(this).children().eq(4).children().eq(1).children().eq(0).html(),1,"/");
+        addCookie("coach_license",$(this).children().eq(4).children().eq(1).children().eq(1).html(),1,"/");
+        addCookie("coach_two",$(this).children().eq(4).children().eq(2).children().eq(0).children().html(),1,"/")
+        addCookie("coach_three",$(this).children().eq(4).children().eq(2).children().eq(1).children().html(),1,"/")
+        addCookie("coach_car",$(this).next().children().eq(0).children().eq(1).html(),1,"/");
+        addCookie("school_addre",$(this).next().children().eq(1).children().eq(1).html(),1,"/");
+        addCookie("school_dist",$(this).next().children().eq(1).children().eq(2).html(),1,"/");
+        addCookie("school_name",$(this).next().children().eq(1).children().eq(3).html(),1,"/");
         $.each($(this).siblings(".name"),function(k,v){
-            addCookie("field"+k,$(v).val(),1,"/jyb/src/pages/coach")
+            addCookie("field"+k,$(v).val(),1,"/")
         });
-        addCookie("field_num",$(this).siblings(".name").length,1,"/jyb/src/pages/coach");
+        addCookie("field_num",$(this).siblings(".name").length,1,"/");
         window.location.href="/jyb/src/pages/coach/coach_detail.html"
     });
 }

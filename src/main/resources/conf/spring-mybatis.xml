@@ -33,7 +33,7 @@
 		<property name="configLocation" value="classpath:conf/mybatis-config.xml"></property>
 		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
 	</bean>
-	<!-- 配置mapper扫描 -->
+	<!-- 配置mapper扫描   -->
 	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cn.jyb.dao"></property>
 	</bean>

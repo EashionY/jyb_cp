@@ -3,25 +3,30 @@ function log(){
     var psd=$("#psd").val();
     var mydata={phone:tel,password:psd};
     if(is_weixin()){
-        //var openid=getopenid();
-        var openid="oUPCPxDxgyquGYS-vbL1cpXd1LiY";//测试数据
+        var openid=getopenid();
+        //var openid="oUPCPxDxgyquGYS-vbL1cpXd1LiY";//测试数据
         mydata={phone:tel,password:psd,openid:openid}
     }
-    console.log(mydata);
+    var index="";
     $.ajax({
         url:"http://api.drivingyeepay.com/jyb/account/login",
         data:mydata,
         type:"post",
         dataType:"json",
+        beforeSend: function (XMLHttpRequest) {
+            index = layer.load(2, {shade: false});
+        },
         success:function(data){
+            layer.close(index);
             if(data.state==1){
-//                    console.log(data);
+                //console.log(data);
                 addCookie("user_id",data.data.id,1,"/");
+                addCookie("user_QRImg",data.data.QRImg,1,"/jyb/src/pages/MoveCar");
                 if(data.data.role=="0"){//学员
                     addCookie("student_id",data.data.student_id,1,"/");
-                        window.location.href="/jyb/src/pages/index.html";
-//                      window.location.href="/jyb/src/pages/coach/coach_sure2.html";
-//                      window.location.href="/jyb/src/pages/order/order_sure.html"
+                    window.location.href="/jyb/src/pages/index.html";
+                    //window.location.href="/jyb/src/pages/coach/coach_sure2.html";
+                    //window.location.href="/jyb/src/pages/order/order_sure.html"
                 }else if(data.data.role=="1"){
                     window.location.href="/jyb/src/pages/coachSide/index2.html"
                 }
@@ -50,6 +55,7 @@ function is_weixin() {
 }
 
 $(function(){
+
     if(is_weixin()){
         pushHistory(window.location.href);
         window.addEventListener("popstate", function(e) {
@@ -83,7 +89,6 @@ function open(msg){
         btn: ['点击重新输入']
     });
 }
-
 
 function getopenid(){
     var oid="";

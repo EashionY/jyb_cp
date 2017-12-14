@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.QrOrderMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.QrOrder">
+    <id column="qr_order_no" jdbcType="VARCHAR" property="qrOrderNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="qr_address" jdbcType="VARCHAR" property="qrAddress" />
+    <result column="qr_pay_status" jdbcType="TINYINT" property="qrPayStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    qr_order_no, name, phone, qr_address, qr_pay_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from qr_order
+    where qr_order_no = #{qrOrderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from qr_order
+    where qr_order_no = #{qrOrderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.QrOrder">
+    insert into qr_order (qr_order_no, name, phone, 
+      qr_address, qr_pay_status)
+    values (#{qrOrderNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{qrAddress,jdbcType=VARCHAR}, #{qrPayStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.QrOrder">
+    insert into qr_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      qr_order_no,
+      <if test="name != null">
+        name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="qrAddress != null">
+        qr_address,
+      </if>
+      <if test="qrPayStatus != null">
+        qr_pay_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{qrOrderNo,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="qrAddress != null">
+        #{qrAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="qrPayStatus != null">
+        #{qrPayStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.QrOrder">
+    update qr_order
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="qrAddress != null">
+        qr_address = #{qrAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="qrPayStatus != null">
+        qr_pay_status = #{qrPayStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where qr_order_no = #{qrOrderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.QrOrder">
+    update qr_order
+    set name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      qr_address = #{qrAddress,jdbcType=VARCHAR},
+      qr_pay_status = #{qrPayStatus,jdbcType=TINYINT}
+    where qr_order_no = #{qrOrderNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

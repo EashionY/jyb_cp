@@ -10,8 +10,8 @@ $(function(){
             //console.log(data)
             $("#od_sname").html(data.data.school_name);
             $("#od_address").html(data.data.school_address);
-            addCookie("school_name",data.data.school_name,1,"/jyb/src/pages/order");
-            addCookie("school_id",sid,1,"/jyb/src/pages/order");
+            addCookie("school_name",data.data.school_name,1,"/");
+            addCookie("school_id",sid,1,"/");
         }
     })
 });
@@ -145,9 +145,9 @@ $("#od_commit").click(function(){
                 success:function(data){
                     console.log(data)
                     if(data.state==1){
-                        addCookie("price",data.data,1,"/jyb/src/pages/order");
-                        addCookie("taocan",inputList[3],1,"/jyb/src/pages/order");
-                        window.location.href="/jyb/src/pages/order/order_sure.html";
+                        addCookie("price",data.data,1,"/");
+                        addCookie("taocan",inputList[3],1,"/");
+                        window.location.href="/jyb/wxpublic/order_sure.html";
                     }else{
                         layer.msg(data.message);
                     }

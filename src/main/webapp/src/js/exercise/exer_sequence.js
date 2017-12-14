@@ -1,5 +1,3 @@
-//console.log(getCookieValue("sort"));
-//console.log(getCookieValue("subject"));
 var page=1;
 var Tnum=0;//正确数
 var Fnum=0;//错误数
@@ -41,7 +39,7 @@ $(function(){
         else if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {
             if(parseInt(page)<totalNum){
                 var next=++page;
-                getQueNext(next,url,obj1);
+                getQueNext(next,url,obj1,totalNum);
             }else{
                 layer.msg("已是最后一道")
             }

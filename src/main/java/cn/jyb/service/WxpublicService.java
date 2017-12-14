@@ -1,6 +1,7 @@
 package cn.jyb.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,4 +29,10 @@ public interface WxpublicService {
 	 * @return
 	 */
 	public String getOpenid(HttpServletRequest request);
+	/**
+	 * 微信js验证工具
+	 * @param url
+	 * @return
+	 */
+	public Map<String,Object> jsSign(String url);
 }

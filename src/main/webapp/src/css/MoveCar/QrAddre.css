@@ -1,0 +1,74 @@
+.qrheader{
+    background-color: #FF9212;
+    color: #FFFFFF;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    text-align: center;
+    font-size: 2rem;
+}
+.qrbtn{
+    position: absolute;
+    right: 1.2rem;
+    top: 0;
+    font-size: 1.5rem;
+}
+#Qrfooter>.od_fo2{
+    width: 100% !important;
+}
+/*新增地址*/
+.qrmain{
+    background-color: #FFFFFF;
+    margin-top: 10px;
+}
+.qrmain>div{
+    margin: 0 1.2rem;
+    line-height: 50px;
+    font-size: 1.6rem;
+    border-bottom: 1px #dddddd solid;
+    display: flex;
+    justify-content: space-between;
+}
+.qrmain>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.qrmain>div>div:nth-of-type(1){
+    flex-shrink: 0;
+}
+.yellow{
+    color: #FF9212 !important;
+}
+.qrmain .iconfont{
+    color: #bebebe;
+}
+.qrmain>div>div:nth-of-type(2)>input{
+    text-align: right;
+    line-height: 40px;
+    font-size: 1.6rem;
+}
+.qrmain>div>div:nth-of-type(2)>.iconfont{
+    margin-left: 1rem;
+}
+.listdiv{
+    margin-top: 1rem;
+    background-color: #FFFFFF;
+}
+.listdiv>div{
+    margin: 0 1.2rem;
+    font-size: 1.5rem;
+    line-height: 35px;
+}
+.listdiv>div:nth-of-type(1){
+    border-bottom: 1px #dddddd solid;
+}
+.namediv{
+    display: flex;
+    justify-content: space-between;
+}
+.scbtn{
+    margin-left: 1.5rem;
+}
+.mrbtn>.iconfont{
+    margin-right: .5rem;
+    color: #cbcbcb;
+}

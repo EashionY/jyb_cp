@@ -30,6 +30,12 @@
 	
 	<!-- 启用注解驱动 -->
 	<mvc:annotation-driven />
+	
+	<!-- 配置ModelAndView -->
+	<bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">    
+        <property name="prefix" value="/src/pages/"></property> <!-- 视图文件的前缀 -->     
+        <property name="suffix" value=".html"></property> <!-- 视图文件的后缀名 -->     
+    </bean>
 </beans>
 
 

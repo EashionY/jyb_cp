@@ -14,11 +14,14 @@ public interface AlipayService {
 	 * @param total_amount 总价
 	 * @param payer_id 支付者用户id
 	 * @param receiver_id 收款方用户id(若为驾校，则对应的为驾校id)
-	 * @param address 收货地址
+	 * @param address 二维码订单收货地址
 	 * @param orderType 订单类型（1-驾校订单，2-教练订单，3-二维码订单）
+	 * @param name 二维码订单收货人姓名
+	 * @param phone 二维码订单收货人电话
 	 * @return
 	 */
-	public String sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType);
+	public String sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone);
 	/**
 	 * 对支付宝支付信息进行签名(WEB)
 	 * @param out_trade_no
@@ -29,9 +32,12 @@ public interface AlipayService {
 	 * @param receiver_id
 	 * @param address
 	 * @param orderType
+	 * @param name
+	 * @param phone
 	 * @return
 	 */
-	public String webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType);
+	public String webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone);
 	/**
 	 * 支付成功后，回调
 	 * @param request

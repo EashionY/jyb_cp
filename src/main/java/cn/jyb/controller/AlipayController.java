@@ -30,12 +30,15 @@ public class AlipayController extends ExceptionController {
 	 * @param receiver_id
 	 * @param address
 	 * @param orderType
+	 * @param name
+	 * @param phone
 	 * @return
 	 */
 	@RequestMapping("/sign")
 	@ResponseBody
-	public JsonResult sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType) {
-		String result = alipayService.sign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType);
+	public JsonResult sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone) {
+		String result = alipayService.sign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType,name,phone);
 		return new JsonResult(result);
 	}
 	/**
@@ -48,11 +51,14 @@ public class AlipayController extends ExceptionController {
 	 * @param receiver_id
 	 * @param address
 	 * @param orderType
+	 * @param name
+	 * @param phone
 	 * @return
 	 */
 	@RequestMapping("/webSign")
-	public void webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType,HttpServletResponse response) throws IOException {
-		String form = alipayService.webSign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType);
+	public void webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone,HttpServletResponse response) throws IOException {
+		String form = alipayService.webSign(out_trade_no,subject,body,total_amount,payer_id,receiver_id,address,orderType,name,phone);
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(form);
 		response.getWriter().flush();

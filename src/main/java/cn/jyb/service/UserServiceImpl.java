@@ -36,6 +36,7 @@ import cn.jyb.exception.NoUserFoundException;
 import cn.jyb.exception.PhoneException;
 import cn.jyb.exception.PwdException;
 import cn.jyb.exception.VerCodeException;
+import cn.jyb.exception.WxpublicException;
 import cn.jyb.util.AccountUtil;
 import cn.jyb.util.EasemobUtil;
 import cn.jyb.util.ImgDownload;
@@ -80,14 +81,19 @@ public class UserServiceImpl implements UserService {
 		String md5Password = AccountUtil.md5(password);
 		if (user.getPassword().equals(md5Password)) {
 			int user_id = user.getUser_Id();
-			// 将用户id放入二维码，并且下载到服务器(bg-背景色,fg-前景色,el-纠错等级,w-二维码大小,m-外边距,text-二维码内容)
-			String url = "http://qr.topscan.com/api.php?bg=ffffff&fg=000000&el=l&w=600&m=20&text="+user_id;
-			String filename = "QR_"+user_id+".png";
-			String savePath = "/usr/jybUpload/QRImg/";
-			try {
-				ImgDownload.download(url, filename, savePath);
-			} catch (Exception e) {
-				e.printStackTrace();
+			String qrImg = "";
+			if(user.getQrImg() == null || user.getQrImg().isEmpty()){
+				// 将用户id放入二维码，并且下载到服务器(bg-背景色,fg-前景色,el-纠错等级,w-二维码大小,m-外边距,text-二维码内容)
+				String url = "http://qr.topscan.com/api.php?bg=ffffff&fg=000000&el=l&w=600&m=20&text="+user_id;
+				String filename = "QR_"+user_id+".png";
+				String savePath = "/usr/jybUpload/QRImg/";
+				try {
+					ImgDownload.download(url, filename, savePath);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				qrImg = "http://39.108.73.207/img/QRImg/"+filename;
+				userDao.updateQrImg(user_id, qrImg);
 			}
 			Student student = studentDao.findByUserId(user_id);
 			String student_idcard = student == null ? "" : student.getStudent_idcard();
@@ -113,19 +119,23 @@ public class UserServiceImpl implements UserService {
 			result.put("weight", user.getWeight());
 			result.put("xingzuo", user.getXingzuo());
 			result.put("region", user.getRegion());
-			result.put("QRImg", "http://39.108.73.207/img/QRImg/QR_"+user_id+".png");
+			result.put("QRImg", qrImg);
 			HttpSession session = request.getSession();
-			//将用户id放入session，记录登录状态
-			session.setAttribute("userId", user_id);
+			session.setAttribute("userInfo", result);
 			// 将系统用户与微信openid绑定起来
 			if(openid != null && !openid.trim().isEmpty()){
 				WxOpenid wxOpenid = wxOpenidMapper.findByOpenid(openid);
 				if(wxOpenid == null){
-					wxOpenid = new WxOpenid();
-					wxOpenid.setUserId(user_id);
-					wxOpenid.setOpenid(openid);
-					wxOpenid.setIsLogin("1");
-					wxOpenidMapper.insertSelective(wxOpenid);
+					wxOpenid = wxOpenidMapper.findByUserId(user_id);
+					if(wxOpenid == null){
+						wxOpenid = new WxOpenid();
+						wxOpenid.setUserId(user_id);
+						wxOpenid.setOpenid(openid);
+						wxOpenid.setIsLogin("1");
+						wxOpenidMapper.insertSelective(wxOpenid);
+					}else{
+						throw new WxpublicException("该账号已与其他微信号绑定");
+					}
 				}else{
 					wxOpenid.setOpenid(openid);
 					wxOpenid.setUserId(user_id);

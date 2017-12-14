@@ -9,7 +9,7 @@ import cn.jyb.util.JsonResult;
 
 public  abstract class ExceptionController {
 	//日志文件
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@ExceptionHandler(Exception.class)
 	@ResponseBody

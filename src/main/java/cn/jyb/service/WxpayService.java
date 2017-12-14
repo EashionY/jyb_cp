@@ -13,7 +13,7 @@ public interface WxpayService {
 
 	/**
 	 * 微信APP支付统一下单接口
-	 * @param request 要求传参：out_trade_no(订单号，学员约教练时，约教记录id即为订单号。其余情况可不传此参)，total_fee，body，payer_id，receiver_id，address
+	 * @param request 要求传参：out_trade_no(订单号，学员约教练时，约教记录id即为订单号。其余情况可不传此参)，total_fee，body，payer_id，receiver_id，address，orderType，name，phone
 	 * @param response
 	 * @return
 	 * @throws UnsupportedEncodingException 

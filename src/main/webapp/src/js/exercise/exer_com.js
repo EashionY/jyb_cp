@@ -3,7 +3,6 @@ function getQueNext(page,url,obj1,totalnum){
     var data=getStorage(page.toString());
     if(data.length==0){
         var sort=getCookieValue("sort");
-        //var sub=parseInt(getCookieValue("subject"));
         //console.log(sort)
         if(sort=="rand"){
             $(".sequ_footer").children().eq(0).css("opacity","0")
@@ -16,7 +15,7 @@ function getQueNext(page,url,obj1,totalnum){
         var mydata=obj1;
         var obj2={page:page};
         $.extend(obj1,obj2);
-        //console.log(mydata);
+        console.log(mydata);
         $.ajax({
             url:url,
             data:mydata,

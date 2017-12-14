@@ -39,7 +39,8 @@ public class User implements Serializable {
 	private String interest;
 	//地区
 	private String region;
-	
+	//用户的二维码(包含用户id)
+	private String qrImg;
 	public User() { }
 
 	public User(int user_id, String nickname, String sex, String birthday, String phone, String password,
@@ -201,13 +202,21 @@ public class User implements Serializable {
 		this.region = region;
 	}
 
+	public String getQrImg() {
+		return qrImg;
+	}
+
+	public void setQrImg(String qrImg) {
+		this.qrImg = qrImg;
+	}
+
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", nickname=" + nickname + ", sex=" + sex + ", birthday=" + birthday
 				+ ", phone=" + phone + ", password=" + password + ", address=" + address + ", imgpath=" + imgpath
 				+ ", signature=" + signature + ", role=" + role + ", xingzuo=" + xingzuo + ", height=" + height
 				+ ", weight=" + weight + ", job=" + job + ", salary=" + salary + ", interest=" + interest + ", region="
-				+ region + "]";
+				+ region + ", qrImg=" + qrImg + "]";
 	}
 
 	@Override

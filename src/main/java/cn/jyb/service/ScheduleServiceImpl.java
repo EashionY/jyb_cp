@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +27,7 @@ import cn.jyb.exception.StudentException;
 public class ScheduleServiceImpl implements ScheduleService {
 
 	private ObjectMapper objectMapper;
-	
+    private Logger logger = LoggerFactory.getLogger(this.getClass());	
 	@Resource
 	private CoachScheduleMapper coachScheduleMapper;
 	
@@ -112,6 +114,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		//存储日期的集合
 		List<String> dates = new ArrayList<String>();
+		logger.info("data:"+data);
 		//将Json字符串解析map
 		objectMapper = new ObjectMapper();
 		int coach_id;

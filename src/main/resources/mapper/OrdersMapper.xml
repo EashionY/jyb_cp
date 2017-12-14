@@ -16,7 +16,6 @@
 			payer_id,
 			receiver_id,
 			pay_method,
-			address,
 			order_type)
 		VALUES(
 			#{out_trade_no},
@@ -29,7 +28,6 @@
 			#{payer_id},
 			#{receiver_id},
 			#{pay_method},
-			#{address},
 			#{orderType})
 	</insert>
 	
@@ -57,6 +55,20 @@
                 </if>)as totalNum,orders.* 
         FROM orders
         WHERE order_type = #{orderType}
+        <if test="tradeStatus != null and '' != tradeStatus">
+        AND trade_status = #{tradeStatus}
+        </if>
+        LIMIT #{offset},#{pageSize}
+    </select>
+    
+    <select id="listQrOrders" resultType="java.util.Map">
+    	SELECT (select count(*) from orders 
+                where order_type='3'
+                <if test="tradeStatus != null and '' != tradeStatus">
+                  and trade_status = #{tradeStatus}
+                </if>)as totalNum,o.*,q.name,q.phone,q.qr_address as address
+        FROM orders o,qr_order q
+        WHERE o.out_trade_no=q.qr_order_no AND o.order_type='3'
         <if test="tradeStatus != null and '' != tradeStatus">
         AND trade_status = #{tradeStatus}
         </if>

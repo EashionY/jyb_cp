@@ -20,10 +20,12 @@ import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 
 import cn.jyb.dao.OrdersDao;
+import cn.jyb.dao.QrOrderMapper;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.TeachRecordDao;
 import cn.jyb.dao.UserDao;
 import cn.jyb.entity.Orders;
+import cn.jyb.entity.QrOrder;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.AlipayException;
 import cn.jyb.util.DateUtil;
@@ -39,6 +41,8 @@ public class AlipayServiceImpl implements AlipayService {
 	private TeachRecordDao teachRecordDao;
 	@Resource
 	private UserDao userDao;
+	@Resource
+	private QrOrderMapper qrOrderMapper;
 	//支付宝默认网关
 	private static final String URL = "https://openapi.alipay.com/gateway.do";
 	//驾易宝应用id
@@ -75,7 +79,8 @@ public class AlipayServiceImpl implements AlipayService {
 	//签名类型
 	private static final String SIGN_TYPE = "RSA2";
 	
-	public String sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType) {
+	public String sign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone) {
 //		subject = new String(subject.getBytes("ISO-8859-1"), "utf-8");
 //		body = new String(body.getBytes("ISO-8859-1"),"utf-8");
 		System.out.println("subject:"+subject+",body:"+body);
@@ -83,16 +88,6 @@ public class AlipayServiceImpl implements AlipayService {
 		AlipayClient alipayClient = new DefaultAlipayClient(URL,APP_ID,APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
 		//实例化具体API对应的request类
 		AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-		//SDK已经封装掉了公共参数，这里只需要传入业务参数。
-//			AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-//			model.setBody("测试数据111");
-//			model.setSubject("APP支付测试java端");
-//			model.setTimeoutExpress("30m");
-//			String outTradeNo = DateUtil.getOrderNum();
-//			model.setOutTradeNo(outTradeNo);
-//			model.setTotalAmount("0.01");
-//			model.setProductCode("QUICK_MSECURITY_PAY");
-//			request.setBizModel(model);
 		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
 			out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
 		}
@@ -117,6 +112,7 @@ public class AlipayServiceImpl implements AlipayService {
 			e.printStackTrace();
 			throw new AlipayException("签名失败");
 		}
+		//保存支付订单
 		Orders orders = new Orders();
 		orders.setBody(body);
 		orders.setOut_trade_no(out_trade_no);
@@ -127,28 +123,27 @@ public class AlipayServiceImpl implements AlipayService {
 		orders.setSubject(subject);
 		orders.setTotal_amount(total_amount);
 		orders.setTrade_status("WAIT_BUYER_PAY");
-		orders.setAddress(address);
 		orders.setOrderType(orderType);
 		ordersDao.save(orders);
+		if("3".equals(orderType)){//二维码订单
+			QrOrder qrOrder = new QrOrder();
+			qrOrder.setName(name);
+			qrOrder.setPhone(phone);
+			qrOrder.setQrAddress(address);
+			qrOrder.setQrOrderNo(out_trade_no);
+			qrOrder.setQrPayStatus(0);
+			qrOrderMapper.insert(qrOrder);//保存二维码订单
+		}
 		//就是orderString 可以直接给客户端请求，无需再做处理。
 		return response.getBody();
 	}
 	
-	public String webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,String receiver_id,String address,String orderType) {
+	public String webSign(String out_trade_no,String subject,String body,String total_amount,String payer_id,
+			String receiver_id,String address,String orderType,String name,String phone) {
 		//实例化客户端
 		AlipayClient alipayClient = new DefaultAlipayClient(URL,APP_ID,APP_PRIVATE_KEY, FORMAT, CHARSET, ALIPAY_PUBLIC_KEY, SIGN_TYPE);
 		//实例化具体API对应的request类
 		AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-		//SDK已经封装掉了公共参数，这里只需要传入业务参数。
-//			AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-//			model.setBody("测试数据111");
-//			model.setSubject("APP支付测试java端");
-//			model.setTimeoutExpress("30m");
-//			String outTradeNo = DateUtil.getOrderNum();
-//			model.setOutTradeNo(outTradeNo);
-//			model.setTotalAmount("0.01");
-//			model.setProductCode("QUICK_MSECURITY_PAY");
-//			request.setBizModel(model);
 		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
 			out_trade_no = DateUtil.getOrderNum()+DateUtil.getThree();
 		}
@@ -183,9 +178,17 @@ public class AlipayServiceImpl implements AlipayService {
 		orders.setSubject(subject);
 		orders.setTotal_amount(total_amount);
 		orders.setTrade_status("WAIT_BUYER_PAY");
-		orders.setAddress(address);
 		orders.setOrderType(orderType);
 		ordersDao.save(orders);
+		if("3".equals(orderType)){//二维码订单
+			QrOrder qrOrder = new QrOrder();
+			qrOrder.setName(name);
+			qrOrder.setPhone(phone);
+			qrOrder.setQrAddress(address);
+			qrOrder.setQrOrderNo(out_trade_no);
+			qrOrder.setQrPayStatus(0);
+			qrOrderMapper.insert(qrOrder);//保存二维码订单
+		}
 		return form;
 	}
 
@@ -279,6 +282,11 @@ public class AlipayServiceImpl implements AlipayService {
 						String name = studentDao.findByUserId(user_id).getStudent_name();//学员姓名
 						String templateCode = "SMS_110245059";//阿里大于短信模板号
 						Message.sendNotifyMsg(phone, name, templateCode);
+					}else if("3".equals(orders.getOrderType())){//二维码订单
+						QrOrder qrOrder = new QrOrder();
+						qrOrder.setQrOrderNo(out_trade_no);
+						qrOrder.setQrPayStatus(1);
+						qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
 					}
 				}
 				return "success";

@@ -35,6 +35,9 @@ $(".expr_header>div").click(function(){
     $(this).siblings().removeClass('expr_headactive');
 });
 $(function(){
+    if(getCookieValue("user_id")==""){
+        getsession();
+    }
     var sub=getCookieValue("subject");
     if(sub=="4"){
         setClass(1)

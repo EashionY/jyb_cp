@@ -52,6 +52,12 @@ public interface OrdersDao {
 	 * @return
 	 */
 	public List<Map<String,Object>> listOrders(@Param("tradeStatus")String tradeStatus,@Param("orderType")String orderType,@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
-	
-	
+	/**
+	 * 查看二维码寄送订单列表
+	 * @param tradeStatus
+	 * @param offset
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<String,Object>> listQrOrders(@Param("tradeStatus")String tradeStatus,@Param("offset")Integer offset,@Param("pageSize")Integer pageSize);
 }

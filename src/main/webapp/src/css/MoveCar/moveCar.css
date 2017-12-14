@@ -1,0 +1,126 @@
+body{
+    background-color: #FFFFFF !important;
+}
+.header{
+    background-color: #FF9212;
+    color: #FFFFFF;
+    height: 50px;
+    line-height: 50px;
+    font-size: 2rem;
+    text-align: center;
+    position: relative;
+}
+.myewm{
+    position: absolute;
+    top: 0;
+    left: 1.3rem;
+    font-size: 2.5rem;
+}
+.saoBtn{
+    position: absolute;
+    top: 0;
+    right: 1.3rem;
+    font-size: 2.5rem;
+}
+.mcInputDiv{
+    border: 1px #FF9212 solid;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto;
+    width: 95%;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.mcInputDiv>div:nth-of-type(1),
+.mcInputDiv>div:nth-of-type(3){
+    margin-left: 10px;
+}
+.mcInputDiv>div:nth-of-type(1){
+    flex-shrink: 0;
+}
+.mcInputDiv .iconfont{
+    margin-left: 5px;
+}
+.mcInputDiv input{
+    font-size: 1.5rem;
+    border-bottom: 1px #dddddd solid;
+    margin-right: 20px;
+}
+.mcXieyiDiv{
+    margin: 0 auto;
+    width: 95%;
+    margin-top: 10px;
+    font-size: 1.5rem;
+    line-height: 20px;
+}
+.mcXieyiDiv>span:nth-of-type(1){
+    margin-right: 10px;
+    color: #dddddd;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+.active{
+    color: #FF9212 !important;
+}
+.bactive{
+    background-color: #FF9212 !important;
+}
+.footer{
+    position: fixed;
+    bottom: 30px;
+    width:100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 2rem;
+}
+.footer>span{
+    display: inline-block;
+    width: 95%;
+    border-radius: 5px;
+    background-color: #dddddd;
+}
+.ewmBox{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.7);
+}
+.ewmMain{
+    width: 80%;
+    height: 70%;
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    margin-top: 70px;
+    text-align: center;
+}
+.ewmDiv{
+    width: 200px;
+    height: 250px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -150px;
+}
+.ewmimgDiv{
+    width: 200px;
+    height: 200px;
+}
+.ewmimgDiv>img{
+    width: 100%;
+    height: 100%;
+}
+.ewmtextDiv{
+    margin-top: 15px;
+    font-size: 1.5rem;
+}
+.wemSq{
+    border-bottom: 1px #FF9212 solid;
+    color: #FF9212;
+}
+

@@ -577,12 +577,9 @@ public class TeachRecordServiceImpl implements TeachRecordService {
 	/**
 	 * 将既定规则的约教时间(eg:2017-11-9 14:00-15:00)转换成对应的日期和时间段, 更新教练日程表对应的时段状态为1（已被预约）
 	 * 
-	 * @param teach_time
-	 *            具体的约教时间
-	 * @param coach_id
-	 *            教练id
-	 * @param status
-	 *            对应的状态(学员预约为1；教练拒单、学员取消订单为0)
+	 * @param teach_time 具体的约教时间
+	 * @param coach_id 教练id
+	 * @param status 对应的状态(学员预约为1；教练拒单、学员取消订单为0)
 	 * @return
 	 */
 	public boolean updateCoachSchedule(String teach_time, Integer coach_id, String status) {

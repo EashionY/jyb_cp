@@ -59,6 +59,8 @@ public class HLBServiceImpl implements HLBService {
 		hlbOrder.setContactPhone(request.getParameter("contactPhone"));//联系人电话
 		hlbOrder.setPublishId(Integer.parseInt(request.getParameter("publishId")));//订单发布人id
 		hlbOrder.setOrderType(Integer.parseInt(request.getParameter("orderType")));//订单类型
+		hlbOrder.setDriverEval(5);//车主评分初始值为5
+		hlbOrder.setPassengerEval(5);//乘客评分初始值为5
 		try {
 			hlbOrderMapper.insertSelective(hlbOrder);
 		} catch (Exception e) {
@@ -168,8 +170,8 @@ public class HLBServiceImpl implements HLBService {
 		int driverOrderNum = hlbOrderMapper.getDriverOrderNum(receiptId);//车主订单数
 		result.put("driverOrderNum", driverOrderNum);
 		VehicleLicense vehicleLic = vehicleLicMapper.findByUserId(receiptId);
-		result.put("vehicleNo", vehicleLic.getVehicleNo());
-		result.put("vehicleBrand", vehicleLic.getVehicleBrand());
+		result.put("vehicleNo", vehicleLic.getVehicleNo());//车牌号
+		result.put("vehicleBrand", vehicleLic.getVehicleBrand());//车辆品牌
 		return result;
 	}
 	

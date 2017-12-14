@@ -48,3 +48,11 @@ input[type="button"], input[type="submit"], input[type="reset"] {
     -webkit-appearance: none;
     border-radius: 0;
 }
+
+
+/*.picker .picker-panel .picker-content .mask-top:after, .picker .picker-panel .picker-content .mask-top:before,*/
+/*.picker .picker-panel .picker-content .mask-bottom:after, .picker .picker-panel .picker-content .mask-bottom:before{*/
+    /*border-top: 1px solid #FF9212 !important;*/
+/*}*/
+
+

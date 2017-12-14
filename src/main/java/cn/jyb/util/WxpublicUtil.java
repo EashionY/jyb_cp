@@ -3,6 +3,8 @@ package cn.jyb.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -18,10 +20,10 @@ public class WxpublicUtil {
 
 	private static String ACCESS_TOKEN = null;
 	
+	private static String JSAPI_TICKET = null;
+	
 	/**
 	 * 获取access_token，每隔一个小时获取一次
-	 * @param appId
-	 * @param appScret
 	 */
 	@Scheduled(fixedRate = 3600000)
 	public void getAccessToken(){
@@ -30,14 +32,14 @@ public class WxpublicUtil {
 		           + WxpublicConfig.APPID + "&secret="+ WxpublicConfig.APPSECRET;
 		try {
 			String result = HttpUtil.sendGet(url, "UTF-8");
+			System.out.println(result);
 			JSONObject json = JSONObject.fromObject(result);
 			ACCESS_TOKEN = json.getString("access_token");
-			System.out.println(ACCESS_TOKEN);
+			System.out.println("ACCESS_TOKEN:"+ACCESS_TOKEN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 	/**
 	 * 从缓存中获取token
 	 * @return
@@ -45,7 +47,6 @@ public class WxpublicUtil {
 	public static String getFromCache(){
 		return ACCESS_TOKEN;
 	}
-	
 	/**
 	 * 强制获取token
 	 * @return
@@ -55,7 +56,42 @@ public class WxpublicUtil {
 		util.getAccessToken();
 		return ACCESS_TOKEN;
 	}
-	
+	/**
+	 * 获取jsapi_ticket，每隔一个小时获取一次
+	 */
+	@Scheduled(fixedRate = 3600000)
+	public void getJsapiTicket(){
+		String accessToken = getFromCache();
+		if(accessToken == null){
+			accessToken = getNew();
+		}
+		String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+accessToken+"&type=jsapi";
+		String result;
+		try {
+			result = HttpUtil.sendGet(url, "UTF-8");
+			JSONObject json = JSONObject.fromObject(result);
+			JSAPI_TICKET = json.getString("ticket");
+			System.out.println("JSAPI_TICKET:"+JSAPI_TICKET);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 从缓存中获取ticket
+	 * @return
+	 */
+	public static String getTicketFromCache(){
+		return JSAPI_TICKET;
+	}
+	/**
+	 * 强制更新ticket
+	 * @return
+	 */
+	public static synchronized String getTicketNew(){
+		WxpublicUtil util = new WxpublicUtil();
+		util.getJsapiTicket();
+		return JSAPI_TICKET;
+	}
 	/**
 	 * 字典序排序方法
 	 * @param token
@@ -71,7 +107,6 @@ public class WxpublicUtil {
 	    for (String str : strArray) {
 	        sbuilder.append(str);
 	    }
-	 
 	    return sbuilder.toString();
 	}
 	
@@ -96,13 +131,15 @@ public class WxpublicUtil {
                 hexString.append(shaHex);
             }
             return hexString.toString();
- 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
         return "";
     }
-	
+	/**
+	 * 生成微信公众号的菜单
+	 * @return
+	 */
 	public static String getMenu(){
 		// 菜单一
 		JSONObject button1 = new JSONObject();
@@ -223,11 +260,10 @@ public class WxpublicUtil {
 		subButton3.add(button33);
 		// 子菜单4
 		JSONObject button34 = new JSONObject();
-		button34.put("type", "view");
+		button34.put("type", "click");
 		String button34Name = "联系我们";
 		button34.put("name", button34Name);
-		String button34Url = "http://a.app.qq.com/o/simple.jsp?pkgname=com.edriving";
-		button34.put("url", button34Url);
+		button34.put("key", "V34_CONTACT_US");
 		subButton3.add(button34);
 		button3.put("sub_button", subButton3);
 		
@@ -241,5 +277,28 @@ public class WxpublicUtil {
 		menu.put("button", button);
 		System.out.println(menu);
 		return menu.toString();
+	}
+	/**
+	 * 发送模板消息
+	 * @param openid 微信用户的openid
+	 * @param templateId 模板消息id
+	 * @param url 点击消息后跳转的网页
+	 * @param data 消息中的参数
+	 * @return
+	 */
+	public static JSONObject sendTemplateMsg(String openid,String templateId,String url,Map data){
+		String accessToken = getFromCache();
+		if(accessToken == null){
+			accessToken = getNew();
+		}
+		String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("touser", openid);
+		param.put("template_id", templateId);
+		param.put("url", url);
+		param.put("data", data);
+		JSONObject json = JSONObject.fromObject(param);
+		String result = WxpayUtil.httpsRequest(requestUrl, "POST", json.toString());
+		return JSONObject.fromObject(result);
 	}
 }

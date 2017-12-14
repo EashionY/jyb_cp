@@ -96,10 +96,12 @@ function commit(mydata){
                         icon: 1,
                         time: 2000
                     }, function(){
-                        window.location.href="/jyb/src/pages/coach/coach_sure2.html"
+                        console.log(data);
+                        addCookie("co_teachid",data.teach_id,"1","/");
+                        window.location.href="/jyb/wxpublic/coach_sure2.html"
                     });
                 }else{
-                    console.log(data)
+                    console.log(data);
                     layer.msg("提交预约失败")
                 }
             }

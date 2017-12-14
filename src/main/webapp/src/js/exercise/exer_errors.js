@@ -1,6 +1,6 @@
 $(function(){
     //console.log(getCookieValue("subject"));
-    //console.log(getCookieValue("Uid"));
+    //console.log(getCookieValue("user_id"));
     $.ajax({
         url:"http://api.drivingyeepay.com/jyb/answer/getWrongNum",
         type:"get",

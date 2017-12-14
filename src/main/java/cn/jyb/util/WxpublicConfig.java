@@ -20,5 +20,9 @@ public class WxpublicConfig {
 	/**
 	 * 公众号商户id
 	 */
-	public static final String MCH_ID = "";
+	public static final String MCH_ID = "1494029202";
+	/**
+	 * 公众号支付的API密钥
+	 */
+	public static final String API_KEY = "dFMhDmgw1mT4501Re03BcaIjkiJ7lH8U";
 }
