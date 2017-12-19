@@ -2,6 +2,7 @@ package cn.jyb.service;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,13 +17,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.jyb.dao.HLBOrderMapper;
+import cn.jyb.dao.HLBSureMapper;
 import cn.jyb.dao.IdCardMapper;
 import cn.jyb.dao.UserDao;
 import cn.jyb.dao.VehicleLicenseMapper;
 import cn.jyb.entity.HLBOrder;
+import cn.jyb.entity.HLBSure;
+import cn.jyb.entity.User;
 import cn.jyb.entity.VehicleLicense;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.HLBOrderException;
+import cn.jyb.exception.NoUserFoundException;
 import cn.jyb.util.DateUtil;
 @Service("HLBService")
 public class HLBServiceImpl implements HLBService {
@@ -35,6 +40,8 @@ public class HLBServiceImpl implements HLBService {
 	private IdCardMapper idcardMapper;
 	@Resource
 	private VehicleLicenseMapper vehicleLicMapper;
+	@Resource
+	private HLBSureMapper hlbSureMapper;
 	
 	@Override
 	public HLBOrder saveHLBOrder(HttpServletRequest request) throws UnsupportedEncodingException, ParseException {
@@ -50,7 +57,7 @@ public class HLBServiceImpl implements HLBService {
 		hlbOrder.setFare(new BigDecimal(request.getParameter("fare")).setScale(2, BigDecimal.ROUND_HALF_UP));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		Date departTime = sdf.parse(request.getParameter("departTime"));
-		hlbOrder.setDepartTime(departTime);//出发时间
+		hlbOrder.setDepartTime(departTime);//出发时间   
 		hlbOrder.setRemark(request.getParameter("remark"));//备注
 		hlbOrder.setCarry(request.getParameter("carry"));//搬运
 		hlbOrder.setBackhaul(request.getParameter("backhaul"));//返程
@@ -72,7 +79,7 @@ public class HLBServiceImpl implements HLBService {
 
 	@Override
 	@Transactional
-	public HLBOrder acceptHLBOrder(String hlbOrderNo, Integer receiptId) {
+	public synchronized HLBOrder acceptHLBOrder(String hlbOrderNo, Integer receiptId) {
 		HLBOrder hlbOrder = hlbOrderMapper.selectByPrimaryKey(hlbOrderNo);
 		if(hlbOrder == null){
 			throw new HLBOrderException("错误的订单号");
@@ -161,8 +168,14 @@ public class HLBServiceImpl implements HLBService {
 	@Override
 	public Map<String, Object> getDriverInfo(Integer receiptId) {
 		Map<String, Object> result = new HashMap<String, Object>();//结果集
-		String imgpath = userDao.findById(receiptId).getImgpath();//头像
+		User user = userDao.findById(receiptId);
+		if(user == null){
+			throw new NoUserFoundException("错误的用户id");
+		}
+		String imgpath = user.getImgpath();//头像
 		result.put("imgpath", imgpath);
+		String phone = user.getPhone();//车主电话
+		result.put("phone", phone);
 		String driverName = idcardMapper.findByUserId(receiptId).getIdcardRealname().substring(0, 1) + "师傅";
 		result.put("driverName", driverName);//车主称谓：某师傅
 		double driverScore = hlbOrderMapper.getDriverScore(receiptId);//车主评分
@@ -174,6 +187,158 @@ public class HLBServiceImpl implements HLBService {
 		result.put("vehicleBrand", vehicleLic.getVehicleBrand());//车辆品牌
 		return result;
 	}
+
+	@Override
+	public String getPrice(String carType, String mileage) {
+		String price = "";
+		//对里程数进行处理，小数部分，始终采用进一法
+		int km = new BigDecimal(mileage).setScale(0, RoundingMode.CEILING).intValue();
+		if("0".equals(carType)){//小轿车
+			if(km <= 5){//小于或等于5公里
+				price = "30";
+			}else{
+				int t = 30 + (km - 5) * 3;
+				price = String.valueOf(t);
+			}
+		}else if("1".equals(carType)){//小面包车
+			if(km <= 5){//小于或等于5公里
+				price = "30";
+			}else{
+				int t = 30 + (km - 5) * 3;
+				price = String.valueOf(t);
+			}
+		}else if("2".equals(carType)){//中面包车
+			if(km <= 5){//小于或等于5公里
+				price = "60";
+			}else{
+				int t = 60 + (km - 5) * 4;
+				price = String.valueOf(t);
+			}
+		}else if("3".equals(carType)){//小货车
+			if(km <= 5){//小于或等于5公里
+				price = "70";
+			}else{
+				int t = 70 + (km - 5) * 4;
+				price = String.valueOf(t);
+			}
+		}else if("4".equals(carType)){//大货车
+			if(km <= 5){//小于或等于5公里
+				price = "130";
+			}else{
+				int t = 130 + (km - 5) * 6;
+				price = String.valueOf(t);
+			}
+		}
+		return price;
+	}
+
+	@Override
+	public HLBOrder getOrderInfo(String hlbOrderNo) {
+		return hlbOrderMapper.selectByPrimaryKey(hlbOrderNo);
+	}
+
+	@Override
+	public boolean getClose(String hlbOrderNo) {
+		HLBSure hlbSure = new HLBSure();
+		hlbSure.setHlbOrderNo(hlbOrderNo);
+		hlbSure.setNearby("1");
+		hlbSure.setNearbyTime(new Date());
+		int i;
+		try {
+			i = hlbSureMapper.insertSelective(hlbSure);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return i == 1;
+	}
+
+	@Override
+	public boolean aboard(String hlbOrderNo) {
+		HLBSure hlbSure = hlbSureMapper.findByOrderNo(hlbOrderNo);
+		if(hlbSure == null){
+			throw new HLBOrderException("该订单不存在");
+		}
+		hlbSure.setAboard("1");
+		hlbSure.setAboardTime(new Date());
+		int i;
+		try {
+			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return i == 1;
+	}
+
+	@Override
+	public boolean tripStart(String hlbOrderNo) {
+		HLBSure hlbSure = hlbSureMapper.findByOrderNo(hlbOrderNo);
+		if(hlbSure == null){
+			throw new HLBOrderException("该订单不存在");
+		}
+		hlbSure.setStart("1");
+		hlbSure.setStartTime(new Date());
+		int i;
+		try {
+			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return i == 1;
+	}
+
+	@Override
+	public boolean pArrive(String hlbOrderNo) {
+		HLBSure hlbSure = hlbSureMapper.findByOrderNo(hlbOrderNo);
+		if(hlbSure == null){
+			throw new HLBOrderException("该订单不存在");
+		}
+		hlbSure.setpArrive("1");
+		hlbSure.setpArriveTime(new Date());
+		int i;
+		try {
+			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return i == 1;
+	}
+
+	@Override
+	public boolean dArrive(String hlbOrderNo) {
+		HLBSure hlbSure = hlbSureMapper.findByOrderNo(hlbOrderNo);
+		if(hlbSure == null){
+			throw new HLBOrderException("该订单不存在");
+		}
+		hlbSure.setdArrive("1");
+		hlbSure.setdArriveTime(new Date());
+		int i;
+		try {
+			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库异常");
+		}
+		return i == 1;
+	}
+
+	@Override
+	public Map<String, Object> getPassengerInfo(Integer publishId) {
+		Map<String, Object> result = new HashMap<String, Object>();//结果集
+		User user = userDao.findById(publishId);
+		if(user == null){
+			throw new NoUserFoundException("错误的用户id");
+		}
+		result.put("imgpath", user.getImgpath());//头像
+		result.put("nickname", user.getNickname());//昵称
+		
+		return null;
+	}
+	
+	
 	
 	
 	

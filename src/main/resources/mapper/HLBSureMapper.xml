@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.HLBSureMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.HLBSure">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="hlb_order_no" jdbcType="VARCHAR" property="hlbOrderNo" />
+    <result column="nearby" jdbcType="VARCHAR" property="nearby" />
+    <result column="nearby_time" jdbcType="TIMESTAMP" property="nearbyTime" />
+    <result column="aboard" jdbcType="VARCHAR" property="aboard" />
+    <result column="aboard_time" jdbcType="TIMESTAMP" property="aboardTime" />
+    <result column="start" jdbcType="VARCHAR" property="start" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="p_arrive" jdbcType="VARCHAR" property="pArrive" />
+    <result column="p_arrive_time" jdbcType="TIMESTAMP" property="pArriveTime" />
+    <result column="d_arrive" jdbcType="VARCHAR" property="dArrive" />
+    <result column="d_arrive_time" jdbcType="TIMESTAMP" property="dArriveTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, hlb_order_no, nearby, nearby_time, aboard, aboard_time, start, start_time, p_arrive, 
+    p_arrive_time, d_arrive, d_arrive_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hlb_sure
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hlb_sure
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.HLBSure">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_sure (id, hlb_order_no, nearby, 
+      nearby_time, aboard, aboard_time, 
+      start, start_time, p_arrive, 
+      p_arrive_time, d_arrive, d_arrive_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{hlbOrderNo,jdbcType=VARCHAR}, #{nearby,jdbcType=VARCHAR}, 
+      #{nearbyTime,jdbcType=TIMESTAMP}, #{aboard,jdbcType=VARCHAR}, #{aboardTime,jdbcType=TIMESTAMP}, 
+      #{start,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{pArrive,jdbcType=VARCHAR}, 
+      #{pArriveTime,jdbcType=TIMESTAMP}, #{dArrive,jdbcType=VARCHAR}, #{dArriveTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.HLBSure">
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_sure
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="hlbOrderNo != null">
+        hlb_order_no,
+      </if>
+      <if test="nearby != null">
+        nearby,
+      </if>
+      <if test="nearbyTime != null">
+        nearby_time,
+      </if>
+      <if test="aboard != null">
+        aboard,
+      </if>
+      <if test="aboardTime != null">
+        aboard_time,
+      </if>
+      <if test="start != null">
+        start,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="pArrive != null">
+        p_arrive,
+      </if>
+      <if test="pArriveTime != null">
+        p_arrive_time,
+      </if>
+      <if test="dArrive != null">
+        d_arrive,
+      </if>
+      <if test="dArriveTime != null">
+        d_arrive_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="hlbOrderNo != null">
+        #{hlbOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="nearby != null">
+        #{nearby,jdbcType=VARCHAR},
+      </if>
+      <if test="nearbyTime != null">
+        #{nearbyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aboard != null">
+        #{aboard,jdbcType=VARCHAR},
+      </if>
+      <if test="aboardTime != null">
+        #{aboardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null">
+        #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pArrive != null">
+        #{pArrive,jdbcType=VARCHAR},
+      </if>
+      <if test="pArriveTime != null">
+        #{pArriveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dArrive != null">
+        #{dArrive,jdbcType=VARCHAR},
+      </if>
+      <if test="dArriveTime != null">
+        #{dArriveTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.HLBSure">
+    update hlb_sure
+    <set>
+      <if test="hlbOrderNo != null">
+        hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="nearby != null">
+        nearby = #{nearby,jdbcType=VARCHAR},
+      </if>
+      <if test="nearbyTime != null">
+        nearby_time = #{nearbyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="aboard != null">
+        aboard = #{aboard,jdbcType=VARCHAR},
+      </if>
+      <if test="aboardTime != null">
+        aboard_time = #{aboardTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="start != null">
+        start = #{start,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pArrive != null">
+        p_arrive = #{pArrive,jdbcType=VARCHAR},
+      </if>
+      <if test="pArriveTime != null">
+        p_arrive_time = #{pArriveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dArrive != null">
+        d_arrive = #{dArrive,jdbcType=VARCHAR},
+      </if>
+      <if test="dArriveTime != null">
+        d_arrive_time = #{dArriveTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.HLBSure">
+    update hlb_sure
+    set hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR},
+      nearby = #{nearby,jdbcType=VARCHAR},
+      nearby_time = #{nearbyTime,jdbcType=TIMESTAMP},
+      aboard = #{aboard,jdbcType=VARCHAR},
+      aboard_time = #{aboardTime,jdbcType=TIMESTAMP},
+      start = #{start,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      p_arrive = #{pArrive,jdbcType=VARCHAR},
+      p_arrive_time = #{pArriveTime,jdbcType=TIMESTAMP},
+      d_arrive = #{dArrive,jdbcType=VARCHAR},
+      d_arrive_time = #{dArriveTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findByOrderNo">
+    select <include refid="Base_Column_List"/>
+    from hlb_sure
+    where hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR}
+  </select>
+</mapper>

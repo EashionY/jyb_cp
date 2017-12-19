@@ -61,4 +61,53 @@ public interface HLBService {
 	 * @return
 	 */
 	public Map<String,Object> getDriverInfo(Integer receiptId);
+	/**
+	 * 获取价格
+	 * @param carType 车型
+	 * @param mileage 里程
+	 * @return
+	 */
+	public String getPrice(String carType,String mileage);
+	/**
+	 * 获取订单详情
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public HLBOrder getOrderInfo(String hlbOrderNo);
+	/**
+	 * 车主确认到达乘客附近
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public boolean getClose(String hlbOrderNo);
+	/**
+	 * 乘客确认上车  
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public boolean aboard(String hlbOrderNo);
+	/**
+	 * 开始行程
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public boolean tripStart(String hlbOrderNo);
+	/**
+	 * 乘客确认到达
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public boolean pArrive(String hlbOrderNo);
+	/**
+	 * 车主确认到达
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	public boolean dArrive(String hlbOrderNo);
+	/**
+	 * 获取乘客信息
+	 * @param publishId
+	 * @return
+	 */
+	public Map<String,Object> getPassengerInfo(Integer publishId);
 }

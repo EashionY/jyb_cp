@@ -266,13 +266,12 @@ public class WxpublicUtil {
 		button34.put("key", "V34_CONTACT_US");
 		subButton3.add(button34);
 		button3.put("sub_button", subButton3);
-		
 		//打包
 		JSONArray button = new JSONArray();
 		button.add(button1);
 		button.add(button2);
 		button.add(button3);
-		
+		// 生成菜单
 		JSONObject menu = new JSONObject();
 		menu.put("button", button);
 		System.out.println(menu);

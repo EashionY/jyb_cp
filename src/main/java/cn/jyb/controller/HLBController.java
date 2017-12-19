@@ -86,5 +86,67 @@ public class HLBController extends ExceptionController {
 	public JsonResult getDriverInfo(Integer receiptId){
 		return new JsonResult(hlbService.getDriverInfo(receiptId));
 	}
+	/**
+	 * 获取价格
+	 * @param carType 车型(0-小轿车，1-小面包车，2-中面包车，3-小货车，4-大货车)
+	 * @param mileage 里程
+	 * @return
+	 */
+	@RequestMapping("/getPrice")
+	@ResponseBody
+	public JsonResult getPrice(String carType,String mileage){
+		return new JsonResult(hlbService.getPrice(carType, mileage));
+	}
+	/**
+	 * 获取订单详情
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	@RequestMapping("/getOrderInfo")
+	@ResponseBody
+	public JsonResult getOrderInfo(String hlbOrderNo){
+		return new JsonResult(hlbService.getOrderInfo(hlbOrderNo));
+	}
+	/**
+	 * 车主确认到达乘客附近
+	 * @param hlbOrderNo
+	 * @return  
+	 */
+	@RequestMapping("/getClose")
+	@ResponseBody
+	public JsonResult getClose(String hlbOrderNo){
+		return new JsonResult(hlbService.getClose(hlbOrderNo));
+	}
+	/**
+	 * 乘客确认上车
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	@RequestMapping("/aboard")
+	@ResponseBody
+	public JsonResult aboard(String hlbOrderNo){
+		return new JsonResult(hlbService.aboard(hlbOrderNo));
+	}
+	/**
+	 * 乘客确认到达
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	@RequestMapping("/pArrive")
+	@ResponseBody
+	public JsonResult pArrive(String hlbOrderNo){
+		return new JsonResult(hlbService.pArrive(hlbOrderNo));
+	}
+	/**
+	 * 车主确认到达
+	 * @param hlbOrderNo
+	 * @return
+	 */
+	@RequestMapping("/dArrive")
+	@ResponseBody
+	public JsonResult dArrive(String hlbOrderNo){
+		return new JsonResult(hlbService.dArrive(hlbOrderNo));
+	}
+	
 	
 }
