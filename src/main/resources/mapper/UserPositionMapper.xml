@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.UserPositionMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.UserPosition">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_lon" jdbcType="DECIMAL" property="userLon" />
+    <result column="user_lat" jdbcType="DECIMAL" property="userLat" />
+    <result column="locatime" jdbcType="TIMESTAMP" property="locatime" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, user_lon, user_lat, locatime, region
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_position
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_position
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.UserPosition">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_position (id, user_id, user_lon, 
+      user_lat, locatime, region
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userLon,jdbcType=DECIMAL}, 
+      #{userLat,jdbcType=DECIMAL}, #{locatime,jdbcType=TIMESTAMP}, #{region,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.UserPosition">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_position
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userLon != null">
+        user_lon,
+      </if>
+      <if test="userLat != null">
+        user_lat,
+      </if>
+      <if test="locatime != null">
+        locatime,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userLon != null">
+        #{userLon,jdbcType=DECIMAL},
+      </if>
+      <if test="userLat != null">
+        #{userLat,jdbcType=DECIMAL},
+      </if>
+      <if test="locatime != null">
+        #{locatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.UserPosition">
+    update user_position
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userLon != null">
+        user_lon = #{userLon,jdbcType=DECIMAL},
+      </if>
+      <if test="userLat != null">
+        user_lat = #{userLat,jdbcType=DECIMAL},
+      </if>
+      <if test="locatime != null">
+        locatime = #{locatime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="region != null">
+        region = #{region,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.UserPosition">
+    update user_position
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_lon = #{userLon,jdbcType=DECIMAL},
+      user_lat = #{userLat,jdbcType=DECIMAL},
+      locatime = #{locatime,jdbcType=TIMESTAMP},
+      region = #{region,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="findById" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user_position
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="listUserByDistance" resultType="java.util.Map">
+    select * from
+    (select <include refid="Base_Column_List"/>,fnGetDistance(#{userLat},#{userLon},user_lat,user_lon) as d
+    from user_position
+    where region = #{region} order by d) t
+    where t.d &lt; #{distance}
+  </select>
+</mapper>

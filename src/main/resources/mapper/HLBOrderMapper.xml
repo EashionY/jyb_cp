@@ -300,7 +300,7 @@
     limit #{offset},#{pageSize}
   </select>
   
-  <select id="getDriverScore" resultType="double">
+  <select id="getDriverScore" resultType="java.lang.Double">
     SELECT AVG(driver_eval) FROM hlb_order WHERE receipt_id=#{receiptId}
   </select>
   
@@ -308,4 +308,56 @@
   	select count(*) from hlb_order where receipt_id=#{receiptId} and order_status=6
   </select>
   
+  <select id="getPassengerScore" resultType="java.lang.Double">
+    select avg(passenger_eval) from hlb_order where publish_id=#{publishId}
+  </select>
+  
+  <select id="getPassengerOrderNum" resultType="int">
+  	select count(*) from hlb_order where publish_id=#{publishId} and order_status=6
+  </select>
+  
+  <select id="getOrderNum" resultType="int">
+    select count(*) from hlb_order
+    where order_status=0
+    <if test="carType != null">
+    and car_type = #{carType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null">
+    and order_type = #{orderType,jdbcType=TINYINT}
+    </if>
+  </select>
+  
+  <select id="listOrders" resultType="java.util.Map">
+    select o.*,u.distance
+    from hlb_order o join 
+    (select user_id,fnGetDistance(#{lat},#{lon},user_lat,user_lon) as distance from user_position) u 
+    on o.publish_id=u.user_id
+    where o.order_status=0
+    <if test="carType != null">
+    and o.car_type = #{carType,jdbcType=VARCHAR}
+    </if>
+    <if test="orderType != null">
+    and o.order_type = #{orderType,jdbcType=TINYINT}
+    </if>
+    <if test="price != null">
+    order by o.fare desc
+    </if>
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="listOrdersByDistance" resultType="java.util.Map">
+    select o.*,u.distance
+    from hlb_order o join 
+    (select user_id,fnGetDistance(#{lat},#{lon},user_lat,user_lon) as distance from user_position) u 
+    on o.publish_id=u.user_id
+    where o.order_status=0
+    <if test="carType != null">
+    and o.car_type = #{carType}
+    </if>
+    <if test="orderType != null">
+    and o.order_type = #{orderType}
+    </if>
+    order by u.distance
+    limit #{offset},#{pageSize}
+  </select>
 </mapper>

@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +17,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import cn.jyb.dao.HLBChargeMapper;
+import cn.jyb.dao.HLBInviteMapper;
 import cn.jyb.dao.HLBOrderMapper;
 import cn.jyb.dao.HLBSureMapper;
 import cn.jyb.dao.IdCardMapper;
 import cn.jyb.dao.UserDao;
+import cn.jyb.dao.UserPositionMapper;
 import cn.jyb.dao.VehicleLicenseMapper;
+import cn.jyb.entity.HLBCharge;
+import cn.jyb.entity.HLBInvite;
 import cn.jyb.entity.HLBOrder;
 import cn.jyb.entity.HLBSure;
 import cn.jyb.entity.User;
@@ -42,6 +48,10 @@ public class HLBServiceImpl implements HLBService {
 	private VehicleLicenseMapper vehicleLicMapper;
 	@Resource
 	private HLBSureMapper hlbSureMapper;
+	@Resource
+	private HLBInviteMapper hlbInviteMapper;
+	@Resource
+	private HLBChargeMapper hlbChargeMapper;
 	
 	@Override
 	public HLBOrder saveHLBOrder(HttpServletRequest request) throws UnsupportedEncodingException, ParseException {
@@ -91,7 +101,8 @@ public class HLBServiceImpl implements HLBService {
 		hlbOrder.setReceiptTime(new Date());//接单时间
 		hlbOrder.setOrderStatus(1);//订单状态（1--司机已接单）
 		try {
-			hlbOrderMapper.updateByPrimaryKeySelective(hlbOrder);
+			hlbOrderMapper.updateByPrimaryKeySelective(hlbOrder);//更新订单状态
+			hlbInviteMapper.deleteByHlbOrderNo(hlbOrderNo);//有人接单之后，则删除该订单的邀请记录
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
@@ -160,9 +171,9 @@ public class HLBServiceImpl implements HLBService {
 		long costTime = System.currentTimeMillis() - receiptTime;
 		if(costTime > 5*60*1000){
 			//超时，做相应的扣款处理
-			
+			//TODO
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -176,10 +187,11 @@ public class HLBServiceImpl implements HLBService {
 		result.put("imgpath", imgpath);
 		String phone = user.getPhone();//车主电话
 		result.put("phone", phone);
+		result.put("sex", user.getSex());//性别
 		String driverName = idcardMapper.findByUserId(receiptId).getIdcardRealname().substring(0, 1) + "师傅";
 		result.put("driverName", driverName);//车主称谓：某师傅
-		double driverScore = hlbOrderMapper.getDriverScore(receiptId);//车主评分
-		result.put("driverScore", driverScore);
+		Double driverScore = hlbOrderMapper.getDriverScore(receiptId);//车主评分
+		result.put("driverScore", driverScore == null ? 5 : driverScore);
 		int driverOrderNum = hlbOrderMapper.getDriverOrderNum(receiptId);//车主订单数
 		result.put("driverOrderNum", driverOrderNum);
 		VehicleLicense vehicleLic = vehicleLicMapper.findByUserId(receiptId);
@@ -193,45 +205,52 @@ public class HLBServiceImpl implements HLBService {
 		String price = "";
 		//对里程数进行处理，小数部分，始终采用进一法
 		int km = new BigDecimal(mileage).setScale(0, RoundingMode.CEILING).intValue();
-		if("0".equals(carType)){//小轿车
-			if(km <= 5){//小于或等于5公里
-				price = "30";
-			}else{
-				int t = 30 + (km - 5) * 3;
-				price = String.valueOf(t);
-			}
-		}else if("1".equals(carType)){//小面包车
-			if(km <= 5){//小于或等于5公里
-				price = "30";
-			}else{
-				int t = 30 + (km - 5) * 3;
-				price = String.valueOf(t);
-			}
-		}else if("2".equals(carType)){//中面包车
-			if(km <= 5){//小于或等于5公里
-				price = "60";
-			}else{
-				int t = 60 + (km - 5) * 4;
-				price = String.valueOf(t);
-			}
-		}else if("3".equals(carType)){//小货车
-			if(km <= 5){//小于或等于5公里
-				price = "70";
-			}else{
-				int t = 70 + (km - 5) * 4;
-				price = String.valueOf(t);
-			}
-		}else if("4".equals(carType)){//大货车
-			if(km <= 5){//小于或等于5公里
-				price = "130";
-			}else{
-				int t = 130 + (km - 5) * 6;
-				price = String.valueOf(t);
-			}
+		HLBCharge charge;
+		try {
+			charge = hlbChargeMapper.findByCarType(carType);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DataBaseException("数据库内部错误");
+		}
+		if(charge == null){
+			throw new HLBOrderException("无效的车辆类型");
+		}
+		int within = charge.getWithin();
+		BigDecimal inPrice = charge.getInPrice();
+		BigDecimal outPrice = charge.getOutPrice();
+		if(km <= within){//小于或等于起步价里程
+			price = inPrice.toString();
+		}else{
+			BigDecimal t = new BigDecimal(km - within);//超出里程数
+			price = inPrice.add(outPrice.multiply(t)).setScale(2).toString();
 		}
 		return price;
 	}
-
+	
+	@Override
+	public Map<String,Object> priceDetail(String carType, String mileage){
+		Map<String,Object> result = new HashMap<String,Object>();
+		String totalPrice = getPrice(carType, mileage);//总价
+		result.put("totalPrice", totalPrice);
+		//对里程数进行处理，小数部分，始终采用进一法
+		int km = new BigDecimal(mileage).setScale(0, RoundingMode.CEILING).intValue();
+		result.put("mileage", km);//总里程
+		HLBCharge charge = hlbChargeMapper.findByCarType(carType);
+		result.put("car", charge.getCar());//车辆
+		int within = charge.getWithin();
+		BigDecimal inPrice = charge.getInPrice();
+		if(km <= within){
+			result.put("inPrice", inPrice.toString());//起步价
+			result.put("outMile", 0);//超过里程
+			result.put("outCost", "0.00");//超过里程的价格
+		}else{
+			result.put("inPrice", inPrice.toString());//起步价
+			result.put("outMile", km - within);//超过里程
+			result.put("outCost", new BigDecimal(totalPrice).subtract(inPrice).setScale(2).toString());//超过里程的价格
+		}
+		return result;
+	}
+	
 	@Override
 	public HLBOrder getOrderInfo(String hlbOrderNo) {
 		return hlbOrderMapper.selectByPrimaryKey(hlbOrderNo);
@@ -334,9 +353,107 @@ public class HLBServiceImpl implements HLBService {
 		}
 		result.put("imgpath", user.getImgpath());//头像
 		result.put("nickname", user.getNickname());//昵称
-		
-		return null;
+		result.put("sex", user.getSex());//性别
+		Double passengerScore = hlbOrderMapper.getPassengerScore(publishId);
+		int score = (int) (passengerScore == null ? 100 : passengerScore * 20);//信任值
+		result.put("passengerScore", score);
+		int passengerNum = hlbOrderMapper.getPassengerOrderNum(publishId);//乘客订单数
+		result.put("passengerOrderNum", passengerNum);
+		return result;
 	}
+
+	@Override
+	public Map<String, Object> listOrders(String carType, Integer orderType, double lon, double lat, String price, Integer page, Integer pageSize) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		Integer offset = (page - 1) * pageSize;
+		int orderNum = hlbOrderMapper.getOrderNum(carType, orderType);//订单数
+		result.put("orderNum", orderNum);
+		//符合条件的全部订单
+		List<Map<String,Object>> list = hlbOrderMapper.listOrders(carType, orderType, lon, lat, price, offset, pageSize);
+		for(Map<String,Object> map : list){
+			Integer publishId = (Integer) map.get("publish_id");
+			map.putAll(getPassengerInfo(publishId));//将乘客个人信息放入结果集
+		}
+		result.put("orders", list);
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getInvites(Integer invited, Integer page, Integer pageSize) {
+		Integer offset = (page - 1) * pageSize;
+		List<Map<String, Object>> list = hlbInviteMapper.getInvites(invited, offset, pageSize);
+		for(Map<String,Object> map : list){
+			String hlbOrderNo = (String) map.get("hlb_order_no");
+			HLBOrder order = getOrderInfo(hlbOrderNo);//订单详情
+			map.put("detail", order);
+		}
+		return list;
+	}
+
+	@Override
+	public boolean orderInvite(String hlbOrderNo, Integer invited) {
+		HLBInvite invite = hlbInviteMapper.findInvite(hlbOrderNo, invited);
+		if(invite == null){
+			invite = new HLBInvite();
+			invite.setHlbOrderNo(hlbOrderNo);
+			invite.setInvited(invited);
+			try {
+				hlbInviteMapper.insertSelective(invite);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new DataBaseException("数据库异常");
+			}
+		}
+		return true;
+	}
+
+	@Resource
+	private UserPositionMapper userPosMapper;
+	@Resource
+	private UserService userService;
+	
+	@Override
+	public List<Map<String, Object>> recomendDriver(String userLon, String userLat, String region) {
+		double lon = Double.parseDouble(userLon);
+		double lat = Double.parseDouble(userLat);
+		Integer d = 20;//筛选距离为20km内
+		List<Map<String,Object>> list = userPosMapper.listUserByDistance(lon, lat, region, d);
+//		System.out.println("20km内的用户："+list);
+		//结果集
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> map : list){
+			Integer userId = (Integer) map.get("user_id");
+			//查看用户三证认证情况（三证认证通过则为司机）
+			List<Map<String,Object>> cert = userService.checkCertStatus(userId);
+			if((Integer)cert.get(0).get("idcardStatus") == 1
+					&& (Integer)cert.get(1).get("drvingLicStatus") == 1
+					&& (Integer)cert.get(2).get("vehicleLicStatus") == 1){
+				Map<String,Object> m = getDriverInfo(userId);
+				m.put("distance", map.get("d"));
+				result.add(m);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> listOrdersByDistance(String carType, Integer orderType, double lon,
+			double lat, Integer page, Integer pageSize) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		Integer offset = (page - 1) * pageSize;
+		int orderNum = hlbOrderMapper.getOrderNum(carType, orderType);//订单数
+		result.put("orderNum", orderNum);
+		//符合条件的全部订单
+		List<Map<String,Object>> list = hlbOrderMapper.listOrdersByDistance(carType, orderType, lon, lat, offset, pageSize);
+		for(Map<String,Object> map : list){
+			Integer publishId = (Integer) map.get("publish_id");
+			map.putAll(getPassengerInfo(publishId));//将乘客个人信息放入结果集
+		}
+		result.put("orders", list);
+		return result;
+	}
+	
+	
 	
 	
 	

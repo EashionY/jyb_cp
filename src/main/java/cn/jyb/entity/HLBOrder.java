@@ -11,7 +11,7 @@ public class HLBOrder {
 	
     private String hlbOrderNo;//订单号
 
-    private String carType;//车型
+    private String carType;//车型(0-小轿车,1-小面包车,2-中面包车,3-小货车,4-大货车)
 
     private String departure;//出发地
 

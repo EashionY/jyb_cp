@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.HLBInviteMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.HLBInvite">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="hlb_order_no" jdbcType="VARCHAR" property="hlbOrderNo" />
+    <result column="invited" jdbcType="INTEGER" property="invited" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, hlb_order_no, invited
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hlb_invite
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hlb_invite
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.HLBInvite">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_invite (id, hlb_order_no, invited
+      )
+    values (#{id,jdbcType=INTEGER}, #{hlbOrderNo,jdbcType=VARCHAR}, #{invited,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.HLBInvite">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_invite
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="hlbOrderNo != null">
+        hlb_order_no,
+      </if>
+      <if test="invited != null">
+        invited,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="hlbOrderNo != null">
+        #{hlbOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invited != null">
+        #{invited,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.HLBInvite">
+    update hlb_invite
+    <set>
+      <if test="hlbOrderNo != null">
+        hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="invited != null">
+        invited = #{invited,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.HLBInvite">
+    update hlb_invite
+    set hlb_order_no = #{hlbOrderNo,jdbcType=VARCHAR},
+      invited = #{invited,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getInvites" resultType="java.util.Map">
+    select 
+    (select count(*) from hlb_invite where invited=#{invited}) as totalNum,
+    <include refid="Base_Column_List"/>
+    from hlb_invite
+    where invited=#{invited}
+    limit #{offset},#{pageSize}
+  </select>
+  
+  <select id="findInvite" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from hlb_invite
+    where hlb_order_no=#{hlbOrderNo} and invited=#{invited}
+  </select>
+  
+  <delete id="deleteByHlbOrderNo" parameterType="java.lang.String">
+    delete from hlb_invite
+    where hlb_order_no=#{hlbOrderNo}
+  </delete>
+</mapper>

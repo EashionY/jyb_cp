@@ -69,6 +69,13 @@ public interface HLBService {
 	 */
 	public String getPrice(String carType,String mileage);
 	/**
+	 * 查看价格明细
+	 * @param carType
+	 * @param mileage
+	 * @return
+	 */
+	public Map<String,Object> priceDetail(String carType,String mileage);
+	/**
 	 * 获取订单详情
 	 * @param hlbOrderNo
 	 * @return
@@ -110,4 +117,46 @@ public interface HLBService {
 	 * @return
 	 */
 	public Map<String,Object> getPassengerInfo(Integer publishId);
+	/**
+	 * 查看所有订单（抢单大厅）
+	 * @param carType
+	 * @param orderType
+	 * @param lon
+	 * @param lat
+	 * @param price 是否按价格排序（1/0）
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public Map<String,Object> listOrders(String carType,Integer orderType,double lon,double lat,String price,Integer page,Integer pageSize);
+	/**
+	 * 查看车主的被邀请订单
+	 * @param invited
+	 * @return
+	 */
+	public List<Map<String,Object>> getInvites(Integer invited,Integer page,Integer pageSize);
+	/**
+	 * 邀请车主接单
+	 * @param hlbOrderNo
+	 * @param invited
+	 * @return
+	 */
+	public boolean orderInvite(String hlbOrderNo,Integer invited);
+	/**
+	 * 为乘客推荐用车
+	 * @param userLon 经度
+	 * @param userLat 纬度
+	 * @param region 地区
+	 * @return
+	 */
+	public List<Map<String,Object>> recomendDriver(String userLon,String userLat,String region);
+	/**
+	 * 抢单大厅，按照距离排序查看订单
+	 * @param carType
+	 * @param orderType
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public Map<String, Object> listOrdersByDistance(String carType,Integer orderType,double lon,double lat,Integer page,Integer pageSize);
 }

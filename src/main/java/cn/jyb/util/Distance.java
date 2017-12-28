@@ -20,18 +20,18 @@ public class Distance {
 	public static String getDistance(double lon1,double lat1,double lon2,double lat2){
 		double radLat1 = rad(lat1);
 		double radLat2 = rad(lat2);
-		double a = radLat1 - radLat2;
-		double b = rad(lon1) - rad(lon2);
+		double a = radLat1 - radLat2;//纬度之差
+		double b = rad(lon1) - rad(lon2);//经度之差
 		double s = 2 *Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2)+Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2))); 
 		s = s * EARTH_RADIUS;
-		s = Math.round(s * 1000);
 		//转换成String
 		String dis = null;
-		s = s/1000;
 		String sstr = s+"";
-		//保留小数点后两位
+		//保留小数点后1位
 		sstr = sstr.substring(0,sstr.indexOf(".")+2);
 		dis=sstr+"km";
 		return dis;
 	}
+	
+	
 }

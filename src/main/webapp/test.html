@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>测试距离</title>
+</head>
+<body>
+    起点：<input type="text" id="origin">
+    终点：<input type="text" id="destination">
+    <input type="button" onclick="getDist()" value="提交">
+</body>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script>
+    function getDist(){
+    	var origin = $("#origin").val();
+    	var destination = $("#destination").val();
+    	$.ajax({
+    		url:"http://localhost:8080/jyb/hlb/getDist",
+    		data:{origin:origin,destination:destination},
+    		type:"get",
+    		dataType:"json",
+    		success:function(data){
+    			console.log(data);
+    		}
+    	});
+    }
+</script>
+
+</html>

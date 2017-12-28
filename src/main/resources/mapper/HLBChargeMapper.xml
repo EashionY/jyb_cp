@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyb.dao.HLBChargeMapper">
+  <resultMap id="BaseResultMap" type="cn.jyb.entity.HLBCharge">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="car" jdbcType="VARCHAR" property="car" />
+    <result column="car_icon" jdbcType="VARCHAR" property="carIcon" />
+    <result column="car_type" jdbcType="VARCHAR" property="carType" />
+    <result column="length" jdbcType="DOUBLE" property="length" />
+    <result column="width" jdbcType="DOUBLE" property="width" />
+    <result column="height" jdbcType="DOUBLE" property="height" />
+    <result column="volume" jdbcType="DOUBLE" property="volume" />
+    <result column="capacity" jdbcType="DOUBLE" property="capacity" />
+    <result column="within" jdbcType="INTEGER" property="within" />
+    <result column="in_price" jdbcType="DECIMAL" property="inPrice" />
+    <result column="out_price" jdbcType="DECIMAL" property="outPrice" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, car, car_icon, car_type, length, width, height, volume, capacity, within, in_price, 
+    out_price, state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from hlb_charge
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from hlb_charge
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.jyb.entity.HLBCharge">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_charge (id, car, car_icon, 
+      car_type, length, width, 
+      height, volume, capacity, 
+      within, in_price, out_price, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{car,jdbcType=VARCHAR}, #{carIcon,jdbcType=VARCHAR}, 
+      #{carType,jdbcType=VARCHAR}, #{length,jdbcType=DOUBLE}, #{width,jdbcType=DOUBLE}, 
+      #{height,jdbcType=DOUBLE}, #{volume,jdbcType=DOUBLE}, #{capacity,jdbcType=DOUBLE}, 
+      #{within,jdbcType=INTEGER}, #{inPrice,jdbcType=DECIMAL}, #{outPrice,jdbcType=DECIMAL}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyb.entity.HLBCharge">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hlb_charge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      id,
+      <if test="car != null">
+        car,
+      </if>
+      <if test="carIcon != null">
+        car_icon,
+      </if>
+      <if test="carType != null">
+        car_type,
+      </if>
+      <if test="length != null">
+        length,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="capacity != null">
+        capacity,
+      </if>
+      <if test="within != null">
+        within,
+      </if>
+      <if test="inPrice != null">
+        in_price,
+      </if>
+      <if test="outPrice != null">
+        out_price,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      #{id,jdbcType=INTEGER},
+      <if test="car != null">
+        #{car,jdbcType=VARCHAR},
+      </if>
+      <if test="carIcon != null">
+        #{carIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null">
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=DOUBLE},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=DOUBLE},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="capacity != null">
+        #{capacity,jdbcType=DOUBLE},
+      </if>
+      <if test="within != null">
+        #{within,jdbcType=INTEGER},
+      </if>
+      <if test="inPrice != null">
+        #{inPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="outPrice != null">
+        #{outPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyb.entity.HLBCharge">
+    update hlb_charge
+    <set>
+      <if test="car != null">
+        car = #{car,jdbcType=VARCHAR},
+      </if>
+      <if test="carIcon != null">
+        car_icon = #{carIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null">
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null">
+        length = #{length,jdbcType=DOUBLE},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=DOUBLE},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=DOUBLE},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=DOUBLE},
+      </if>
+      <if test="capacity != null">
+        capacity = #{capacity,jdbcType=DOUBLE},
+      </if>
+      <if test="within != null">
+        within = #{within,jdbcType=INTEGER},
+      </if>
+      <if test="inPrice != null">
+        in_price = #{inPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="outPrice != null">
+        out_price = #{outPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyb.entity.HLBCharge">
+    update hlb_charge
+    set car = #{car,jdbcType=VARCHAR},
+      car_icon = #{carIcon,jdbcType=VARCHAR},
+      car_type = #{carType,jdbcType=VARCHAR},
+      length = #{length,jdbcType=DOUBLE},
+      width = #{width,jdbcType=DOUBLE},
+      height = #{height,jdbcType=DOUBLE},
+      volume = #{volume,jdbcType=DOUBLE},
+      capacity = #{capacity,jdbcType=DOUBLE},
+      within = #{within,jdbcType=INTEGER},
+      in_price = #{inPrice,jdbcType=DECIMAL},
+      out_price = #{outPrice,jdbcType=DECIMAL},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="listCharge" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from hlb_charge
+    where state='1'
+  </select>
+  
+  <select id="findByCarType" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+    from hlb_charge
+    where state='1' and car_type = #{carType}
+  </select>
+</mapper>
