@@ -21,7 +21,7 @@ public class HLBOrder {
 
     private String payStatus;//支付状态
 
-    private Integer orderType;//订单类型（1--即时/2--预约）
+    private Integer orderType;//订单类型（1--即时/2--预约）     
 
     private Date departTime;//出发时间
 
@@ -35,8 +35,7 @@ public class HLBOrder {
 
     private Integer receiptId;//接单人id
     /*
-     * (0--订单已提交，1--司机已接单，2--司机开始行程，3--乘客确认上车，4--司机确认到达，5--乘客确认到达，6--行程结束，
-     *  -1--乘客取消，-2--司机取消)
+     * (0--订单已提交，1--司机已接单，2--司机到达乘客附近，3--司机开始行程，4--乘客确认上车，5--司机确认到达，6--乘客确认到达，-1--订单取消)
      */
     private Integer orderStatus;//订单状态
 

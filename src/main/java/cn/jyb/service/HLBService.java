@@ -2,6 +2,7 @@ package cn.jyb.service;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,11 @@ import cn.jyb.entity.HLBOrder;
 
 public interface HLBService {
 
+	/**
+	 * 存储订单状态变化的map，订单状态变化时为true
+	 */
+	public static Map<String,Boolean> changed = new HashMap<String, Boolean>();
+	
 	/**
 	 * 保存货拉宝订单
 	 * @param request
@@ -159,4 +165,15 @@ public interface HLBService {
 	 * @return
 	 */
 	public Map<String, Object> listOrdersByDistance(String carType,Integer orderType,double lon,double lat,Integer page,Integer pageSize);
+	/**
+	 * 查看我的订单
+	 * @param userId 
+	 * @param orderStatus 订单状态
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	public List<Map<String,Object>> listMyOrders(Integer userId,Integer orderStatus,Integer page,Integer pageSize);
+	
+	
 }

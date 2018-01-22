@@ -103,6 +103,7 @@ public class HLBServiceImpl implements HLBService {
 		try {
 			hlbOrderMapper.updateByPrimaryKeySelective(hlbOrder);//更新订单状态
 			hlbInviteMapper.deleteByHlbOrderNo(hlbOrderNo);//有人接单之后，则删除该订单的邀请记录
+			changed.put(hlbOrderNo, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
@@ -173,6 +174,7 @@ public class HLBServiceImpl implements HLBService {
 			//超时，做相应的扣款处理
 			//TODO
 		}
+		changed.put(hlbOrderNo, true);
 		return true;
 	}
 
@@ -265,10 +267,12 @@ public class HLBServiceImpl implements HLBService {
 		int i;
 		try {
 			i = hlbSureMapper.insertSelective(hlbSure);
+			updateOrderStatus(hlbOrderNo, 2);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
+		changed.put(hlbOrderNo, true);
 		return i == 1;
 	}
 
@@ -283,10 +287,12 @@ public class HLBServiceImpl implements HLBService {
 		int i;
 		try {
 			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+			updateOrderStatus(hlbOrderNo, 4);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
+		changed.put(hlbOrderNo, true);
 		return i == 1;
 	}
 
@@ -301,10 +307,12 @@ public class HLBServiceImpl implements HLBService {
 		int i;
 		try {
 			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+			updateOrderStatus(hlbOrderNo, 3);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
+		changed.put(hlbOrderNo, true);
 		return i == 1;
 	}
 
@@ -319,10 +327,12 @@ public class HLBServiceImpl implements HLBService {
 		int i;
 		try {
 			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+			updateOrderStatus(hlbOrderNo, 6);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
+		changed.put(hlbOrderNo, true);
 		return i == 1;
 	}
 
@@ -337,10 +347,12 @@ public class HLBServiceImpl implements HLBService {
 		int i;
 		try {
 			i = hlbSureMapper.updateByPrimaryKeySelective(hlbSure);
+			updateOrderStatus(hlbOrderNo, 5);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
 		}
+		changed.put(hlbOrderNo, true);
 		return i == 1;
 	}
 
@@ -429,6 +441,7 @@ public class HLBServiceImpl implements HLBService {
 					&& (Integer)cert.get(1).get("drvingLicStatus") == 1
 					&& (Integer)cert.get(2).get("vehicleLicStatus") == 1){
 				Map<String,Object> m = getDriverInfo(userId);
+				m.put("userId", userId);
 				m.put("distance", map.get("d"));
 				result.add(m);
 			}
@@ -451,6 +464,27 @@ public class HLBServiceImpl implements HLBService {
 		}
 		result.put("orders", list);
 		return result;
+	}
+	/**
+	 * 更新订单状态
+	 * @param hlbOrderNo 订单号
+	 * @param orderStatus 
+	 */
+	public void updateOrderStatus(String hlbOrderNo, Integer orderStatus){
+		HLBOrder hlbOrder = new HLBOrder();
+		hlbOrder.setHlbOrderNo(hlbOrderNo);
+		hlbOrder.setOrderStatus(orderStatus);
+		if(orderStatus == 5){
+			hlbOrder.setFinishTime(new Date());
+		}
+		hlbOrderMapper.updateByPrimaryKeySelective(hlbOrder);
+	}
+	
+	@Override
+	public List<Map<String, Object>> listMyOrders(Integer userId, Integer orderStatus, Integer page, Integer pageSize) {
+		// TODO Auto-generated method stub
+		
+		return null;
 	}
 	
 	

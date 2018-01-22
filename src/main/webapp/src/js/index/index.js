@@ -48,7 +48,9 @@ function isSignUp(userid){
 //测试  跳转到一件挪车页面
 $("#locaBtn").on("click",function(){
     //一键挪车
-    window.location.href="/jyb/src/pages/MoveCar/moveCar.html";
+    //window.location.href="/jyb/src/pages/MoveCar/moveCar.html";
     //违章
-    //window.location.href="/jyb/src/pages/weiZhang/wzQuery.html"
+    //window.location.href="/jyb/src/pages/WeiZhang/wzQuery.html"
+    //货拉宝
+    window.location.href="/jyb/src/pages/HuolaBao/hlbindex/hlbindex.html"
 });

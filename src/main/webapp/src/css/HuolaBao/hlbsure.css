@@ -1,0 +1,91 @@
+.hsuremain{
+    border-top: 1px #CBCBCB solid;
+    /*margin-bottom: 10rem;*/
+}
+.hsurebox{
+    margin: 0 1.2rem;
+    margin-top: 1.2rem;
+    background-color: #FFFFFF;
+}
+.hsurediv1,
+.hsurediv2{
+    display: flex;
+    justify-content: space-between;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 .8rem;
+}
+.hsurediv1{
+    border-bottom: 1px #DFDFDF solid;
+}
+.hsuretext1{
+    font-size: 1.5rem;
+    color: #0C0C0C;
+}
+.hsuretext2>span:nth-of-type(1){
+    color: #FF9212;
+    font-size: 1.3rem;
+    margin-right: .5rem;
+}
+.hsuretext2>span:nth-of-type(2){
+    color: #030303;
+    font-size: 1.3rem;
+}
+.hsurediv3{
+    font-size: 1.2rem;
+    color: #9D9D9D;
+    padding: 0 .8rem;
+    padding-bottom: 1.5rem;
+    line-height: 16px;
+}
+.hsuretitle{
+    padding: 0 2rem;
+    margin-bottom: -1.2rem;
+    height: 35px;
+    line-height: 40px;
+    font-size: 1.2rem;
+    color: #A3A3A3;
+}
+.divlist{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+}
+#dayspan{
+    margin-right: 1rem;
+}
+.divlist>div:nth-of-type(1){
+    padding: 0 .8rem;
+    font-size: 1.8rem;
+    color: #000000;
+}
+.divlist>div:nth-of-type(2){
+    color: #101010;
+    font-size: 1.2rem;
+    padding-left:.5rem;
+    padding-right:1.2rem;
+    border-bottom: 1px #EFEFEF solid;
+    width: 100%;
+}
+.divlist input{
+    font-size: 1.2rem;
+}
+.last{
+    border-bottom: none !important;
+}
+.hsuresmdiv{
+    margin-top: 80px;
+}
+.hsuresmdiv>div{
+    margin: 0 auto;
+    text-align: center;
+    height: 18px;
+    color: #9B9B9B;
+}
+.yellow{
+    color: #FF9212 ;
+    border-bottom: 1px #FF9212 solid;
+}
+.hsuresmdiv .iconfont{
+    color: #FF9212;
+}

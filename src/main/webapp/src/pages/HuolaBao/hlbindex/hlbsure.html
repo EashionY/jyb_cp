@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="/jyb/src/css/reset.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/iconfont.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/HuolaBao/hlbindex.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/HuolaBao/hlbindex2.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/HuolaBao/hlbsure.css"/>
+</head>
+<body>
+    <div class="hlbTitle">
+        <span class="pricetext">确认订单</span>
+        <span class="iconfont orbackbtn">&#xe60f;</span>
+    </div>
+    <div class="hsuremain">
+        <div class="hsurebox hsuretop">
+            <div class="hsurediv1">
+                <div class="hsuretext1">额外需求</div>
+                <div class="hsuretext2"><span id="other">是否需要搬运等服务</span><span class="iconfont">&#xe618;</span></div>
+            </div>
+            <div>
+                <div class="hsurediv2">
+                    <div class="hsuretext1">订单备注</div>
+                    <div class="hsuretext2"><span></span><span class="iconfont">&#xe618;</span></div>
+                </div>
+                <div class="hsurediv3">
+                    如货物类别及跟车人数
+                </div>
+            </div>
+        </div>
+        <div class="hsuretitle">订单联系人资料</div>
+        <div class="hsurebox">
+            <div class="divlist">
+                <div><span class="iconfont">&#xe69d;</span></div>
+                <div><span id="dayspan"></span><span id="timespan"></span></div>
+            </div>
+            <div class="divlist">
+                <div><span class="iconfont">&#xe668;</span></div>
+                <div><input id="contact" type="text" placeholder="联系人"/></div>
+            </div>
+            <div class="divlist">
+                <div><span class="iconfont">&#xe7a2;</span></div>
+                <div class="last"><input id="conPhone" type="text" placeholder="电话" maxlength="11"/></div>
+            </div>
+        </div>
+        <div class="hsuresmdiv">
+            <div>若产生高速费、停车费和搬运费，请用户额外支付</div>
+            <div>若涉及逾时等候费，请与司机按<span class="yellow">收费标准</span>结算</div>
+            <div><span class="iconfont">&#xe657;</span>我已阅读并同意 <span class="yellow">《货物托运服务协议》</span></div>
+        </div>
+    </div>
+    <div class="hlbfooter hlbfooter2">
+        <div class="pricediv pricediv2">
+            <span>优惠价￥<span class="price"></span></span>
+            <div class="mxdiv mxdiv2"><span>价格明细</span></div>
+        </div>
+        <div class="ftbtndiv2"><span>确认用车</span></div>
+    </div>
+</body>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="/jyb/src/plug/date_format.js"></script>
+<script src="/jyb/src/plug/getDate.js"></script>
+<script src="/jyb/src/plug/cookie.js"></script>
+<script src="/jyb/src/js/HuolaBao/hlbsure.js"></script>
+</html>

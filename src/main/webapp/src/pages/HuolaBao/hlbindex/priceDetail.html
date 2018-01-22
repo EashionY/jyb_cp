@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="/jyb/src/css/reset.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/iconfont.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/HuolaBao/hlbindex2.css"/>
+</head>
+<body>
+    <div class="hlbTitle">
+        <span class="pricetext">价格明细</span>
+        <span class="iconfont pribackbtn">&#xe60f;</span>
+        <span class="feesbtn">收费标准</span>
+    </div>
+    <div class="priceBox">
+        <div class="pricet1"><span>￥</span><span id="totalprice"></span><span>(总里程<span id="mile"></span>公里)</span></div>
+        <div class="pricet2">
+            <div>若产生高速费、停车费和搬运费，请用户额外支付</div>
+            <div>若涉及逾时等候费，请于司机按收费标准结算</div>
+        </div>
+    </div>
+    <div class="pricelast">
+        <div>
+            <div>起步价(<span id="carname"></span>)</div>
+            <div>￥<span id="inPrice"></span></div>
+        </div>
+        <div>
+            <div>超出里程(<span id="outMile"></span>)</div>
+            <div>￥<span id="outCost"></span></div>
+        </div>
+    </div>
+
+</body>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script src="/jyb/src/plug/getUrl.js"></script>
+<script src="/jyb/src/plug/cookie.js"></script>
+<script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="/jyb/src/js/HuolaBao/priceDetail.js"></script>
+</html>

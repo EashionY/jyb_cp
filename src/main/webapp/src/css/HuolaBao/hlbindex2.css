@@ -1,0 +1,295 @@
+.hlbTitle{
+    background-color: #FDFCFC;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+    color: #9B9B9B;
+    font-size: 1.5rem;
+    position: relative;
+}
+.hlbTitle>.iconfont{
+    position: absolute;
+    top: 0;
+    left: 1.2rem;
+    font-size: 2rem;
+    color: #110D0D;
+}
+
+/*添加地址*/
+.hlb2top{
+    background-color: #FFFFFF;
+    height: 44px;
+    line-height: 44px;
+    border-bottom: 1px #BABABA solid;
+    display: flex;
+}
+.hlb2top>.iconfont{
+    padding: 0 1.2rem;
+    border-right: 1px #BABABA solid;
+    font-size: 2rem;
+    color: #110D0D;
+}
+.hlb2inputdiv{
+    padding-left: 1.2rem;
+    font-size: 1.5rem;
+    width: 100%;
+}
+.hlb2inputdiv input{
+    font-size: 1.5rem;
+    width: 100%;
+}
+.autoBox{
+    /*display: none;*/
+}
+.autoBox>div{
+    background-color: #FFFFFF;
+    border-bottom: 1px #BABABA solid;
+    padding: .5rem 1.2rem;
+}
+.addrelist>div:nth-of-type(1){
+    color: #050505;
+    font-size: 1.5rem;
+    margin-bottom: .3rem;
+}
+.addrelist>div:nth-of-type(2){
+    color: #A9A9A9;
+    font-size: 1.2rem;
+}
+/*备注*/
+.beizhuBox{
+    padding: 1.2rem;
+    font-size: 1.5rem;
+}
+.beizhuBox>div:nth-of-type(1){
+    background-color: #FFFFFF;
+    height: 90px;
+    padding: .5rem;
+}
+.beizhuBox textarea{
+    width: 100%;
+    height: 100%;
+    line-height: 23px;
+    resize: none;
+    font-size: 1.5rem;
+}
+.beizhuBox>div:nth-of-type(2){
+    background-color: #FF9212;
+    height: 44px;
+    text-align: center;
+    line-height: 44px;
+    color: #FFFFFF;
+}
+/*额外需求*/
+.otherBox{
+    margin-top: 1.2rem;
+    background-color: #FFFFFF;
+    color: #A7A7A7;
+}
+.otherBox>div{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 1rem;
+    border-bottom: 1px #E0E0E0 solid;
+    height: 46px;
+    line-height: 46px;
+    font-size: 1.5rem;
+}
+.otherBox>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.yuan{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px #DEDEDE solid;
+    position: relative;
+    margin-top: 11px;
+}
+.yuan1{
+    position: relative;
+}
+.yuan1:before{
+    content: "";
+    position: absolute;
+    top: 50% ;
+    left: 50%;
+    background-color: #FF9212;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: -5px;
+    margin-top: -5px;
+}
+/*选择车型*/
+.mytable1{
+    width: 100%;
+    border: 1px #E7E7E7 solid;
+    background-color: #FFFFFF;
+    color: #505050;
+    text-align: center;
+}
+.mytable1>tbody>tr{
+    height: 70px;
+}
+.mytable1>tbody>tr>td:nth-of-type(1),
+.mytable1>tbody>tr>td:nth-of-type(3){
+    width: 25%;
+}
+.mytable1>tbody>tr>td:nth-of-type(2){
+    width: 50%;
+    font-size: .9rem;
+}
+.mytable1>tbody>tr>td:nth-of-type(1){
+    font-size: .9rem;
+}
+.mytable1>tbody>tr>td:nth-of-type(3)>.select{
+    position: relative;
+}
+.mytable1>tbody>tr>td:nth-of-type(3)>.select:before{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    content: "";
+    border: 1px #E7E7E7 solid;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+}
+.selected:before{
+    line-height: 16px;
+    background-color: #ff9212;
+    content: "\e66f" !important;
+    color: #FFFFFF;
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-weight: normal;
+}
+.cardiv{
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.cardiv>img{
+    width: 100%;
+}
+.mytable2{
+    width: 100%;
+    margin: 0 auto;
+}
+.mytable2>tbody>tr{
+    height: 15px;
+}
+.mytable2>tbody>tr>td:nth-of-type(1){
+    text-align: right;
+    width: 50%;
+}
+.mytable2>tbody>tr>td:nth-of-type(2){
+    text-align: left;
+    width: 50%;
+}
+/*价格明细*/
+.feesbtn{
+    position: absolute;
+    right: 1.2rem;
+    top: 0;
+    font-size: 1.2rem;
+    color: #9D9D9D;
+}
+.pricetext{
+    color: #010101;
+}
+.priceBox{
+    border-top: 1px #CBCBCB solid;
+    text-align: center;
+}
+.pricet1{
+    color: #030303;
+    margin-top: 40px;
+}
+.pricet1>span:nth-of-type(1){
+    font-size: 2rem;
+}
+.pricet1>span:nth-of-type(2){
+    font-size: 3.5rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+.pricet1>span:nth-of-type(3){
+    font-size: 1.5rem;
+}
+.pricet2{
+    margin-top: 28px;
+    margin-bottom: 26px;
+    font-size: 1.3rem;
+    color: #AAAAAA;
+}
+.pricelast{
+    font-size: 1.3rem;
+    color: #AAAAAA;
+    border-top: 1px #E4E4E4 solid;
+    margin: 0 52px;
+    padding-top: 27px;
+}
+.pricelast>div{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.pricelast>div:nth-of-type(1){
+    margin-top: 0;
+}
+/*收费标准*/
+.pbody{
+    background-color: #F6F6F6 !important;
+}
+
+.pdbox{
+    margin: 0 1.2rem;
+    margin-top: 20px;
+}
+.pbody .pdbox:nth-of-type(2){
+    margin-top: 10px;
+}
+.mytable3{
+    background-color: #F6F6F6 !important;
+}
+.mytable3>tbody>tr>td:nth-of-type(1){
+    width: 20%;
+}
+.mytable3>tbody>tr>td:nth-of-type(2){
+    width: 45%;
+}
+.mytable3>tbody>tr>td:nth-of-type(3){
+    width: 35%;
+    font-size: .9rem;
+}
+.thead{
+    background-color: #E0E0E0;
+    height: 36px;
+    line-height: 36px;
+    padding-left: 1.6rem;
+    font-size: 1.5rem;
+    color: #9D9D9D;
+}
+.thead2{
+    height: 25px;
+    line-height: 25px;
+}
+.textbox{
+    border: 1px #E3E3E3 solid;
+    color: #999999;
+    font-size: 1.2rem;
+    padding: 1.4rem 1.6rem;
+}
+.textbox>div{
+    line-height: 20px;
+}
+.pkong{
+    height: 10px;
+}
+#addremap{
+    display: none;
+}

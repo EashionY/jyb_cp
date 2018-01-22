@@ -18,6 +18,7 @@ function creatList(obj, list){
 
 creatList(city, first);
 
+
 if (city[selectedIndex[0]].hasOwnProperty('sub')) {
     creatList(city[selectedIndex[0]].sub, second);
 } else {

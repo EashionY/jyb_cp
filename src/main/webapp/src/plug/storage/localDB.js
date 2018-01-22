@@ -1,5 +1,4 @@
-//需要myStorage.js文件
-//需要json2.js文件
+
 if(! (myStorage && JSON)){
     alert("需要myStorage.js和json2.js两个文件");
 }
@@ -19,7 +18,7 @@ window.localDB = (new (function(){
             var space_json = JSON.stringify(space_obj);     //转化对象为JSON格式
             myStorage.setItem("localSpaceDB", space_json);
 
-            console.log("新建localSpaceDB成功");
+            //console.log("新建localSpaceDB成功");
         }
 
         //取出所有空间名，空间名存在JSON中，所以需要转化成JS对象

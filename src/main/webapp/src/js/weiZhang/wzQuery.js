@@ -18,7 +18,7 @@ function jsonpCallback(result) {
 }
 
 $(".wzBtn").on("click",function(){
-    window.location.href="/jyb/src/pages/weiZhang/wzResult.html"
+    window.location.href="/jyb/src/pages/WeiZhang/wzResult.html"
 });
 
 

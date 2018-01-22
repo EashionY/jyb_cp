@@ -42,6 +42,7 @@ function setComDom(result){
         $(".simu_imgdiv>img").attr("src",result.pic)
     }else{
         $(".simu_imgdiv").css("display","none");
+        $(".simu_imgdiv>img").attr("src","")
     }
 }
 //保存错题
@@ -54,7 +55,7 @@ function saveErro(qid){
         dataType:"json",
         success:function(data){
             if(data.state==1){
-                console.log("错题："+qid+"   保存成功"+getCookieValue("subject"))
+                //console.log("错题："+qid+"   保存成功"+getCookieValue("subject"))
             }else{
                 layer.msg(data.message)
             }

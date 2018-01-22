@@ -1,9 +1,9 @@
 //下翻加载数据(先查找本地数据)
 function getQueNext(page,url,obj1,totalnum){
     var data=getStorage(page.toString());
+    //console.log(data.length)
     if(data.length==0){
         var sort=getCookieValue("sort");
-        //console.log(sort)
         if(sort=="rand"){
             $(".sequ_footer").children().eq(0).css("opacity","0")
         }else{
@@ -15,13 +15,13 @@ function getQueNext(page,url,obj1,totalnum){
         var mydata=obj1;
         var obj2={page:page};
         $.extend(obj1,obj2);
-        console.log(mydata);
+        //console.log(mydata);
         $.ajax({
             url:url,
             data:mydata,
             dataType:"json",
             type:"get",
-            async: false,
+            //async: false,
             success:function(data){
                 //console.log(data);
                 if(data.state==1){
@@ -40,9 +40,9 @@ function getQueNext(page,url,obj1,totalnum){
                         $(".question").html(page+'、'+qstr);
                     }
                     setComDom(result);
-                    saveStorage(page.toString(),result.answer);
+                    saveStorage(page.toString(),result.answer,result.explain);
                     //作答
-                    Answer(result.answer);
+                    Answer(result.answer,result.explain);
                 }else{
                     layer.msg(data.message)
                 }
@@ -70,6 +70,10 @@ function getQuePrev(p){
                     }
                 })
             }else{
+
+                $(".jiexitext").text(result.explain);
+                $(".jiexiBox").css("display","block");
+
                 if(result.type==2){
                     $.each($(".an"),function(k,v){
                         if(result.answer.indexOf($(v).html().substring(0,1))>=0&&result.myanswer.indexOf($(v).html().substring(0,1))>=0){
@@ -95,12 +99,12 @@ function getQuePrev(p){
                 }
             }
         }else{//还未作答
-            Answer(result.answer);
+            Answer(result.answer,result.explain);
         }
     }
 }
 //作答
-function duoAnswer(answer){
+function duoAnswer(answer,explain){
     $(".duo_btn").off("click").on("click", function () {
         if($(".true_font").length==0&&$(".false_font").length==0){
             if($(".cho_font").length>0){
@@ -116,6 +120,9 @@ function duoAnswer(answer){
                 }else{//错误
                     //console.log(myans)
                     //console.log(answer)
+                    $(".jiexitext").text(explain);
+                    $(".jiexiBox").css("display","block");
+
                     $.each($(".an"),function(k,v){
                         if(answer.indexOf($(v).html().substring(0,1))>=0&&myans.indexOf($(v).html().substring(0,1))>=0){
                             $(v).parent().attr("class","simu_true true_font");
@@ -131,13 +138,14 @@ function duoAnswer(answer){
                 $("#Tnum").html(Tnum);
                 $("#Fnum").html(Fnum);
                 //保存
-                saveStorage($("#pageNum").html(),answer);
+                saveStorage($("#pageNum").html(),answer,explain);
             }
         }
     })
 }
-function Answer(answer){
+function Answer(answer,explain){
     $(".simu_booldiv>div").on("click",function(e){
+        console.log("2")
         e.stopPropagation();
         if($(".true_font").length==0){//未作答，才可执行，已答就不执行
             if(answer.length>1){//多选
@@ -148,6 +156,10 @@ function Answer(answer){
                     $(this).children(".simu_true").addClass("true_font")
                     Tnum++;
                 }else{//错误
+
+                    $(".jiexitext").text(explain);
+                    $(".jiexiBox").css("display","block");
+
                     $(this).children(".simu_true").addClass("false_font")
                     $.each($(".simu_booldiv>div"),function(k,v){
                         var myan=$(v).children().children(".an").html().substring(0,1);
@@ -161,15 +173,14 @@ function Answer(answer){
                 $("#Tnum").html(Tnum);
                 $("#Fnum").html(Fnum);
                 //保存
-                saveStorage($("#pageNum").html(),answer);
+                saveStorage($("#pageNum").html(),answer,explain);
             }
         }
     });
-    duoAnswer(answer);
+    duoAnswer(answer,explain);
 }
 //保存数据
-function saveStorage(myid,answer){
-    //console.log(answer)
+function saveStorage(myid,answer,explain){
     if(getStorage(myid).length==0){//没有该对象就插入
         var options=["","","",""];
         var type=0;//题型
@@ -207,7 +218,7 @@ function saveStorage(myid,answer){
         }
         //console.log(myanswer)
         var pic=$(".simu_imgdiv>img").attr("src");
-        var mydata={id:myid,question:$(".question").html(),option1:options[0],option2:options[1],option3:options[2],option4:options[3],answer:answer,pic:pic,type:type,myanswer:myanswer};
+        var mydata={id:myid,question:$(".question").html(),option1:options[0],option2:options[1],option3:options[2],option4:options[3],answer:answer,pic:pic,type:type,myanswer:myanswer,explain:explain};
         //console.log(mydata);
         localDB.insert("Question", mydata);
     }else{
@@ -235,8 +246,8 @@ function saveStorage(myid,answer){
                 }
             }
             //console.log(myanswer)
-            var olddata={id:obj.id,question:obj.question,option1:obj.option1,option2:obj.option2,option3:obj.option3,option4:obj.option4,answer:obj.answer,pic:obj.pic,type:obj.type,myanswer:obj.myanswer};
-            var newdata={id:obj.id,question:obj.question,option1:obj.option1,option2:obj.option2,option3:obj.option3,option4:obj.option4,answer:obj.answer,pic:obj.pic,type:obj.type,myanswer:myanswer};
+            var olddata={id:obj.id,question:obj.question,option1:obj.option1,option2:obj.option2,option3:obj.option3,option4:obj.option4,answer:obj.answer,pic:obj.pic,type:obj.type,myanswer:obj.myanswer,explain:explain};
+            var newdata={id:obj.id,question:obj.question,option1:obj.option1,option2:obj.option2,option3:obj.option3,option4:obj.option4,answer:obj.answer,pic:obj.pic,type:obj.type,myanswer:myanswer,explain:explain};
             //console.log(newdata)
             localDB.update("Question",olddata,newdata)
         }

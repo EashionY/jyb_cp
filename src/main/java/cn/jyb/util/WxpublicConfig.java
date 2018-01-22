@@ -25,4 +25,12 @@ public class WxpublicConfig {
 	 * 公众号支付的API密钥
 	 */
 	public static final String API_KEY = "dFMhDmgw1mT4501Re03BcaIjkiJ7lH8U";
+	/**
+	 * 下单地址
+	 */
+	public static final String UNIFIED_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+	/**
+	 * 签名加密方式
+	 */
+	public static final String SIGN_TYPE = "MD5";
 }

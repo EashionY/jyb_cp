@@ -2,8 +2,8 @@ var flag=GetQueryString("flag");
 $(function(){
     if(flag=="1"){
         $("#orsu_name").html("二维码贴纸");
-        $(".fo_price>span").html("3.00");
-        $("#orsu_price>span").html("3.00");
+        $(".fo_price>span").html("0.01");
+        $("#orsu_price>span").html("0.01");
     }else if(flag==null){
         $("#orsu_name").html(getCookieValue("school_name")+"报名");
         //$(".fo_price>span").html(getCookieValue("price"))

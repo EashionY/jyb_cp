@@ -25,6 +25,7 @@ $(function(){
         //e.preventDefault();
         startX = e.originalEvent.changedTouches[0].pageX;
         startY = e.originalEvent.changedTouches[0].pageY;
+        $(".simu_mainbox").attr("class","simu_mainbox")
     });
     $("body").on("touchend", function(e) {
         //e.preventDefault();
@@ -35,6 +36,9 @@ $(function(){
         //上一道
         if ( Math.abs(X) > Math.abs(Y) && X > 0 ) {
             if(page>1){
+                $(".jiexiBox").css("display","none");
+                $(".jiexitext").text("");
+                $(".simu_mainbox").attr("class","simu_mainbox animatestart slideleftin")
                 var prev=page-1;
                 getLocaQuesPrev(prev.toString(),spa_name,$("#simu_ques"))
             }else{
@@ -44,6 +48,9 @@ $(function(){
         //下一道
         else if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {
             if(page<maxnum){
+                $(".jiexiBox").css("display","none");
+                $(".jiexitext").text("");
+                $(".simu_mainbox").attr("class","simu_mainbox animatestart sliderightin")
                 var next=++page;
                 getLocaQuesNext(next.toString(),spa_name,$("#simu_ques"));
             }else{

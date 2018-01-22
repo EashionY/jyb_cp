@@ -384,7 +384,7 @@ public class UserServiceImpl implements UserService {
 		if(idcard == null || idcard.getRealnameStatus() == 0){
 			map1.put("idcardStatus", 0);
 		}else{
-			map1.put("idcardStatus", 1);
+			map1.put("idcardStatus", idcard.getRealnameStatus());
 			map1.put("name", idcard.getIdcardRealname());
 			map1.put("sex", idcard.getIdcardSex());
 			map1.put("idcardNo", idcard.getIdcardNo());
@@ -398,19 +398,19 @@ public class UserServiceImpl implements UserService {
 		if(drLicense == null || drLicense.getDrivingLicenseStatus() == 0){
 			map2.put("drvingLicStatus", 0);
 		}else{
-			map2.put("drvingLicStatus", 1);
+			map2.put("drvingLicStatus", drLicense.getDrivingLicenseStatus());
 			map2.put("drvingLicNo", drLicense.getLicenseNo());
 			map2.put("drLicIssueDate", drLicense.getIssueDate());
 			map2.put("drLicClass", drLicense.getDrivingClass());
 		}
 		result.add(map2);
 		//存放驾驶证认证情况
-		Map<String, Object> map3 = new HashMap<String, Object>();
+		Map<String, Object> map3 = new HashMap<String, Object>();  
 		VehicleLicense veLicense = veLicenseMapper.findByUserId(userId);
 		if(veLicense == null || veLicense.getVehicleLicenseStatus() == 0){
 			map3.put("vehicleLicStatus", 0);
 		}else{
-			map3.put("vehicleLicStatus", 1);
+			map3.put("vehicleLicStatus", veLicense.getVehicleLicenseStatus());
 			map3.put("vehicleVin", veLicense.getVehicleVin());
 			map3.put("engineNo", veLicense.getEngineNo());
 			map3.put("vehicleNo", veLicense.getVehicleNo());

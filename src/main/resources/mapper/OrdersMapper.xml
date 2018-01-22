@@ -58,6 +58,7 @@
         <if test="tradeStatus != null and '' != tradeStatus">
         AND trade_status = #{tradeStatus}
         </if>
+        ORDER BY out_trade_no DESC
         LIMIT #{offset},#{pageSize}
     </select>
     
@@ -66,12 +67,13 @@
                 where order_type='3'
                 <if test="tradeStatus != null and '' != tradeStatus">
                   and trade_status = #{tradeStatus}
-                </if>)as totalNum,o.*,q.name,q.phone,q.qr_address as address
-        FROM orders o,qr_order q
-        WHERE o.out_trade_no=q.qr_order_no AND o.order_type='3'
+                </if>)as totalNum,o.*,q.name,q.phone,q.qr_address
+        FROM orders o LEFT JOIN qr_order q ON o.out_trade_no=q.qr_order_no
+        WHERE o.order_type='3'
         <if test="tradeStatus != null and '' != tradeStatus">
-        AND trade_status = #{tradeStatus}
+        AND o.trade_status = #{tradeStatus}
         </if>
+        ORDER BY o.out_trade_no DESC
         LIMIT #{offset},#{pageSize}
     </select>
 </mapper>

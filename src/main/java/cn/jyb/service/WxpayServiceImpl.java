@@ -34,7 +34,6 @@ import cn.jyb.entity.Student;
 import cn.jyb.exception.WxpayException;
 import cn.jyb.util.DateUtil;
 import cn.jyb.util.Message;
-import cn.jyb.util.WxpayConfig;
 import cn.jyb.util.WxpayUtil;
 import cn.jyb.util.WxpublicConfig;
 import cn.jyb.util.XMLUtil;
@@ -84,8 +83,8 @@ public class WxpayServiceImpl implements WxpayService {
 		String notify_url = "http://api.drivingyeepay.com/jyb/wxpay/notify";
 		//生成请求参数
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		parameters.put("appid", WxpayConfig.APPID);
-		parameters.put("mch_id", WxpayConfig.MCH_ID);
+		parameters.put("appid", WxpublicConfig.APPID);
+		parameters.put("mch_id", WxpublicConfig.MCH_ID);
 		parameters.put("nonce_str", WxpayUtil.CreateNoncestr());
 		parameters.put("body", body);
 		parameters.put("out_trade_no", out_trade_no);
@@ -101,7 +100,7 @@ public class WxpayServiceImpl implements WxpayService {
 		String requestXML = WxpayUtil.getRequestXml(parameters);
 		System.out.println("requestXML:"+requestXML);
 		//调用统一下单接口
-		String result = WxpayUtil.httpsRequest(WxpayConfig.UNIFIED_ORDER_URL, "POST", requestXML);
+		String result = WxpayUtil.httpsRequest(WxpublicConfig.UNIFIED_ORDER_URL, "POST", requestXML);
 		System.out.println("result:\n"+result);
 		
 		SortedMap<Object, Object> parameterMap2 = new TreeMap<Object, Object>();
@@ -109,8 +108,8 @@ public class WxpayServiceImpl implements WxpayService {
 			//统一下单接口返回正常的prepay_id,再按签名规范重新生成签名后，将数据传输给APP
 			Map<String, String> map = XMLUtil.doXMLParse(result);
 			//参与签名的字段名为appId，partnerId，prepayId，nonceStr，timeStamp，package
-			parameterMap2.put("appid", WxpayConfig.APPID);
-			parameterMap2.put("partnerid", WxpayConfig.MCH_ID);
+			parameterMap2.put("appid", WxpublicConfig.APPID);
+			parameterMap2.put("partnerid", WxpublicConfig.MCH_ID);
 			parameterMap2.put("prepayid", map.get("prepay_id"));
 			parameterMap2.put("package", "Sign=WXPay");
 			parameterMap2.put("noncestr", WxpayUtil.CreateNoncestr());
@@ -174,8 +173,8 @@ public class WxpayServiceImpl implements WxpayService {
 		String notify_url = "http://api.drivingyeepay.com/jyb/wxpay/notify";
 		//生成请求参数
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		parameters.put("appid", WxpayConfig.APPID);
-		parameters.put("mch_id", WxpayConfig.MCH_ID);
+		parameters.put("appid", WxpublicConfig.APPID);
+		parameters.put("mch_id", WxpublicConfig.MCH_ID);
 		parameters.put("nonce_str", WxpayUtil.CreateNoncestr());
 		parameters.put("body", body);
 		parameters.put("out_trade_no", out_trade_no);
@@ -193,7 +192,7 @@ public class WxpayServiceImpl implements WxpayService {
 		String requestXML = WxpayUtil.getRequestXml(parameters);
 		System.out.println("requestXML:"+requestXML);
 		//调用统一下单接口
-		String result = WxpayUtil.httpsRequest(WxpayConfig.UNIFIED_ORDER_URL, "POST", requestXML);
+		String result = WxpayUtil.httpsRequest(WxpublicConfig.UNIFIED_ORDER_URL, "POST", requestXML);
 		System.out.println("result:\n"+result);
 		
 		SortedMap<Object, Object> parameterMap2 = new TreeMap<Object, Object>();
@@ -201,8 +200,8 @@ public class WxpayServiceImpl implements WxpayService {
 			//统一下单接口返回正常的prepay_id,再按签名规范重新生成签名后，将数据传输给APP
 			Map<String, String> map = XMLUtil.doXMLParse(result);
 			//参与签名的字段名为appId，partnerId，prepayId，nonceStr，timeStamp，package
-			parameterMap2.put("appid", WxpayConfig.APPID);
-			parameterMap2.put("partnerid", WxpayConfig.MCH_ID);
+			parameterMap2.put("appid", WxpublicConfig.APPID);
+			parameterMap2.put("partnerid", WxpublicConfig.MCH_ID);
 			parameterMap2.put("prepayid", map.get("prepay_id"));
 			parameterMap2.put("mweb_url", map.get("mweb_url"));
 			parameterMap2.put("noncestr", WxpayUtil.CreateNoncestr());
@@ -287,7 +286,7 @@ public class WxpayServiceImpl implements WxpayService {
 		String requestXML = WxpayUtil.getRequestXml(parameters);
 		System.out.println("requestXML:"+requestXML);
 		//调用统一下单接口
-		String result = WxpayUtil.httpsRequest(WxpayConfig.UNIFIED_ORDER_URL, "POST", requestXML);
+		String result = WxpayUtil.httpsRequest(WxpublicConfig.UNIFIED_ORDER_URL, "POST", requestXML);
 		System.out.println("result:\n"+result);
 		
 		SortedMap<Object, Object> parameterMap2 = new TreeMap<Object, Object>();
@@ -372,7 +371,7 @@ public class WxpayServiceImpl implements WxpayService {
 				//微信支付订单号
 				String transaction_id = (String)packageParams.get("transaction_id");
 				Orders orders = ordersDao.findByNo(out_trade_no);
-				if(!WxpayConfig.MCH_ID.equals(mch_id) || orders==null || new BigDecimal(total_fee).compareTo(new BigDecimal(orders.getTotal_amount()).multiply(new BigDecimal(100))) != 0){
+				if(!WxpublicConfig.MCH_ID.equals(mch_id) || orders==null || new BigDecimal(total_fee).compareTo(new BigDecimal(orders.getTotal_amount()).multiply(new BigDecimal(100))) != 0){
 					logger.info("支付失败，错误信息：" + "参数错误");
 					resXML = "<xml>"
 							   + "<return_code><![CDATA[FAIL]]></return_code>"

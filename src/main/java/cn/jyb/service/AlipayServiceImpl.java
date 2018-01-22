@@ -262,7 +262,7 @@ public class AlipayServiceImpl implements AlipayService {
 //					osw.flush();
 					return "fail";
 				}
-				//交易成功
+				//交易成功  
 				if("TRADE_SUCCESS".equals(trade_status)){
 					//获得支付者(学员)的用户id
 					int user_id = orders.getPayer_id();

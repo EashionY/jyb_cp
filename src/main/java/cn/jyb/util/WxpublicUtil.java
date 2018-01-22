@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -16,26 +19,30 @@ import net.sf.json.JSONObject;
  * @author Eashion
  *
  */
+@Component
 public class WxpublicUtil {
 
-	private static String ACCESS_TOKEN = null;
+	public static String ACCESS_TOKEN = null;
 	
-	private static String JSAPI_TICKET = null;
+	public static String JSAPI_TICKET = null;
+	
+	//日志文件
+	protected static Logger logger = LoggerFactory.getLogger(WxpublicUtil.class);
 	
 	/**
-	 * 获取access_token，每隔一个小时获取一次
+	 * 获取access_token，每隔3600s获取一次
 	 */
 	@Scheduled(fixedRate = 3600000)
-	public void getAccessToken(){
+	public static void getAccessToken(){
 		// 访问微信服务器
 		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" 
 		           + WxpublicConfig.APPID + "&secret="+ WxpublicConfig.APPSECRET;
 		try {
 			String result = HttpUtil.sendGet(url, "UTF-8");
-			System.out.println(result);
+//			System.out.println(result);
 			JSONObject json = JSONObject.fromObject(result);
 			ACCESS_TOKEN = json.getString("access_token");
-			System.out.println("ACCESS_TOKEN:"+ACCESS_TOKEN);
+			logger.error("定时ACCESS_TOKEN:"+ACCESS_TOKEN);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,15 +59,14 @@ public class WxpublicUtil {
 	 * @return
 	 */
 	public static synchronized String getNew(){
-		WxpublicUtil util = new WxpublicUtil();
-		util.getAccessToken();
+		WxpublicUtil.getAccessToken();
 		return ACCESS_TOKEN;
 	}
 	/**
-	 * 获取jsapi_ticket，每隔一个小时获取一次
+	 * 获取jsapi_ticket，每隔3600s获取一次
 	 */
 	@Scheduled(fixedRate = 3600000)
-	public void getJsapiTicket(){
+	public static void getJsapiTicket(){
 		String accessToken = getFromCache();
 		if(accessToken == null){
 			accessToken = getNew();
@@ -70,8 +76,8 @@ public class WxpublicUtil {
 		try {
 			result = HttpUtil.sendGet(url, "UTF-8");
 			JSONObject json = JSONObject.fromObject(result);
-			JSAPI_TICKET = json.getString("ticket");
-			System.out.println("JSAPI_TICKET:"+JSAPI_TICKET);
+			JSAPI_TICKET = json.getString("ticket"); 
+			logger.error("定时JSAPI_TICKET:"+JSAPI_TICKET);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,8 +94,7 @@ public class WxpublicUtil {
 	 * @return
 	 */
 	public static synchronized String getTicketNew(){
-		WxpublicUtil util = new WxpublicUtil();
-		util.getJsapiTicket();
+		WxpublicUtil.getJsapiTicket();
 		return JSAPI_TICKET;
 	}
 	/**

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>驾易宝</title>
+    <link rel="stylesheet" href="/jyb/src/css/reset.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/iconfont.css"/>
+    <link rel="stylesheet" href="/jyb/src/css/HuolaBao/hlbindex.css"/>
+</head>
+<body>
+    <div id="indexmap"></div>
+    <div class="hlbsDiv">
+        <div><span>成都</span><span class="iconfont">&#xe628;</span></div>
+    </div>
+    <div class="hlbHimgDiv"><img src="/jyb/src/imgs/hlb/hlb_index.png" alt=""/></div>
+    <div class="hlbHinputBox">
+        <div class="inputprev">
+            <div><div class="inputdiv inputdiv1">
+                <input  id="inputdiv1" type="text" placeholder="请输入起点" readonly/>
+            </div></div>
+            <div><div class="inputdiv inputdiv2">
+                <input  id="inputdiv2" type="text" placeholder="请输入目的地" readonly/>
+            </div></div>
+        </div>
+        <div><span class="iconfont">&#xe625;</span></div>
+    </div>
+    <div class="hlbmainBox">
+        <div>
+            <div class="hlbleft"><span class="iconfont">&#xe7fa;</span></div>
+            <div class="hlbright">
+                <div>车型</div>
+                <div><input id="cartype" type="text" placeholder="车型" readonly onfocus="this.blur();"/><span class="iconfont">&#xe618;</span></div>
+            </div>
+        </div>
+        <div>
+            <div class="hlbleft"><span class="iconfont">&#xe656;</span></div>
+            <div class="hlbright">
+                <div>时间</div>
+                <div class="hlbtime"><input id="hlbtime" type="text" placeholder="请选择" readonly onfocus="this.blur();"/><span class="iconfont">&#xe618;</span></div>
+            </div>
+        </div>
+        <div>
+            <div class="hlbleft"><span class="iconfont">&#xe61b;</span></div>
+            <div class="hlbright">
+                <div>额外需求</div>
+                <div><input id="otherneed" type="text" placeholder="是否需要搬运等服务" readonly/><span class="iconfont">&#xe618;</span></div>
+            </div>
+        </div>
+        <div>
+            <div class="hlbleft"><span class="iconfont">&#xe64b;</span></div>
+            <div class="hlbright hlbright1">
+                <div>订单备注</div>
+                <div><input id="beizhu" type="text" placeholder="如货物类别及跟车人数" readonly/><span class="iconfont">&#xe618;</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="hlbfooter">
+        <div class="pricediv">
+            <span>￥<span id="price">----</span></span>
+            <div class="mxdiv"><span>价格明细</span></div>
+        </div>
+        <div class="ftbtndiv"><span>下一步</span></div>
+    </div>
+</body>
+<script src="/jyb/src/plug/jquery-1.10.1.min.js"></script>
+<script src="/jyb/src/js/getSession.js"></script>
+<script src="/jyb/src/plug/cookie.js"></script>
+<script src="/jyb/src/plug/date_format.js"></script>
+<script src="/jyb/src/plug/getDate.js"></script>
+<script src="/jyb/src/plug/citySe/js/picker.min.js"></script>
+<script src="/jyb/src/plug/citySe/js/time.js"></script>
+<script src="/jyb/src/plug/citySe/js/timeCome.js"></script>
+<script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=OYgQfTj1HBrC4dW2SuCpyAlFbYVE9O3d" type="text/javascript" ></script>
+<script src="/jyb/src/js/HuolaBao/hlbindex.js"></script>
+</html>

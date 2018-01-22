@@ -19,17 +19,23 @@ function log(){
         success:function(data){
             layer.close(index);
             if(data.state==1){
-                //console.log(data);
                 addCookie("user_id",data.data.id,1,"/");
                 addCookie("user_QRImg",data.data.QRImg,1,"/jyb/src/pages/MoveCar");
-                if(data.data.role=="0"){//学员
-                    addCookie("student_id",data.data.student_id,1,"/");
-                    window.location.href="/jyb/src/pages/index.html";
-                    //window.location.href="/jyb/src/pages/coach/coach_sure2.html";
-                    //window.location.href="/jyb/src/pages/order/order_sure.html"
-                }else if(data.data.role=="1"){
-                    window.location.href="/jyb/src/pages/coachSide/index2.html"
+                var token=GetQueryString("token");
+                if(token==null){
+                    //console.log(data);
+                    if(data.data.role=="0"){//学员
+                        addCookie("student_id",data.data.student_id,1,"/");
+                        window.location.href="/jyb/src/pages/index.html";
+                        //window.location.href="/jyb/src/pages/coach/coach_sure2.html";
+                        //window.location.href="/jyb/src/pages/order/order_sure.html"
+                    }else if(data.data.role=="1"){
+                        window.location.href="/jyb/src/pages/coachSide/index2.html"
+                    }
+                }else{
+                    window.location.href="/jyb/src/pages/MoveCar/myEwm.html"
                 }
+
             }else{
                 open(data.message)
             }
@@ -55,7 +61,6 @@ function is_weixin() {
 }
 
 $(function(){
-
     if(is_weixin()){
         pushHistory(window.location.href);
         window.addEventListener("popstate", function(e) {

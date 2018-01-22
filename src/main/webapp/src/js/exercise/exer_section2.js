@@ -4,6 +4,7 @@ var Tnum=0;//正确数
 var Fnum=0;//错误数
 $(function(){
     var num=CryptoJS.AES.decrypt(GetQueryString("num"),'总条数').toString(CryptoJS.enc.Utf8);
+    //console.log(num)
     creatStorage("Question");//保存题
     creatStorage("ErrorQue");//保存错题
     var url="http://api.drivingyeepay.com/jyb/question/getQuestionsByChapter";
@@ -17,6 +18,7 @@ $(function(){
         //e.preventDefault();
         startX = e.originalEvent.changedTouches[0].pageX;
         startY = e.originalEvent.changedTouches[0].pageY;
+        $(".simu_mainbox").attr("class","simu_mainbox simu_seqbox")
     });
     $("body").on("touchend", function(e) {
         //e.preventDefault();
@@ -27,6 +29,9 @@ $(function(){
         //上一道
         if ( Math.abs(X) > Math.abs(Y) && X > 0 ) {
             if(page>1){
+                $(".jiexiBox").css("display","none");
+                $(".jiexitext").text("");
+                $(".simu_mainbox").attr("class","simu_mainbox simu_seqbox animatestart slideleftin")
                 var prev=page-1;
                 getQuePrev(prev);
             }else{
@@ -36,6 +41,9 @@ $(function(){
         //下一道
         else if ( Math.abs(X) > Math.abs(Y) && X < 0 ) {
             if(page<1311){
+                $(".jiexiBox").css("display","none");
+                $(".jiexitext").text("");
+                $(".simu_mainbox").attr("class","simu_mainbox simu_seqbox animatestart sliderightin")
                 var next=++page;
                 getQueNext(next,url,obj1,num);
             }else{

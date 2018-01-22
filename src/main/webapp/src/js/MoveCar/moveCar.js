@@ -103,9 +103,10 @@ $(".myewm").on("click",function(){
         }
     });
 });
-//扫一扫
+//扫一扫   TO-DO
 $(".saoBtn").on("click",function(){
     var myurl=location.href.split('#')[0];
+    //var myurl='api.drivingyeepay.com/jyb/src/pages/MoveCar/moveCar.html';
     $.ajax({
         type:"get",
         url:"http://api.drivingyeepay.com/jyb/wxpublic/jsSign",
@@ -113,6 +114,7 @@ $(".saoBtn").on("click",function(){
         async:false,
         success:function(data){
             var result=data.data;
+            console.log(result)
             initWxConfig(result)
         }
     });
@@ -131,9 +133,7 @@ $(".saoBtn").on("click",function(){
         wx.ready(function() {
             wx.checkJsApi({
                 jsApiList : ['scanQRCode'],
-                success : function(res) {
-                    //console.log(res)
-                }
+                success : function(res) {}
             });
             wx.scanQRCode({
                 needResult : 1,

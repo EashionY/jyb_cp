@@ -42,8 +42,6 @@ $(function () {
     var currYear = (new Date()).getFullYear();
     var opt={};
     opt.date = {preset : 'date'};
-    opt.datetime = {preset : 'datetime'};
-    opt.time = {preset : 'time'};
     opt.default = {
         theme: 'android-ics light', //皮肤样式
         display: 'modal', //显示方式

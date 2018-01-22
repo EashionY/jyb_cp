@@ -81,6 +81,17 @@ public class HLBController extends ExceptionController {
 		return new JsonResult(hlbService.evalPassenger(hlbOrderNo, evalStar));
 	}
 	/**
+	 * 取消订单
+	 * @param hlbOrderNo
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/cancelOrder")
+	@ResponseBody
+	public JsonResult cancelOrder(String hlbOrderNo, Integer userId){
+		return new JsonResult(hlbService.cancelOrder(hlbOrderNo, userId));
+	}
+	/**
 	 * 获取车主的详细信息
 	 * @param receiptId
 	 * @return
@@ -260,4 +271,6 @@ public class HLBController extends ExceptionController {
 			String lat, Integer page, Integer pageSize){
 		return new JsonResult(hlbService.listOrdersByDistance(carType, orderType, Double.parseDouble(lon), Double.parseDouble(lat), page, pageSize));
 	}
+	
+	
 }
