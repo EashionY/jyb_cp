@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-
+/**
+ * ¼ÝÐ£
+ * @author Eashion
+ *
+ */
 public class School implements Serializable{
 
 	private static final long serialVersionUID = 2231589825842701047L;

@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.util.Date;
-
+/**
+ * 身份证实名认证
+ * @author Eashion
+ *
+ */
 public class IdCard {
 	
 	//身份证id

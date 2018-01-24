@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.math.BigDecimal;
-
+/**
+ * 货拉宝收费标准
+ * @author Eashion
+ *
+ */
 public class HLBCharge {
     private Integer id;
 

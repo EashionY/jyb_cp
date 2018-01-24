@@ -4,8 +4,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -20,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cn.jyb.util.DateUtil;
+import cn.jyb.util.Distance;
 import cn.jyb.util.WxpayUtil;
 import cn.jyb.util.WxpublicConfig;
 import cn.jyb.util.WxpublicUtil;
@@ -161,7 +165,7 @@ public class TestCase {
 
 	@Test
 	public void test15(){
-		String str = WxpayUtil.CreateNoncestr(32);
+		String str = WxpayUtil.CreateNoncestr(16);
 		System.out.println(str);
 	}
 	
@@ -243,5 +247,28 @@ public class TestCase {
 		String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="+accessToken;
 		String result = WxpayUtil.httpsRequest(requestUrl, "POST", json.toString());
 		System.out.println("result:"+result);
+	}
+	
+	@Test
+	public void test22(){
+		String km = "22.66";
+		BigDecimal bd = new BigDecimal(km);
+		int licheng = bd.setScale(0, RoundingMode.CEILING).intValue();
+		System.out.println(licheng);
+	}
+	
+	@Test
+	public void testDistance(){
+		String d = Distance.getDistance(112.456123, 30.547841, 113.954138, 30.897412);
+		System.out.println(d);
+	}
+	
+	@Test
+	public void testMap(){
+		Map<String,Boolean> map = new HashMap<>();
+		map.put("123456", true);
+		map.put("123456", false);
+		map.remove("123456");
+		System.out.println(map.get("123456"));
 	}
 }

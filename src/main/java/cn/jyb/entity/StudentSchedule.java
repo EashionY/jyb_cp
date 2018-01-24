@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-
+/**
+ * 学员日程表
+ * @author Eashion
+ *
+ */
 public class StudentSchedule implements Serializable {
 
 	private static final long serialVersionUID = 1130061172201613563L;

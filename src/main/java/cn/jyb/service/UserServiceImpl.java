@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 	private final static int PASSWORD_MAX_LENGTH = 16;
 
 	public Map<String, Object> login(HttpServletRequest request, String phone, String password, String openid) throws PhoneException, PwdException {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();//结果集
 		if (phone == null || phone.trim().isEmpty()) {
 			throw new PhoneException("手机号不能为空");
 		}
@@ -126,17 +126,17 @@ public class UserServiceImpl implements UserService {
 			if(openid != null && !openid.trim().isEmpty()){
 				WxOpenid wxOpenid = wxOpenidMapper.findByOpenid(openid);
 				if(wxOpenid == null){
-					wxOpenid = wxOpenidMapper.findByUserId(user_id);
-					if(wxOpenid == null){
-						wxOpenid = new WxOpenid();
-						wxOpenid.setUserId(user_id);
-						wxOpenid.setOpenid(openid);
-						wxOpenid.setIsLogin("1");
-						wxOpenidMapper.insertSelective(wxOpenid);
+					WxOpenid wxOpenid2 = wxOpenidMapper.findByUserId(user_id);
+					if(wxOpenid2 == null){
+						wxOpenid2 = new WxOpenid();
+						wxOpenid2.setUserId(user_id);
+						wxOpenid2.setOpenid(openid);
+						wxOpenid2.setIsLogin("1");
+						wxOpenidMapper.insertSelective(wxOpenid2);
 					}else{
 						throw new WxpublicException("该账号已与其他微信号绑定");
 					}
-				}else{
+				}else if(wxOpenid.getUserId() != user_id){
 					wxOpenid.setOpenid(openid);
 					wxOpenid.setUserId(user_id);
 					wxOpenidMapper.updateByPrimaryKeySelective(wxOpenid);
@@ -421,10 +421,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Integer getUserId(HttpServletRequest request) {
+	public Map<String,Object> getUserInfo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		Integer userId = (Integer) session.getAttribute("userId");
-		return userId;
+		Map<String, Object> result = (Map<String, Object>) session.getAttribute("userInfo");
+		return result;
 	}
  
 	

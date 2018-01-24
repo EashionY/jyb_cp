@@ -1,12 +1,13 @@
 package cn.jyb.entity;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+
 /**
  * 云购平台商品
  * @author Eashion
  *
  */
-import java.io.Serializable;
-import java.sql.Timestamp;
 public class Goods implements Serializable {
 
 	private static final long serialVersionUID = 2411294293126520840L;

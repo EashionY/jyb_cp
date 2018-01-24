@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-
+/**
+ * ¼ÝÐ£ÑµÁ·³¡µØ
+ * @author Eashion
+ *
+ */
 public class TeachField implements Serializable{
     /**
 	 * 

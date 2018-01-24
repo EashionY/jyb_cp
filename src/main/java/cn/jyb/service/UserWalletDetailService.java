@@ -5,7 +5,7 @@ import java.util.Map;
 public interface UserWalletDetailService {
 
 	/**
-	 * 查看钱包明细
+	 * 查看钱包收支明细
 	 * @param userId
 	 * @param page
 	 * @param pageSize

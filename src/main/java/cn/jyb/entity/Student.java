@@ -2,7 +2,11 @@ package cn.jyb.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * ѧԱ
+ * @author Eashion
+ *
+ */
 public class Student implements Serializable {
 
 	private static final long serialVersionUID = -8540960307126460537L;

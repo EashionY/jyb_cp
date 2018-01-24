@@ -2,7 +2,11 @@ package cn.jyb.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+/**
+ * ”√ªßŒª÷√
+ * @author Eashion
+ *
+ */
 public class UserPosition {
     private Integer id;
 

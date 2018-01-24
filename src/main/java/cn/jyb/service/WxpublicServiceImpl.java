@@ -53,7 +53,7 @@ public class WxpublicServiceImpl implements WxpublicService {
 			request.getRequestDispatcher("/log.html").forward(request, response);
 			return;
 		}else{
-			Integer userId =  wxOpenid.getUserId();
+			Integer userId = wxOpenid.getUserId();
 			Map<String,Object> userInfo = new HashMap<String,Object>();
 			//获取用户信息
 			Student student = studentDao.findByUserId(userId);
@@ -147,8 +147,5 @@ public class WxpublicServiceImpl implements WxpublicService {
 		result.put("appid", WxpublicConfig.APPID);
 		return result;
 	}
-	
-	
-
 	
 }

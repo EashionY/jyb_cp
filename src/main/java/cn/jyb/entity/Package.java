@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-
+/**
+ * ¼ÝÐ£ÑµÁ·Ì×²Í
+ * @author Eashion
+ *
+ */
 public class Package implements Serializable{
     /**
 	 * 

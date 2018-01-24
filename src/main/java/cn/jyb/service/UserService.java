@@ -120,5 +120,5 @@ public interface UserService {
 	 * @param request
 	 * @return
 	 */
-	public Integer getUserId(HttpServletRequest request);
+	public Map<String,Object> getUserInfo(HttpServletRequest request);
 }

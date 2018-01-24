@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
-
+/**
+ * 驾校教学环境
+ * @author Eashion
+ *
+ */
 public class Environment implements Serializable{
     /**
 	 * 

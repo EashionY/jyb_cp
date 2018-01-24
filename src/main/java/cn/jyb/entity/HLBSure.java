@@ -1,7 +1,11 @@
 package cn.jyb.entity;
 
 import java.util.Date;
-
+/**
+ * 货拉宝订单信息确认表
+ * @author Eashion
+ *
+ */
 public class HLBSure {
     private Integer id;
 

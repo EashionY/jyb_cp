@@ -2,7 +2,11 @@ package cn.jyb.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+/**
+ * ÑéÖ¤Âë
+ * @author Eashion
+ *
+ */
 public class VerCode implements Serializable {
 
 	private static final long serialVersionUID = -3974175646993778749L;

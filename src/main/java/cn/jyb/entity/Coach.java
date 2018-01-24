@@ -2,7 +2,11 @@ package cn.jyb.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+/**
+ * ΩÃ¡∑
+ * @author Eashion
+ *
+ */
 public class Coach implements Serializable{
 
 	private static final long serialVersionUID = -7419367318134225806L;

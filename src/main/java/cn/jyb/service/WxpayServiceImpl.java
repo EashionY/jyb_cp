@@ -54,6 +54,8 @@ public class WxpayServiceImpl implements WxpayService {
 	private WxOpenidMapper wxOpenidMapper;
 	@Resource
 	private QrOrderMapper qrOrderMapper;
+	@Resource
+	private UserWalletService userWalletService;
 	
 	public SortedMap<Object, Object> wxPrePay(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
@@ -247,11 +249,9 @@ public class WxpayServiceImpl implements WxpayService {
 			throw new WxpayException("付款金额错误");
 		}
 		logger.info("price100:"+price100);
-		System.out.println("price100:"+price100);
 		//商品描述(格式为：驾易宝-xx驾校报名)
 		String body = request.getParameter("body");
 		logger.info("body:"+body);
-		System.out.println("body:"+body);
 		//获取订单号
 		String out_trade_no = request.getParameter("out_trade_no");
 		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
@@ -260,6 +260,7 @@ public class WxpayServiceImpl implements WxpayService {
 		// 支付者的用户id
 		Integer payer_id = Integer.parseInt(request.getParameter("payer_id"));
 		String openid = wxOpenidMapper.findByUserId(payer_id).getOpenid();
+		logger.info("openid:"+openid);
 		//下单的终端IP
 		String spbill_create_ip = WxpayUtil.getIPAddr(request);
 		logger.info("spbill_create_ip:"+spbill_create_ip);
@@ -411,6 +412,10 @@ public class WxpayServiceImpl implements WxpayService {
 							qrOrder.setQrOrderNo(out_trade_no);
 							qrOrder.setQrPayStatus(1);
 							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
+						}else if("4".equals(orders.getOrderType())){//钱包充值
+							BigDecimal amount = new BigDecimal(orders.getTotal_amount());
+							Integer userId = orders.getPayer_id();
+							userWalletService.add(userId, amount);
 						}
 						resXML = "<xml>"
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"
@@ -494,6 +499,7 @@ public class WxpayServiceImpl implements WxpayService {
 								   + "<return_msg><![CDATA[数据库订单交易状态更新失败]]></return_msg>"
 								   + "</xml>";
 					}else{
+						logger.info("已接受到微信服务器的异步通知");
 						//获得支付者(学员)的用户id
 						int user_id = orders.getPayer_id();
 						//获得接收方(教练或者学校)的id
@@ -517,6 +523,10 @@ public class WxpayServiceImpl implements WxpayService {
 							qrOrder.setQrOrderNo(out_trade_no);
 							qrOrder.setQrPayStatus(1);
 							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
+						}else if("4".equals(orders.getOrderType())){//钱包充值
+							BigDecimal amount = new BigDecimal(orders.getTotal_amount());
+							Integer userId = orders.getPayer_id();
+							userWalletService.add(userId, amount);
 						}
 						resXML = "<xml>"
 									+ "<return_code><![CDATA[SUCCESS]]></return_code>"

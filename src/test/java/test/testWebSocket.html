@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+  <div>
+    <input type="submit" value="Start" onclick="start()" />
+  </div>
+  <div id="messages"></div>
+  <script type="text/javascript">
+    var webSocket;
+    if ('WebSocket' in window) {
+        webSocket = new WebSocket("ws://192.168.108:8080/jyb/websocket");
+    } else if ('MozWebSocket' in window) {
+        webSocket = new MozWebSocket("ws://192.168.108:8080/jyb/websocket");
+    } else {
+        webSocket = new SockJS("http://ws://192.168.108:8080/jyb/websocket");
+    }
+    
+    webSocket.onerror = function(event) {
+      onError(event)
+    };
+ 
+    webSocket.onopen = function(event) {
+      onOpen(event)
+    };
+ 
+    webSocket.onmessage = function(event) {
+      onMessage(event)
+    };
+ 
+    function onMessage(event) {
+      document.getElementById('messages').innerHTML
+        += '<br />' + event.data;
+    }
+ 
+    function onOpen(event) {
+      document.getElementById('messages').innerHTML
+        = 'Connection established';
+    }
+ 
+    function onError(event) {
+      alert(event.data);
+    }
+ 
+    function start() {
+      webSocket.send('20171120170845388');
+      return false;
+    }
+  </script>
+</body>
+</html>

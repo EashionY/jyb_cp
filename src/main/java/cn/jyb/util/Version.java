@@ -1,5 +1,9 @@
 package cn.jyb.util;
-
+/**
+ * ¼ÝÒ×±¦app°æ±¾
+ * @author Eashion
+ *
+ */
 public class Version {
 	//°æ±¾ºÅ
 	private static final String VERSION = "1.0.3";

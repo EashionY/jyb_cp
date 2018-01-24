@@ -195,13 +195,13 @@ public class UserController extends ExceptionController{
 		return new JsonResult(userService.checkCertStatus(userId));
 	}
 	/**
-	 * 从session中获取userId
+	 * 从session中获取用户信息
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/getUserId")
+	@RequestMapping("/getUserInfo")
 	@ResponseBody
-	public JsonResult getUserId(HttpServletRequest request){
-		return new JsonResult(userService.getUserId(request));
+	public JsonResult getUserInfo(HttpServletRequest request){
+		return new JsonResult(userService.getUserInfo(request));
 	}
 }

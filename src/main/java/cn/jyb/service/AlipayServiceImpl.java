@@ -1,6 +1,7 @@
 package cn.jyb.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +44,8 @@ public class AlipayServiceImpl implements AlipayService {
 	private UserDao userDao;
 	@Resource
 	private QrOrderMapper qrOrderMapper;
+	@Resource
+	private UserWalletService userWalletService;
 	//支付宝默认网关
 	private static final String URL = "https://openapi.alipay.com/gateway.do";
 	//驾易宝应用id
@@ -287,6 +290,10 @@ public class AlipayServiceImpl implements AlipayService {
 						qrOrder.setQrOrderNo(out_trade_no);
 						qrOrder.setQrPayStatus(1);
 						qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
+					}else if("4".equals(orders.getOrderType())){//钱包充值
+						BigDecimal amount = new BigDecimal(orders.getTotal_amount());
+						Integer userId = orders.getPayer_id();
+						userWalletService.add(userId, amount);
 					}
 				}
 				return "success";
