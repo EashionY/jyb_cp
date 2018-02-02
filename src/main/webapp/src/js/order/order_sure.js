@@ -2,6 +2,9 @@ var flag=GetQueryString("flag");
 $(function(){
     if(flag=="1"){
         $("#orsu_name").html("二维码贴纸");
+        //$(".fo_price>span").html("3.00");
+        //$("#orsu_price>span").html("3.00");
+        //测试
         $(".fo_price>span").html("0.01");
         $("#orsu_price>span").html("0.01");
     }else if(flag==null){
@@ -17,8 +20,9 @@ $(function(){
 $("#orsu_commit").click(function(){
     var mydata={};
     var price=$(".fo_price>span").html();
-    //var pid=getCookieValue("user_id");
-    var pid="1000011";
+    var pid=getCookieValue("user_id");
+    //测试
+    //var pid="1000011";
     var body="";
     if(flag=="1"){
         var address=getCookieValue("qr_orderAdd");
@@ -28,6 +32,7 @@ $("#orsu_commit").click(function(){
         mydata={body:body,total_fee:price,payer_id:pid,receiver_id:"-1",address:address,name:name,phone:tel,orderType:"3"};
     }else if(flag==null){
         //var reid=getCookieValue("school_id");
+        //测试
         var  reid="495";
         body="驾易宝-"+$("#orsu_name").html()+"-"+getCookieValue("taocan");
         mydata={body:body,total_fee:price,payer_id:pid,receiver_id:reid,orderType:"1"};
@@ -47,8 +52,9 @@ btn.addEventListener("click", function (e) {
     e.stopImmediatePropagation();
     var price="",pid="",subject="",body="";
     price=$(".fo_price>span").html();
-    //pid=getCookieValue("user_id");
-    pid="1000011";
+    pid=getCookieValue("user_id");
+    //测试
+    //pid="1000011";
     var mydata={};
     if(flag=="1"){
         subject="驾易宝-二维码贴纸购买";
@@ -59,6 +65,7 @@ btn.addEventListener("click", function (e) {
         mydata={subject:subject,body:body,total_amount:price,payer_id:pid,receiver_id:"-1",address:address,name:name,phone:tel,orderType:"3"}
     }else if(flag==null){
         //var reid=getCookieValue("school_id");
+        //测试
         var  reid="495";
         subject="驾易宝-驾校报名";
         body="驾校报名";

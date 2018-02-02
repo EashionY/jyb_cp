@@ -1,6 +1,7 @@
 $(".carbackbtn").on("click",function(){
     window.history.back(-1)
 });
+//刷新  TO-DO
 $(".refresh").on("click",function(){
     $(this).prev().children().css("display","block");
     var that=this;
@@ -13,7 +14,14 @@ $(".waitbtn").on("click",function(){
 });
 
 $(function(){
-    var mydata={userLon:getCookieValue("startpoilng"),userLat:getCookieValue("startpoilat"),region:"成都市"};
+    var mydata='';
+    if(getCookieValue("startpoilng")!=''){
+        mydata={userLon:getCookieValue("startpoilng"),userLat:getCookieValue("startpoilat"),region:"成都市"};
+    }else{
+        var orNo=getCookieValue("hlbOrderNo");
+        var ordermsg=getOrderInfo(orNo);
+        mydata={userLon:ordermsg.departure.split("-")[1],userLat:ordermsg.departure.split("-")[2],region:"成都市"};
+    }
     getDriver(mydata);
 });
 
@@ -33,9 +41,7 @@ function getDriver(mydata){
     })
 }
 function setDriverdom(data){
-    console.log(data)
-    data=[{"vehicleNo":"川A4P0D1", "vehicleBrand":"起亚福瑞迪", "driverOrderNum":300, "distance":2, "phone":"18280381764",
-        "imgpath":" ", "sex":"男", "driverName":"李师傅", "driverScore":"5.0"}];
+    console.log(data);
     if(data.length==0){
         layer.msg("附近没有司机")
     }else{
@@ -47,8 +53,7 @@ function setDriverdom(data){
                 '<div class="listdiv2"><div><span class="iconfont red">&#xe684;</span><span>距离：距离我'+ v.distance+'km</span></div>' +
                 '<div class="centerdiv"><span class="iconfont blue">&#xe6cf;</span><span>车牌：'+ v.vehicleNo+'</span></div>' +
                 '<div><span class="iconfont red2">&#xe620;</span><span>品牌：'+ v.vehicleBrand+'</span></div></div><div class="listdiv3">' +
-                '<div class="orderbtn"><span>请他接我</span><input id="carnum" type="text" hidden value="'+ v.vehicleNo+'"/>' +
-                '<input id="carbrand" type="text" hidden value="'+ v.vehicleBrand+'"/><input id="sex" type="text" hidden value="'+ v.sex+'"/></div></div><div class="kong"></div></div>'
+                '<div class="orderbtn"><span>请他接我</span><input type="text" hidden value="'+ v.userId+'"/></div></div><div class="kong"></div></div>'
         });
         $(".carBox").html(str);
         deal($(".cteldiv"),$(".listdiv3"));
@@ -68,9 +73,9 @@ function deal(teldom,btndom){
     })
 }
 function orderInvite(obj){
-    //TO-DO  1.车主的userid  2.订单状态
+    var uid=$(this).children("input").val();
     var hlbOrderNo=getCookieValue("hlbOrderNo");
-    var mydata={hlbOrderNo:hlbOrderNo,invited:"1000044"};
+    var mydata={hlbOrderNo:hlbOrderNo,invited:uid};
     $.ajax({
         url:"http://api.drivingyeepay.com/jyb/hlb/orderInvite",
         data:mydata,
@@ -88,35 +93,16 @@ function orderInvite(obj){
 }
 //根据订单状态不断查询接单情况   一旦接单即跳转页面
 function isreceive(){
-    //var ordermsg=getOrderInfo();
-    //console.log(ordermsg.orderStatus);
-    //if(ordermsg.orderStatus==2){
-    //    layer.msg("司机已接单",function(){
-    //        //addCookie("")
-    //        window.location.href="/jyb/src/pages/HuolaBao/wait.html";
-    //    })
-    //}
-    //setTimeout(function() {
-    //    isreceive();
-    //},1000);
-    window.location.href="/jyb/src/pages/HuolaBao/wait.html";
-}
-function getOrderInfo(){
     var orNo=getCookieValue("hlbOrderNo");
-    var m="";
-    $.ajax({
-        url:"http://api.drivingyeepay.com/jyb/hlb/getOrderInfo",
-        data:{hlbOrderNo:orNo},
-        dataType:"json",
-        type:"get",
-        async:false,
-        success:function(data){
-            if(data.state==1){
-                m=data.data;
-            }else{
-                layer.msg("查询订单情况")
-            }
-        }
-    });
-    return m;
+    var ordermsg=getOrderInfo(orNo);
+    console.log(ordermsg.orderStatus);
+    if(ordermsg.orderStatus==0){
+        layer.msg("司机已接单",{time:1000},function(){
+            window.location.href="/jyb/src/pages/HuolaBao/wait.html";
+        })
+    }
+    setTimeout(function() {
+        isreceive();
+    },2000);
 }
+

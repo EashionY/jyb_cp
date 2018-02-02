@@ -10,6 +10,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.server.standard.SpringConfigurator;
 
 import com.alibaba.fastjson.JSONObject;
@@ -26,11 +27,14 @@ import cn.jyb.service.HLBService;
  * @author Eashion
  *
  */
+/**
 @ServerEndpoint(value = "/websocket", configurator = SpringConfigurator.class)
 public class WebSocket {
 
 	@Autowired
 	private HLBService hlbService;
+	
+//	public Session session;
 	
 	@OnOpen
 	public void onOpen(){
@@ -50,7 +54,7 @@ public class WebSocket {
 //			System.out.println("∂©µ•≤È—Ø÷–...");
 		} while (orderStatus == hlbOrder.getOrderStatus());
 		session.getBasicRemote().sendText("Second:" + JSONObject.toJSONString(hlbOrder));
-		*/
+		
 		if(HLBService.changed.get(hlbOrderNo) != null && HLBService.changed.get(hlbOrderNo) == true){
 		    HLBOrder hlbOrder = hlbService.getOrderInfo(hlbOrderNo);
 		    session.getBasicRemote().sendText(JSONObject.toJSONString(hlbOrder));
@@ -67,3 +71,4 @@ public class WebSocket {
 	}
 	
 }
+*/

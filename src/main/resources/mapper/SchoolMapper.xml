@@ -161,6 +161,10 @@
 		</set>
 		WHERE school_id=#{school_id}
 	</update>
+	
+	<select id="findById" resultType="cn.jyb.entity.School">
+	    SELECT * FROM school WHERE school_id=#{school_id}
+	</select>
 </mapper>
 
 

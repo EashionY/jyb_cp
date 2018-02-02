@@ -103,10 +103,9 @@ $(".myewm").on("click",function(){
         }
     });
 });
-//扫一扫   TO-DO
+//扫一扫
 $(".saoBtn").on("click",function(){
     var myurl=location.href.split('#')[0];
-    //var myurl='api.drivingyeepay.com/jyb/src/pages/MoveCar/moveCar.html';
     $.ajax({
         type:"get",
         url:"http://api.drivingyeepay.com/jyb/wxpublic/jsSign",
@@ -114,7 +113,7 @@ $(".saoBtn").on("click",function(){
         async:false,
         success:function(data){
             var result=data.data;
-            console.log(result)
+            //console.log(myurl+'       '+result.url)
             initWxConfig(result)
         }
     });

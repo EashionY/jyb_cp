@@ -22,6 +22,7 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 
 import cn.jyb.dao.OrdersDao;
 import cn.jyb.dao.QrOrderMapper;
+import cn.jyb.dao.SchoolDao;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.TeachRecordDao;
 import cn.jyb.dao.UserDao;
@@ -38,6 +39,8 @@ public class AlipayServiceImpl implements AlipayService {
 	private OrdersDao ordersDao;
 	@Resource
 	private StudentDao studentDao;
+	@Resource
+	private SchoolDao schoolDao;
 	@Resource
 	private TeachRecordDao teachRecordDao;
 	@Resource
@@ -277,6 +280,12 @@ public class AlipayServiceImpl implements AlipayService {
 						student.setPay_status(1);
 						student.setSignup_time(new Date());
 						studentDao.updateByPrimaryKeySelective(student);
+						//发送短信通知学员报名成功
+						String phone = userDao.findById(user_id).getPhone();
+						String schoolName = schoolDao.findById(receiver_id).getSchool_name();//驾校名
+						String param = "{\"schoolName\":\""+schoolName+"\"}";
+						String templateCode = "SMS_124455016";//阿里大于短信模板号
+						Message.sendMsg(phone, param, templateCode);
 					}else if("2".equals(orders.getOrderType())){//教练订单，学员预约教练
 						//更新约教记录状态为付款成功
 						teachRecordDao.updatePayStatus(out_trade_no,1);

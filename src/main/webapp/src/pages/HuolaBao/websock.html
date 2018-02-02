@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8" />
+<title>WebSocket Test</title>
+<h2>WebSocket Test</h2>
+<div id="output"></div>
+<script language="javascript" type="text/javascript">
+    var wsUri ="ws://192.168.0.108:8080/jyb/websocket";
+    var output;
+
+    function init() {
+        output = document.getElementById("output");
+        testWebSocket();
+    }
+
+    function testWebSocket() {
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) {
+            onOpen(evt)
+        };
+        websocket.onclose = function(evt) {
+            onClose(evt)
+        };
+        websocket.onmessage = function(evt) {
+            onMessage(evt)
+        };
+        websocket.onerror = function(evt) {
+            onError(evt)
+        };
+    }
+
+    function onOpen(evt) {
+        writeToScreen("连接成功");
+        doSend("WebSocket rocks");
+    }
+
+    function onClose(evt) {
+        writeToScreen("连接关闭");
+    }
+
+    function onMessage(evt) {
+        console.log(evt)
+        writeToScreen('<span style="color: blue;">应答: '+ evt.data+'</span>');
+//        websocket.close();
+    }
+
+    function onError(evt) {
+        writeToScreen('<span style="color: red;">错误:</span> '+ evt.data);
+    }
+
+    function doSend(message) {
+        writeToScreen("发送: " + message);
+        websocket.send(message);
+    }
+
+    function writeToScreen(message) {
+        var pre = document.createElement("p");
+        pre.style.wordWrap = "break-word";
+        pre.innerHTML = message;
+        output.appendChild(pre);
+    }
+
+    window.addEventListener("load", init, false);
+</script>
+</html>

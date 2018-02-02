@@ -13,46 +13,45 @@
     <div class="mainBox" >
         <div id="container"></div>
         <div class="divbox topdiv">
-            <div class="waittext1">司机正在赶来，请您耐心等待。若您改变行程，可在5分钟内免费取消。<span class="djs">倒计时：<span id="time">05:00</span></span></div>
+            <div class="waittext1">司机正在赶来，请您耐心等待。若您改变行程，可在5分钟内免费取消。<span class="djs">倒计时：<span id="time"></span></span></div>
             <!--<div class="waittext1">-->
                 <!--<div>出发时间：<span id="myday">11月12日</span><span id="mytime">14:50</span></div>-->
                 <!--<div>若您改变行程，可在5分钟内免费取消。<span class="djs">倒计时：<span id="time">05:00</span></span></div>-->
             <!--</div>-->
         </div>
         <div class="divbox downdiv">
-            <div class="down1">
-                <div>
-                    <div class="sfimgdiv"><img src="" alt=""/></div>
-                    <div class="down1right">
-                        <div class="wrap">
-                            <div class="subwrap">
-                                <div class="namebox content">
-                                    <span class="cname">钟师傅</span>
-                                    <span><span class="iconfont star">&#xe6ca;</span>5.0</span>
-                                    <span>1144单</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="wrap">
-                            <div class="subwrap">
-                                <div class="content"><span class="carpai">川A4P0D1</span></div>
-                            </div>
-                        </div>
-                        <div class="wrap">
-                            <div class="subwrap">
-                                <div class="carcolor content"><span>白色·起亚福瑞迪</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="down2">
-                <div><span class="iconfont c1">&#xe627;</span><span>取消订单</span></div>
-                <div><span class="iconfont c2">&#xe63e;</span><span>拨打电话</span></div>
-                <div><span class="iconfont c3">&#xe624;</span><span>订单详情</span></div>
-                <div><span class="iconfont c4">&#xe706;</span><span>行程分享</span></div>
-            </div>
-
+            <!--<div class="down1">-->
+                <!--<div>-->
+                    <!--<div class="sfimgdiv"><img src="" alt=""/></div>-->
+                    <!--<div class="down1right">-->
+                        <!--<div class="wrap">-->
+                            <!--<div class="subwrap">-->
+                                <!--<div class="namebox content">-->
+                                    <!--<span class="cname">钟师傅</span>-->
+                                    <!--<span><span class="iconfont star">&#xe6ca;</span>5.0</span>-->
+                                    <!--<span>1144单</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="wrap">-->
+                            <!--<div class="subwrap">-->
+                                <!--<div class="content"><span class="carpai">川A4P0D1</span></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="wrap">-->
+                            <!--<div class="subwrap">-->
+                                <!--<div class="carcolor content"><span>白色·起亚福瑞迪</span></div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="down2">-->
+                <!--<div><span class="iconfont c1">&#xe627;</span><span>取消订单</span></div>-->
+                <!--<div><span class="iconfont c2">&#xe63e;</span><span>拨打电话</span></div>-->
+                <!--<div><span class="iconfont c3">&#xe624;</span><span>订单详情</span></div>-->
+                <!--<div><span class="iconfont c4">&#xe706;</span><span>行程分享</span></div>-->
+            <!--</div>-->
             <!--完成-->
             <!--<div class="down3">-->
                 <!--<div class="down3box1">-->
@@ -64,15 +63,15 @@
             <!--</div>-->
         </div>
         <!--评价-->
-        <!--<div class="downdiv2">-->
-            <!--<div><span>评价</span></div>-->
-            <!--<div class="starBox">-->
-                <!--<span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span>-->
-            <!--</div>-->
-            <!--<div><span>您的评价会让司机做的更好</span></div>-->
-            <!--<div class="pjbtn">确定</div>-->
-            <!--<div class="iconfont pjquit">&#xe627;</div>-->
-        <!--</div>-->
+        <div class="downdiv2">
+            <div><span>评价</span></div>
+            <div class="starBox">
+                <span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span><span class="iconfont">&#xe6ca;</span>
+            </div>
+            <div><span>您的评价会让司机做的更好</span></div>
+            <div class="pjbtn">确定</div>
+            <div class="iconfont pjquit">&#xe627;</div>
+        </div>
 
     </div>
 </body>
@@ -80,5 +79,9 @@
 <script src="/jyb/src/plug/cookie.js"></script>
 <script src="http://api.map.baidu.com/api?v=2.0&ak=OYgQfTj1HBrC4dW2SuCpyAlFbYVE9O3d" type="text/javascript" ></script>
 <script src="/jyb/src/plug/layer/layer.js"></script>
+<script src="/jyb/src/js/HuolaBao/getorderMsg.js"></script>
+<script src="/jyb/src/plug/date_format.js"></script>
+<script src="/jyb/src/plug/getDate.js"></script>
 <script src="/jyb/src/js/HuolaBao/wait.js"></script>
+<script src="/jyb/src/js/HuolaBao/hlbwebsocket.js"></script>
 </html>

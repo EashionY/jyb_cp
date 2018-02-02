@@ -1,5 +1,6 @@
 package cn.jyb.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 
@@ -147,10 +148,11 @@ public class HLBController extends ExceptionController {
 	 * 乘客确认上车
 	 * @param hlbOrderNo
 	 * @return
+	 * @throws IOException 
 	 */
 	@RequestMapping("/aboard")
 	@ResponseBody
-	public JsonResult aboard(String hlbOrderNo){
+	public JsonResult aboard(String hlbOrderNo) throws IOException{
 		return new JsonResult(hlbService.aboard(hlbOrderNo));
 	}
 	/**

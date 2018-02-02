@@ -35,8 +35,8 @@ public class Orders implements Serializable {
 	private int receiver_id;
 	//付款方式
 	private String pay_method;
-	//订单类型（1-驾校订单，2-教练订单，3-二维码订单）
-	private String orderType;
+	//订单类型（1-驾校订单，2-教练订单，3-二维码订单，4-钱包充值）
+	private String order_type;
 	
 	public int getId() {
 		return id;
@@ -135,11 +135,11 @@ public class Orders implements Serializable {
 	}
 
 	public String getOrderType() {
-		return orderType;
+		return order_type;
 	}
 
-	public void setOrderType(String orderType) {
-		this.orderType = orderType;
+	public void setOrderType(String order_type) {
+		this.order_type = order_type;
 	}
 
 	@Override
@@ -147,7 +147,7 @@ public class Orders implements Serializable {
 		return "Orders [id=" + id + ", out_trade_no=" + out_trade_no + ", subject=" + subject + ", body=" + body
 				+ ", total_amount=" + total_amount + ", seller_id=" + seller_id + ", creatime=" + creatime
 				+ ", finishtime=" + finishtime + ", trade_status=" + trade_status + ", payer_id=" + payer_id
-				+ ", receiver_id=" + receiver_id + ", pay_method=" + pay_method + ", orderType=" + orderType + "]";
+				+ ", receiver_id=" + receiver_id + ", pay_method=" + pay_method + ", order_type=" + order_type + "]";
 	}
 
 	@Override

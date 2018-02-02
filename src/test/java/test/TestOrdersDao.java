@@ -40,7 +40,7 @@ public class TestOrdersDao extends TestBase {
 	
 	@Test
 	public void test3(){
-		String out_trade_no = "20170607161159";
+		String out_trade_no = "20171116110033632";
 		Orders orders = ordersDao.findByNo(out_trade_no);
 		System.out.println(orders);
 	}

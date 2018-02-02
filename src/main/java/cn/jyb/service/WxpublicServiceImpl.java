@@ -89,17 +89,17 @@ public class WxpublicServiceImpl implements WxpublicService {
 		}else if(state.equals("首页")){
 			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
 		}else if(state.equals("货拉宝")){
-			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
+			request.getRequestDispatcher("/src/pages/HuolaBao/hlbindex/hlbindex.html").forward(request, response);
 		}else if(state.equals("一键挪车")){
 			request.getRequestDispatcher("/src/pages/MoveCar/moveCar.html").forward(request, response);
-		}else if(state.equals("违章查询&处理")){
-			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
+//		}else if(state.equals("违章查询&处理")){
+//			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
 		}else if(state.equals("模拟练习")){
 			request.getRequestDispatcher("/src/pages/exercises/exer_practice.html").forward(request, response);
-		}else if(state.equals("订单查询")){
-			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
+//		}else if(state.equals("订单查询")){
+//			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
 		}else if(state.equals("个人信息")){
-			request.getRequestDispatcher("/src/pages/index.html").forward(request, response);
+			request.getRequestDispatcher("/src/pages/PerCenter/personal.html").forward(request, response);
 		}
 	}
 

@@ -1,0 +1,9 @@
+$(".clearbtn").on("click",function(){
+   $("#nameinput").val("")
+});
+$(".quitnamebtn").on("click",function(){
+    window.history.back();
+});
+$(".savenamebtn").on("click",function(){
+    console.log($("#nameinput").val())
+});

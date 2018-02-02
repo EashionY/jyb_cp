@@ -267,10 +267,12 @@ public class DrivingTestController extends ExceptionController {
 	 * 教练设置日程表
 	 * @param data
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/setCoachSchedule")
 	@ResponseBody
-	public JsonResult setCoachSchedule(String data){
+	public JsonResult setCoachSchedule(HttpServletRequest request,String data) throws UnsupportedEncodingException{
+		request.setCharacterEncoding("UTF-8");
 		boolean tf = scheduleService.setCoachSchedule(data);
 		return new JsonResult(tf);
 	}
@@ -278,10 +280,12 @@ public class DrivingTestController extends ExceptionController {
 	 * 列出教练最近三天的日程表供学员查看
 	 * @param data
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping("/listCoachSchedule")
 	@ResponseBody
-	public JsonResult listCoachSchedule(String data){
+	public JsonResult listCoachSchedule(HttpServletRequest request,String data) throws UnsupportedEncodingException{
+		request.setCharacterEncoding("UTF-8");
 		List<Map<String,String>> list = scheduleService.listCoachSchedule(data);
 		return new JsonResult(list);
 	}

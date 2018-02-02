@@ -84,7 +84,7 @@
     display: flex;
 }
 .imgdiv{
-    border: 1px red solid;
+    border: 1px #FF9212 solid;
     width: 40px;
     height: 40px;
     border-radius: 50%;

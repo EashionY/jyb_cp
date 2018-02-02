@@ -36,16 +36,17 @@ public class VehicleLicenseController extends ExceptionController {
 	/**
 	 * 审核行驶证(后台管理系统).
 	 *
-	 * @param id the id
+	 * @param id 记录id
+	 * @param userId 用户id
 	 * @param status the status
 	 * @param resp the resp 设置跨域请求
 	 * @return the json result
 	 */
 	@RequestMapping("/dealVehicleLic")
 	@ResponseBody
-	public JsonResult dealVehicleLic(Integer id, Integer status, HttpServletResponse resp){
+	public JsonResult dealVehicleLic(Integer id, Integer userId, Integer status, HttpServletResponse resp){
 		resp.setHeader("Access-Control-Allow-Origin", "*");
-		return new JsonResult(vehicleLicenseService.dealVehicleLicense(id, status));
+		return new JsonResult(vehicleLicenseService.dealVehicleLicense(id, userId, status));
 	}
 	
 	/**
@@ -61,4 +62,15 @@ public class VehicleLicenseController extends ExceptionController {
 		resp.setHeader("Access-Control-Allow-Origin", "*");
 		return new JsonResult(vehicleLicenseService.listAll(status, page, pageSize));
 	}
+	/**
+	 * 查看用户的行驶证信息
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping("/viewVehicleLic")
+	@ResponseBody
+	public JsonResult viewVehicleLic(Integer userId){
+		return new JsonResult(vehicleLicenseService.viewVehicleLic(userId));
+	}
+	
 }

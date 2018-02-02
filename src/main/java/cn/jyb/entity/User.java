@@ -1,6 +1,7 @@
 package cn.jyb.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
 	
@@ -41,31 +42,9 @@ public class User implements Serializable {
 	private String region;
 	//用户的二维码(包含用户id)
 	private String qrImg;
-	public User() { }
-
-	public User(int user_id, String nickname, String sex, String birthday, String phone, String password,
-			String address, String imgpath, String signature, String role, String xingzuo, String height, String weight,
-			String job, String salary, String interest, String region) {
-		super();
-		this.user_id = user_id;
-		this.nickname = nickname;
-		this.sex = sex;
-		this.birthday = birthday;
-		this.phone = phone;
-		this.password = password;
-		this.address = address;
-		this.imgpath = imgpath;
-		this.signature = signature;
-		this.role = role;
-		this.xingzuo = xingzuo;
-		this.height = height;
-		this.weight = weight;
-		this.job = job;
-		this.salary = salary;
-		this.interest = interest;
-		this.region = region;
-	}
-
+	//注册时间
+	private Date regTime;
+	
 	public int getUser_Id() {
 		return user_id;
 	}
@@ -210,13 +189,21 @@ public class User implements Serializable {
 		this.qrImg = qrImg;
 	}
 
+	public Date getRegTime() {
+		return regTime;
+	}
+
+	public void setRegTime(Date regTime) {
+		this.regTime = regTime;
+	}
+
 	@Override
 	public String toString() {
 		return "User [user_id=" + user_id + ", nickname=" + nickname + ", sex=" + sex + ", birthday=" + birthday
 				+ ", phone=" + phone + ", password=" + password + ", address=" + address + ", imgpath=" + imgpath
 				+ ", signature=" + signature + ", role=" + role + ", xingzuo=" + xingzuo + ", height=" + height
 				+ ", weight=" + weight + ", job=" + job + ", salary=" + salary + ", interest=" + interest + ", region="
-				+ region + ", qrImg=" + qrImg + "]";
+				+ region + ", qrImg=" + qrImg + ", regTime=" + regTime + "]";
 	}
 
 	@Override

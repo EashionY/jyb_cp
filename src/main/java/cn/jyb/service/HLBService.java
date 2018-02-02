@@ -1,5 +1,6 @@
 package cn.jyb.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -97,8 +98,9 @@ public interface HLBService {
 	 * 乘客确认上车  
 	 * @param hlbOrderNo
 	 * @return
+	 * @throws IOException 
 	 */
-	public boolean aboard(String hlbOrderNo);
+	public boolean aboard(String hlbOrderNo) throws IOException;
 	/**
 	 * 开始行程
 	 * @param hlbOrderNo

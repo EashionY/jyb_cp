@@ -193,19 +193,19 @@ public class WxpublicUtil {
 		button22.put("url", button22Url);
 		subButton2.add(button22);
 		// 子菜单3
-		JSONObject button23 = new JSONObject();
-		button23.put("type", "view");
-		String button23Name = "违章查询&处理";
-		button23.put("name", button23Name);
-		String button23Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
-				+ WxpublicConfig.APPID
-				+ "&redirect_uri="
-				+ WxpayUtil.urlEncodeUTF8("http://api.drivingyeepay.com/jyb/wxpublic/check")
-				+ "&response_type=code&scope=snsapi_base&state="
-				+ WxpayUtil.urlEncodeUTF8(button23Name)
-				+ "#wechat_redirect";
-		button23.put("url", button23Url);
-		subButton2.add(button23);
+//		JSONObject button23 = new JSONObject();
+//		button23.put("type", "view");
+//		String button23Name = "违章查询&处理";
+//		button23.put("name", button23Name);
+//		String button23Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+//				+ WxpublicConfig.APPID
+//				+ "&redirect_uri="
+//				+ WxpayUtil.urlEncodeUTF8("http://api.drivingyeepay.com/jyb/wxpublic/check")
+//				+ "&response_type=code&scope=snsapi_base&state="
+//				+ WxpayUtil.urlEncodeUTF8(button23Name)
+//				+ "#wechat_redirect";
+//		button23.put("url", button23Url);
+//		subButton2.add(button23);
 		// 子菜单4
 		JSONObject button24 = new JSONObject();
 		button24.put("type", "view");
@@ -227,19 +227,19 @@ public class WxpublicUtil {
 		// 菜单二的子菜单
 		JSONArray subButton3 = new JSONArray();
 		// 子菜单1
-		JSONObject button31 = new JSONObject();
-		button31.put("type", "view");
-		String button31Name = "订单查询";
-		button31.put("name", button31Name);
-		String button31Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
-				+ WxpublicConfig.APPID
-				+ "&redirect_uri="
-				+ WxpayUtil.urlEncodeUTF8("http://api.drivingyeepay.com/jyb/wxpublic/check")
-				+ "&response_type=code&scope=snsapi_base&state="
-				+ WxpayUtil.urlEncodeUTF8(button31Name)
-				+ "#wechat_redirect";
-		button31.put("url", button31Url);
-		subButton3.add(button31);
+//		JSONObject button31 = new JSONObject();
+//		button31.put("type", "view");
+//		String button31Name = "订单查询";
+//		button31.put("name", button31Name);
+//		String button31Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+//				+ WxpublicConfig.APPID
+//				+ "&redirect_uri="
+//				+ WxpayUtil.urlEncodeUTF8("http://api.drivingyeepay.com/jyb/wxpublic/check")
+//				+ "&response_type=code&scope=snsapi_base&state="
+//				+ WxpayUtil.urlEncodeUTF8(button31Name)
+//				+ "#wechat_redirect";
+//		button31.put("url", button31Url);
+//		subButton3.add(button31);
 		// 子菜单2
 		JSONObject button32 = new JSONObject();
 		button32.put("type", "view");

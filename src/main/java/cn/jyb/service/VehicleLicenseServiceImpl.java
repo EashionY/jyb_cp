@@ -11,17 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import cn.jyb.dao.UserDao;
 import cn.jyb.dao.VehicleLicenseMapper;
 import cn.jyb.entity.VehicleLicense;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.ImgpathException;
 import cn.jyb.exception.VehicleLicenseException;
+import cn.jyb.util.Message;
 import cn.jyb.util.Upload;
 @Service("vehicleLicenseService")
 public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 
 	@Resource
 	private VehicleLicenseMapper vehicleLicenseMapper;
+	
+	@Resource
+	private UserDao userDao;
 	
 	public boolean saveVehicleLicense(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
@@ -71,6 +76,7 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 			license.setVehicleBrand(request.getParameter("vehicleBrand"));
 			license.setVehicleVin(request.getParameter("vehicleVin"));
 			license.setEngineNo(request.getParameter("engineNo"));
+			license.setVehicleLicenseStatus(0);
 			try {
 				vehicleLicenseMapper.updateByPrimaryKeySelective(license);
 				return true;
@@ -81,7 +87,8 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 		}
 	}
 
-	public Integer dealVehicleLicense(Integer id, Integer vehicleLicenseStatus) {
+	public Integer dealVehicleLicense(Integer id, Integer userId, Integer vehicleLicenseStatus) {
+		String status = "";
 		VehicleLicense license = vehicleLicenseMapper.selectByPrimaryKey(id);
 		//取得车牌号
 		String vehicleNo = license.getVehicleNo();
@@ -94,9 +101,15 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 					throw new VehicleLicenseException("该行驶证已在本平台认证");
 				}
 			}
+			status = "已通过";
+		}else if(vehicleLicenseStatus == 1){
+			status = "未通过";
 		}
 		try {
 			vehicleLicenseMapper.updateByPrimaryKeySelective(license);
+			String phone = userDao.findById(userId).getPhone();
+			String templateCode = "SMS_124345005";
+			Message.sendCertMsg(phone, status, templateCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
@@ -111,6 +124,11 @@ public class VehicleLicenseServiceImpl implements VehicleLicenseService {
 		}else {
 			return vehicleLicenseMapper.listAllByStatus(vehicleLicenseStatus, offset, pageSize);
 		}
+	}
+
+	@Override
+	public VehicleLicense viewVehicleLic(Integer userId) {
+		return vehicleLicenseMapper.findByUserId(userId);
 	}
 
 }

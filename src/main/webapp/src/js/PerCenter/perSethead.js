@@ -1,0 +1,23 @@
+$(function(){
+    $('.headBox>img').attr("src");
+});
+$(".morebtn").on("click",function(){
+    var height=parseInt($(".headDownbox").css("height"));
+    if(height>0){
+        $(".headDownbox").css("height",'0')
+    }else{
+        $(".headDownbox").css("height",'138px')
+    }
+});
+$(".perhead_main").on("click",function(){
+    $(".headDownbox").css("height",'0')
+});
+$(".headDbtn3").on("click",function(){
+    $(".headDownbox").css("height",'0')
+});
+$(".headDbtn1").on("click",function(){
+    console.log("从手机相册选")
+});
+$(".headDbtn2").on("click",function(){
+    console.log("保存")
+});

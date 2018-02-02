@@ -1,0 +1,102 @@
+.settopdiv{
+    background-color: #FFFFff;
+    display: flex;
+    justify-content: space-between;
+    height: 44px;
+    line-height: 44px;
+    font-size: 1.5rem;
+    color: #030403;
+    padding: 0 1.2rem;
+}
+.setNamemain{
+    background-color: #FFFFff;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding: 0 1.2rem;
+    height: 44px;
+    line-height: 44px;
+    font-size: 1.5rem;
+    color: #030403;
+}
+.setNamemain .iconfont{
+    color:#888888 ;
+}
+.setSexmain{
+    background-color: #FFFFff;
+    margin-top: 1.5rem;
+}
+.setSexmain>div{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 2rem;
+    height: 44px;
+    line-height: 44px;
+    font-size: 1.5rem;
+    color: #030403;
+    border-bottom: 1px #E7E7E7 solid;
+}
+.setSexmain>div:nth-last-of-type(1){
+    border-bottom: none;
+}
+.setSexmain>div>.iconfont{
+    color: #77ABCD;
+    font-size: 2rem;
+    display: none;
+}
+.sexactive{
+    display: flex !important;
+}
+
+.perhead_main{
+    width: 100%;
+    height: 100%;
+    background-color: #020202;
+    position: relative;
+}
+.headBox{
+    width: 100%;
+    height: 350px;
+    background-color:#FFFFff;
+    position: absolute;
+    top: 50%;
+    margin-top: -215px;
+}
+.headBox>img{
+    width: 100%;
+    height: 100%;
+}
+.headtopbtn{
+    background-color: #020202;
+    text-align: right;
+    color: #FFFFff;
+    font-size: 2rem;
+    padding-right: 1.5rem;
+    height: 40px;
+    line-height: 40px;
+}
+.headDownbox{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #737277;
+    z-index: 1;
+    /*height: 138px;*/
+    height: 0;
+    transition: all .3s linear;
+}
+.headDownbox>div{
+    width: 100%;
+    text-align: center;
+    height: 44px;
+    line-height: 44px;
+    font-size: 1.8rem;
+    background-color: #ededed;
+    color: #040404;
+}
+.headDbtn1{
+    border-bottom: 1px #D4D4D4 solid;
+}
+.headDbtn3{
+    margin-top: 5px;
+}

@@ -96,8 +96,12 @@ public class UserServiceImpl implements UserService {
 				userDao.updateQrImg(user_id, qrImg);
 			}
 			Student student = studentDao.findByUserId(user_id);
-			String student_idcard = student == null ? "" : student.getStudent_idcard();
-			String student_id = student == null ? "" : String.valueOf(student.getStudent_id());
+			String student_idcard = "";
+			String student_id = "";
+			if(student != null){
+				student_idcard = student.getStudent_idcard();
+				student_id = String.valueOf(student.getStudent_id());
+			}
 			result.put("student_idcard", student_idcard);
 			result.put("student_id", student_id);
 			result.put("address", user.getAddress());
@@ -195,8 +199,8 @@ public class UserServiceImpl implements UserService {
 			throw new DataBaseException("数据库连接失败");
 		}
 		//将用户集成到环信
-		String user_id = String.valueOf(userDao.findByPhone(phone).getUser_Id());
-		EasemobUtil.registUsers(user_id, password);
+//		String user_id = String.valueOf(userDao.findByPhone(phone).getUser_Id());
+//		EasemobUtil.registUsers(user_id, password);
 		return true;
 	}
 
@@ -422,9 +426,46 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<String,Object> getUserInfo(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		Map<String, Object> result = (Map<String, Object>) session.getAttribute("userInfo");
-		return result;
+		String userId = request.getParameter("userId");
+		Map<String, Object> result = new HashMap<>();
+		if(userId == null || userId.trim().isEmpty()){
+			HttpSession session = request.getSession();
+			result = (Map<String, Object>) session.getAttribute("userInfo");
+			return result;
+		}else{
+			User user = userDao.findById(Integer.parseInt(userId));
+			Student student = studentDao.findByUserId(Integer.parseInt(userId));
+			String student_idcard = "";
+			String student_id = "";
+			if(student != null){
+				student_idcard = student.getStudent_idcard();
+				student_id = String.valueOf(student.getStudent_id());
+			}
+			result.put("student_idcard", student_idcard);
+			result.put("student_id", student_id);
+			result.put("address", user.getAddress());
+			result.put("birthday", user.getBirthday());
+			result.put("height", user.getHeight());
+			result.put("id", user.getUser_Id());
+			// 如果头像路径为空，则替换为默认的logo
+			String headImg = user.getImgpath() == null ? "http://39.108.73.207/img/default/head.png" : user.getImgpath();
+			result.put("imgpath", headImg);
+			result.put("interest", user.getInterest());
+			result.put("job", user.getJob());
+			result.put("nickname", user.getNickname());
+			result.put("password", user.getPassword());
+			result.put("phone", user.getPhone());
+			result.put("role", user.getRole());
+			result.put("salary", user.getSalary());
+			result.put("sex", user.getSex());
+			result.put("signature", user.getSignature());
+			result.put("weight", user.getWeight());
+			result.put("xingzuo", user.getXingzuo());
+			result.put("region", user.getRegion());
+			result.put("QRImg", user.getQrImg());
+			return result;
+		}
+		
 	}
  
 	

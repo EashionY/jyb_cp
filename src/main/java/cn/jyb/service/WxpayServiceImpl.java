@@ -24,16 +24,19 @@ import org.springframework.stereotype.Service;
 
 import cn.jyb.dao.OrdersDao;
 import cn.jyb.dao.QrOrderMapper;
+import cn.jyb.dao.SchoolDao;
 import cn.jyb.dao.StudentDao;
 import cn.jyb.dao.TeachRecordDao;
 import cn.jyb.dao.UserDao;
 import cn.jyb.dao.WxOpenidMapper;
 import cn.jyb.entity.Orders;
 import cn.jyb.entity.QrOrder;
+import cn.jyb.entity.School;
 import cn.jyb.entity.Student;
 import cn.jyb.exception.WxpayException;
 import cn.jyb.util.DateUtil;
 import cn.jyb.util.Message;
+import cn.jyb.util.WxpayConfig;
 import cn.jyb.util.WxpayUtil;
 import cn.jyb.util.WxpublicConfig;
 import cn.jyb.util.XMLUtil;
@@ -46,6 +49,8 @@ public class WxpayServiceImpl implements WxpayService {
 	private OrdersDao ordersDao;
 	@Resource
 	private StudentDao studentDao;
+	@Resource
+	private SchoolDao schoolDao;
 	@Resource
 	private TeachRecordDao teachRecordDao;
 	@Resource
@@ -67,11 +72,9 @@ public class WxpayServiceImpl implements WxpayService {
 			throw new WxpayException("付款金额错误");
 		}
 		logger.info("price100:"+price100);
-		System.out.println("price100:"+price100);
 		//商品描述(格式为：驾易宝-xx驾校报名)
 		String body = request.getParameter("body");
 		logger.info("body:"+body);
-		System.out.println("body:"+body);
 		//获取订单号
 		String out_trade_no = request.getParameter("out_trade_no");
 		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
@@ -80,13 +83,12 @@ public class WxpayServiceImpl implements WxpayService {
 		//下单的终端IP
 		String spbill_create_ip = WxpayUtil.getIPAddr(request);
 		logger.info("spbill_create_ip:"+spbill_create_ip);
-		System.out.println("spbill_create_ip:"+spbill_create_ip);
 		//微信服务器异步通知地址
 		String notify_url = "http://api.drivingyeepay.com/jyb/wxpay/notify";
 		//生成请求参数
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
-		parameters.put("appid", WxpublicConfig.APPID);
-		parameters.put("mch_id", WxpublicConfig.MCH_ID);
+		parameters.put("appid", WxpayConfig.APPID);
+		parameters.put("mch_id", WxpayConfig.MCH_ID);
 		parameters.put("nonce_str", WxpayUtil.CreateNoncestr());
 		parameters.put("body", body);
 		parameters.put("out_trade_no", out_trade_no);
@@ -100,18 +102,18 @@ public class WxpayServiceImpl implements WxpayService {
 		parameters.put("sign", sign);
 		//封装请求参数为xml
 		String requestXML = WxpayUtil.getRequestXml(parameters);
-		System.out.println("requestXML:"+requestXML);
+		logger.info("requestXML:"+requestXML);
 		//调用统一下单接口
-		String result = WxpayUtil.httpsRequest(WxpublicConfig.UNIFIED_ORDER_URL, "POST", requestXML);
-		System.out.println("result:\n"+result);
+		String result = WxpayUtil.httpsRequest(WxpayConfig.UNIFIED_ORDER_URL, "POST", requestXML);
+		logger.info("result:\n"+result);
 		
 		SortedMap<Object, Object> parameterMap2 = new TreeMap<Object, Object>();
 		try {
 			//统一下单接口返回正常的prepay_id,再按签名规范重新生成签名后，将数据传输给APP
 			Map<String, String> map = XMLUtil.doXMLParse(result);
 			//参与签名的字段名为appId，partnerId，prepayId，nonceStr，timeStamp，package
-			parameterMap2.put("appid", WxpublicConfig.APPID);
-			parameterMap2.put("partnerid", WxpublicConfig.MCH_ID);
+			parameterMap2.put("appid", WxpayConfig.APPID);
+			parameterMap2.put("partnerid", WxpayConfig.MCH_ID);
 			parameterMap2.put("prepayid", map.get("prepay_id"));
 			parameterMap2.put("package", "Sign=WXPay");
 			parameterMap2.put("noncestr", WxpayUtil.CreateNoncestr());
@@ -157,11 +159,9 @@ public class WxpayServiceImpl implements WxpayService {
 			throw new WxpayException("付款金额错误");
 		}
 		logger.info("price100:"+price100);
-		System.out.println("price100:"+price100);
 		//商品描述(格式为：驾易宝-xx驾校报名)
 		String body = request.getParameter("body");
 		logger.info("body:"+body);
-		System.out.println("body:"+body);
 		//获取订单号
 		String out_trade_no = request.getParameter("out_trade_no");
 		if(out_trade_no == null || out_trade_no.trim().isEmpty()){
@@ -170,9 +170,8 @@ public class WxpayServiceImpl implements WxpayService {
 		//下单的终端IP
 		String spbill_create_ip = WxpayUtil.getIPAddr(request);
 		logger.info("spbill_create_ip:"+spbill_create_ip);
-		System.out.println("spbill_create_ip:"+spbill_create_ip);
 		//微信服务器异步通知地址
-		String notify_url = "http://api.drivingyeepay.com/jyb/wxpay/notify";
+		String notify_url = "http://api.drivingyeepay.com/jyb/wxpay/jsNotify";
 		//生成请求参数
 		SortedMap<Object, Object> parameters = new TreeMap<Object, Object>();
 		parameters.put("appid", WxpublicConfig.APPID);
@@ -346,9 +345,9 @@ public class WxpayServiceImpl implements WxpayService {
 		//解析xml成为map
 		Map<String, String> map = new HashMap<String, String>();
 		map = XMLUtil.doXMLParse(sb.toString());
-//		for(Object keyValue : map.keySet()){
-//			logger.info(keyValue+"="+map.get(keyValue));
-//		}
+		for(Object keyValue : map.keySet()){
+			logger.info(keyValue+"="+map.get(keyValue));
+		}
 		//过滤空值null，设置TreeMap
 		SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
 		Iterator it = map.keySet().iterator();
@@ -372,7 +371,7 @@ public class WxpayServiceImpl implements WxpayService {
 				//微信支付订单号
 				String transaction_id = (String)packageParams.get("transaction_id");
 				Orders orders = ordersDao.findByNo(out_trade_no);
-				if(!WxpublicConfig.MCH_ID.equals(mch_id) || orders==null || new BigDecimal(total_fee).compareTo(new BigDecimal(orders.getTotal_amount()).multiply(new BigDecimal(100))) != 0){
+				if(!WxpayConfig.MCH_ID.equals(mch_id) || orders==null || new BigDecimal(total_fee).compareTo(new BigDecimal(orders.getTotal_amount()).multiply(new BigDecimal(100))) != 0){
 					logger.info("支付失败，错误信息：" + "参数错误");
 					resXML = "<xml>"
 							   + "<return_code><![CDATA[FAIL]]></return_code>"
@@ -394,12 +393,20 @@ public class WxpayServiceImpl implements WxpayService {
 						//获得接收方(教练或者学校)的id
 						int receiver_id = orders.getReceiver_id();
 						if("1".equals(orders.getOrderType())){//驾校订单
+							logger.info("驾校订单");
 							Student student = studentDao.findStudent(user_id, receiver_id);
 							//更新学员的状态为付款成功
 							student.setPay_status(1);
 							student.setSignup_time(new Date());
 							studentDao.updateByPrimaryKeySelective(student);
+							//发送短信通知学员报名成功
+							String phone = userDao.findById(user_id).getPhone();
+							String schoolName = schoolDao.findById(receiver_id).getSchool_name();//驾校名
+							String param = "{\"schoolName\":\""+schoolName+"\"}";
+							String templateCode = "SMS_124455016";//阿里大于短信模板号
+							Message.sendMsg(phone, param, templateCode);
 						}else if("2".equals(orders.getOrderType())){//教练订单
+							logger.info("教练约教订单");
 							//更新约教记录状态为付款成功
 							teachRecordDao.updatePayStatus(out_trade_no,1);
 							//发送短信通知教练有预约
@@ -408,11 +415,13 @@ public class WxpayServiceImpl implements WxpayService {
 							String templateCode = "SMS_110245059";//阿里大于短信模板号
 							Message.sendNotifyMsg(phone, name, templateCode);
 						}else if("3".equals(orders.getOrderType())){//二维码寄送订单
-							QrOrder qrOrder = new QrOrder();
-							qrOrder.setQrOrderNo(out_trade_no);
+							logger.info("二维码寄送订单");
+							QrOrder qrOrder = qrOrderMapper.selectByPrimaryKey(out_trade_no);
 							qrOrder.setQrPayStatus(1);
+							logger.info("QrOrder:"+qrOrder);
 							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
 						}else if("4".equals(orders.getOrderType())){//钱包充值
+							logger.info("钱包充值");
 							BigDecimal amount = new BigDecimal(orders.getTotal_amount());
 							Integer userId = orders.getPayer_id();
 							userWalletService.add(userId, amount);
@@ -499,18 +508,28 @@ public class WxpayServiceImpl implements WxpayService {
 								   + "<return_msg><![CDATA[数据库订单交易状态更新失败]]></return_msg>"
 								   + "</xml>";
 					}else{
-						logger.info("已接受到微信服务器的异步通知");
+						logger.info("订单信息："+orders);
 						//获得支付者(学员)的用户id
 						int user_id = orders.getPayer_id();
 						//获得接收方(教练或者学校)的id
 						int receiver_id = orders.getReceiver_id();
-						if("1".equals(orders.getOrderType())){//驾校订单
+						String orderType = orders.getOrderType();
+						logger.info("订单类型："+orderType);
+						if("1".equals(orderType)){//驾校订单
+							logger.info("驾校订单");
 							Student student = studentDao.findStudent(user_id, receiver_id);
 							//更新学员的状态为付款成功
 							student.setPay_status(1);
 							student.setSignup_time(new Date());
 							studentDao.updateByPrimaryKeySelective(student);
-						}else if("2".equals(orders.getOrderType())){//教练订单
+							//发送短信通知学员报名成功
+							String phone = userDao.findById(user_id).getPhone();
+							String schoolName = schoolDao.findById(receiver_id).getSchool_name();//驾校名
+							String param = "{\"schoolName\":\""+schoolName+"\"}";
+							String templateCode = "SMS_124455016";//阿里大于短信模板号
+							Message.sendMsg(phone, param, templateCode);
+						}else if("2".equals(orderType)){//教练订单
+							logger.info("教练约教订单");
 							//更新约教记录状态为付款成功
 							teachRecordDao.updatePayStatus(out_trade_no,1);
 							//发送短信通知教练有预约
@@ -518,12 +537,14 @@ public class WxpayServiceImpl implements WxpayService {
 							String name = studentDao.findByUserId(user_id).getStudent_name();//学员姓名
 							String templateCode = "SMS_110245059";//阿里大于短信模板号
 							Message.sendNotifyMsg(phone, name, templateCode);
-						}else if("3".equals(orders.getOrderType())){//二维码寄送订单
-							QrOrder qrOrder = new QrOrder();
-							qrOrder.setQrOrderNo(out_trade_no);
+						}else if("3".equals(orderType)){//二维码寄送订单
+							logger.info("二维码寄送订单");
+							QrOrder qrOrder = qrOrderMapper.selectByPrimaryKey(out_trade_no);
 							qrOrder.setQrPayStatus(1);
+							logger.info("QrOrder:"+qrOrder);
 							qrOrderMapper.updateByPrimaryKeySelective(qrOrder);//更新付款状态
-						}else if("4".equals(orders.getOrderType())){//钱包充值
+						}else if("4".equals(orderType)){//钱包充值
+							logger.info("钱包充值");
 							BigDecimal amount = new BigDecimal(orders.getTotal_amount());
 							Integer userId = orders.getPayer_id();
 							userWalletService.add(userId, amount);

@@ -32,22 +32,21 @@ public class DrivingLicenseController extends ExceptionController {
 	public JsonResult saveDrivingLic(HttpServletRequest request) throws UnsupportedEncodingException{
 		return new JsonResult(drivingLicenseService.saveDrivingLicense(request));
 	}
-	
 	/**
 	 * 审核驾驶证(后台管理系统).
 	 *
-	 * @param id the id
+	 * @param id 记录id
+	 * @param userId 用户id
 	 * @param status the status
 	 * @param resp the resp 设置跨域请求
 	 * @return the json result
 	 */
 	@RequestMapping("/dealDrivingLic")
 	@ResponseBody
-	public JsonResult dealDrivingLic(Integer id, Integer status, HttpServletResponse resp){
+	public JsonResult dealDrivingLic(Integer id, Integer userId, Integer status, HttpServletResponse resp){
 		resp.setHeader("Access-Control-Allow-Origin", "*");
-		return new JsonResult(drivingLicenseService.dealDrivingLicense(id, status));
+		return new JsonResult(drivingLicenseService.dealDrivingLicense(id, userId, status));
 	}
-	
 	/**
 	 * 查看所有驾驶证
 	 *

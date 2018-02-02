@@ -50,7 +50,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			e1.printStackTrace();
 			throw new DataErrorException("数据解析异常");
 		}
-		System.out.println(params);
+		logger.info("params"+params);
 		for(Map<String,String> param : params){
 			Integer coachId = Integer.parseInt(param.get("coach_id"));
 			String appointTime = param.get("appoint_time");
@@ -140,7 +140,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			e.printStackTrace();
 			throw new DataErrorException("数据解析异常");
 		}
-		System.out.println(dates);
+		logger.info("dates:"+dates);
 		//通过学员id找到对应的学员
 		Student student = studentDao.findById(student_id);
 		if(student == null){

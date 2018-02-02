@@ -1,5 +1,6 @@
 package cn.jyb.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -277,7 +278,7 @@ public class HLBServiceImpl implements HLBService {
 	}
 
 	@Override
-	public boolean aboard(String hlbOrderNo) {
+	public boolean aboard(String hlbOrderNo) throws IOException {
 		HLBSure hlbSure = hlbSureMapper.findByOrderNo(hlbOrderNo);
 		if(hlbSure == null){
 			throw new HLBOrderException("该订单不存在");

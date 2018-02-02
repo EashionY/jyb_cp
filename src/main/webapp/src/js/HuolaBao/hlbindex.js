@@ -97,6 +97,21 @@ function addws(n){
 
 
 $(function(){
+    var orNo=getCookieValue("hlbOrderNo");
+    if(orNo!=''){
+        var ordermsg=getOrderInfo(orNo);
+        if(ordermsg.orderStatus<6&&ordermsg.orderStatus>=0){
+            console.log("订单"+orNo+"未结束");
+            console.log(ordermsg.orderStatus);
+            if(ordermsg.orderStatus==0){
+                //window.location.href='/jyb/src/pages/HuolaBao/carHall.html'
+                window.location.href='/jyb/src/pages/HuolaBao/wait.html'
+            }
+        }else{
+
+        }
+    }
+
     if(getCookieValue("user_id")==""){
         //getsession();
         addCookie("user_id","1000011","","/");
@@ -141,6 +156,7 @@ $(function(){
     var mile=getCookieValue("allmile");
     getPrice(cartype,mile);
     tonext();
+
 });
 
 

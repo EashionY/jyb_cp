@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 
 import cn.jyb.dao.DrivingLicenseMapper;
 import cn.jyb.dao.IdCardMapper;
+import cn.jyb.dao.UserDao;
 import cn.jyb.entity.DrivingLicense;
 import cn.jyb.entity.IdCard;
 import cn.jyb.exception.DataBaseException;
 import cn.jyb.exception.IdCardException;
 import cn.jyb.exception.ImgpathException;
+import cn.jyb.util.Message;
 import cn.jyb.util.Upload;
 @Service("drivingLicenseService")
 public class DrivingLicenseServiceImpl implements DrivingLicenseService {
@@ -27,6 +29,9 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 	
 	@Resource
 	private IdCardMapper idcardMapper;
+	
+	@Resource
+	private UserDao userDao;
 	
 	public boolean saveDrivingLicense(HttpServletRequest request) throws UnsupportedEncodingException {
 		request.setCharacterEncoding("UTF-8");
@@ -74,6 +79,7 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 			license.setLicenseNo(request.getParameter("licenseNo"));
 			license.setIssueDate(request.getParameter("issueDate"));
 			license.setDrivingClass(request.getParameter("drivingClass"));
+			license.setDrivingLicenseStatus(0);
 			try {
 				drivingLicenseMapper.updateByPrimaryKeySelective(license);
 				return true;
@@ -84,15 +90,22 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 		}
 	}
 
-	public Integer dealDrivingLicense(Integer id, Integer drivingLicenseStatus) {
+	public Integer dealDrivingLicense(Integer id, Integer userId, Integer drivingLicenseStatus) {
 		DrivingLicense license = new DrivingLicense();
 		license.setId(id);
 		license.setDrivingLicenseStatus(drivingLicenseStatus);
+		String status = "";
 		if(drivingLicenseStatus == 1){
 			license.setPasstime(new Date());
+			status = "已通过";
+		}else if(drivingLicenseStatus == 2){
+			status = "未通过";
 		}
 		try {
 			drivingLicenseMapper.updateByPrimaryKeySelective(license);
+			String phone = userDao.findById(userId).getPhone();//获得用户的手机号
+			String templateCode = "SMS_124405004";//短信通知模板id
+			Message.sendCertMsg(phone, status, templateCode);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DataBaseException("数据库异常");
@@ -109,4 +122,5 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
 		}
 	}
 
+	
 }

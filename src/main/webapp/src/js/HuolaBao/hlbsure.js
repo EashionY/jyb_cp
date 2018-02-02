@@ -51,7 +51,7 @@ $(".ftbtndiv2").on("click",function(){
     var time1=$("#dayspan").text()+" "+$("#timespan").text();
     var oldTime = (new Date(time1)).getTime();
     var curTime = new Date(oldTime).format("yyyy-MM-dd hh:mm:ss");
-    var nowtime=getNowFormatDate();
+    var nowtime=new Date(getNowFormatDate()).format("yyyy-MM-dd hh:mm:ss");
     if(curTime<nowtime){
         layer.msg("请重新选择时间")
     }else{
@@ -66,12 +66,10 @@ function saveorder(){
     var uid=getCookieValue("user_id");
     var ctype=getCookieValue("cartype");
     var price=getCookieValue("totalprice");
-    var departure=getCookieValue("departure");
-    var destination=getCookieValue("destination");
-    var day=getCookieValue("departTime").split(' ')[0];
-    var timespan=getCookieValue("departTime").split(' ')[1];
-    var dayspan=changetime(day);
-    var departTime=dayspan+" "+timespan;
+    var departure=getCookieValue("departure")+'-'+getCookieValue("startpoilat")+'-'+getCookieValue("startpoilng");
+    var destination=getCookieValue("destination")+'-'+getCookieValue("endpoilat")+'-'+getCookieValue("endpoilng");
+    var dayspan=$("#dayspan").text();
+    var departTime=$("#dayspan").text()+' '+$("#timespan").text();
     var nowtime=getNowFormatDate();
     var nowday=nowtime.split(" ")[0];
     var orderType="";

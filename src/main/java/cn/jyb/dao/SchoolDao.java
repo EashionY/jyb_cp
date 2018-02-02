@@ -124,4 +124,10 @@ public interface SchoolDao {
 	 * @return
 	 */
 	public int updateByPrimaryKeySelective(School school);
+	/**
+	 * 通过学校id查找学校
+	 * @param school_id
+	 * @return
+	 */
+	public School findById(Integer school_id);
 }

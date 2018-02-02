@@ -61,6 +61,8 @@ function pay(url,mydata,typeNum,obj){
 }
 //公众号支付
 function onBridgeReady(wxdata){
+    var preurl=document.referrer.split("/");
+    console.log(preurl[preurl.length-1]);
     //console.log(wxdata)
     WeixinJSBridge.invoke(
         'getBrandWCPayRequest', {
@@ -73,7 +75,17 @@ function onBridgeReady(wxdata){
         },
         function(res){
             if(res.err_msg === 'get_brand_wcpay_request:ok'){
-                layer.msg('支付成功，返回订单列表！');
+                layer.msg('支付成功',{
+                    icon:"1",
+                    time:2000
+                },function(){
+                    if(preurl[preurl.length-1]=='ewmSq.html'){
+                        window.location.href='/jyb/src/pages/MoveCar/moveCar.html';
+                    }else if(preurl[preurl.length-1]==''){
+                        //TO-DO
+                        window.location.href='/jyb/src/pages/MoveCar/moveCar.html';
+                    }
+                });
             }else if(res.err_msg === 'get_brand_wcpay_request:cancel'){
                 layer.msg('取消支付！');
             }

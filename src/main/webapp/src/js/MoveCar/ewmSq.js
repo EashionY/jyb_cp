@@ -33,16 +33,20 @@ $(".xieyidiv").on("click",function(){
     }
 });
 $("#sqBtn").on("click",function(){
-    if($(this).attr("class")=="od_fo2 bactive"){
-        var addre=$("#addre").text();
-        var name=$("#name").text();
-        var tel=$("#tel").text();
-        addCookie("qr_orderAdd",addre,1,'/');
-        addCookie("qr_orderName",name,1,'/');
-        addCookie("qr_orderPhone",tel,1,'/');
-        window.location.href="/jyb/wxpublic/order_sure.html?flag=1"
+    if($("#name").text()!=""&&$("#tel").text()!=""&&$("#addre").text()!=""){
+        if($(this).attr("class")=="od_fo2 bactive"){
+            var addre=$("#addre").text();
+            var name=$("#name").text();
+            var tel=$("#tel").text();
+            addCookie("qr_orderAdd",addre,1,'/');
+            addCookie("qr_orderName",name,1,'/');
+            addCookie("qr_orderPhone",tel,1,'/');
+            window.location.href="/jyb/wxpublic/order_sure.html?flag=1"
+        }else{
+            layer.msg("请先同意协议")
+        }
     }else{
-        layer.msg("请先同意协议")
+        layer.msg("请先选择收货地址")
     }
 });
 $(".dzdiv").on("click",function(){

@@ -47,7 +47,8 @@ function loadDom(type){
     })
 }
 function setTime(k,i,m,obj){
-    var nowtime=judgFailTime();
+    var x = getNowFormatDate();
+    var nowtime=judgFailTime(x,30,0);
     if(k==i){
         if(m==0){
             var day;
